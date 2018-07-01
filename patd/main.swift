@@ -50,7 +50,7 @@ class Patd: GameProtocol {
             // Exit if we can't get input from the user, handle with proper exceptions later
             guard let input = self.getUserInput() else { return }
 
-            game.executePlayerInput(input)
+            game.handlePlayerInput(input)
         }
     }
 

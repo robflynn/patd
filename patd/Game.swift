@@ -11,11 +11,17 @@ import Foundation
 enum GameState {
     case NotRunning
     case Running
+    case Exiting
 }
 
 protocol GameProtocol {
     func game(exitedState state: GameState)
     func game(enteredState state: GameState)
+}
+
+struct UserRequest {
+    var action: String
+    var arguments: [String]
 }
 
 class Game {
@@ -53,8 +59,36 @@ class Game {
     }
 
     // MARK: Player Input
-    func executePlayerInput(_ input: String) {
+    func handlePlayerInput(_ input: String) {
         Logger.debug("Processing player input - > ", input)
+
+        guard let request = tokenizeInput(input) else { return }
+
+        processRequest(request)
+    }
+
+    private func tokenizeInput(_ input: String) -> UserRequest? {
+        var tokens = input.lowercased().split(separator: " ")
+
+        // We can't allow empty commands
+        if tokens.isEmpty {
+            return nil
+        }
+
+        let action = tokens.removeFirst()
+        let request = UserRequest(action: String(action), arguments: tokens.map { String($0) })
+
+        return request
+    }
+
+    private func processRequest(_ request: UserRequest) {
+        // Process game-wide actions
+        switch request.action {
+        case "quit":
+            self.State = .Exiting
+        default:
+            display("Invalid Command: \(request.action)")
+        }
     }
 
     // MARK: GameState Changes
