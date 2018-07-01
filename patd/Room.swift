@@ -13,12 +13,19 @@ protocol RoomDelegate {
     func room(exited room: Room)
 }
 
+struct Exit {
+    var direction: Direction
+    var target: Room
+}
+
 class Room: GameObject {
     var name: String = "A Room"
     var description: String = "A nondescript room."
 
     var players: [Player] = []
     var delegate: RoomDelegate?
+
+    var exits: [Exit] = []
 
     override init() {
         super.init()
@@ -27,6 +34,20 @@ class Room: GameObject {
     func render() {
         display(name)
         display(description)
+        renderExits()
+    }
+
+    private func renderExits() {
+        display("")
+
+        if self.exits.isEmpty {
+            display("There are no obvious exits.")
+
+            return
+        }
+
+        display("Obvious exits are: ", noReturn: true)
+        display(self.exits.map { $0.direction.Name }.joined(separator: ","))
     }
 
     func add(player: Player) {

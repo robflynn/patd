@@ -47,8 +47,16 @@ class Game: RoomDelegate {
 
         let room = Room()
         room.delegate = self
-
         rooms.append(room)
+
+        let room2 = Room()
+        room2.name = "Another Room"
+        room2.description = "This room is different but you're not sure how."
+        room2.delegate = self
+        rooms.append(room)
+
+        let exit = Exit(direction: .NorthEast, target: room2)
+        room.exits.append(exit)
 
         self.player.room = room
 
