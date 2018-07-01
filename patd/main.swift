@@ -20,4 +20,14 @@ func display(_ message: String, noReturn: Bool) {
     }
 }
 
+func getUserInput() -> String? {
+    display("> ", noReturn: true)
+
+    let input = readLine()
+
+    return input
+}
+
 display("Hello World")
+
+let input = getUserInput()
