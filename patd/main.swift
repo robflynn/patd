@@ -28,6 +28,8 @@ func getUserInput() -> String? {
     return input
 }
 
+let game = Game()
+
 display("Hello World")
 
 let input = getUserInput()
