@@ -20,16 +20,48 @@ func display(_ message: String, noReturn: Bool) {
     }
 }
 
-func getUserInput() -> String? {
-    display("> ", noReturn: true)
+class Patd: GameProtocol {
+    let game = Game()
 
-    let input = readLine()
+    var gameState: GameState {
+        return self.game.State
+    }
 
-    return input
+    init() {
+        self.game.delegate = self
+    }
+
+    func getUserInput() -> String? {
+        display("> ", noReturn: true)
+
+        let input = readLine()
+
+        return input
+    }
+
+    func run() {
+        display("Hello World! You have entered the game. Where be ye, yo?")
+
+        game.run()
+
+        while gameState == .Running {
+            game.render()
+
+            // Exit if we can't get input from the user, handle with proper exceptions later
+            guard let input = self.getUserInput() else { return }
+
+            game.executePlayerInput(input)
+        }
+    }
+
+
+    // MARK: GameProtocol
+    func game(exitedState state: GameState) {
+    }
+
+    func game(enteredState state: GameState) {
+    }
+
 }
 
-let game = Game()
-
-display("Hello World")
-
-let input = getUserInput()
+Patd().run()

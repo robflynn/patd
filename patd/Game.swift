@@ -20,6 +20,9 @@ protocol GameProtocol {
 
 class Game {
     var delegate: GameProtocol?
+    var player: Player
+
+    private var rooms: [Room] = []
 
     var State: GameState = .NotRunning {
         didSet {
@@ -29,7 +32,29 @@ class Game {
     }
 
     init() {
+        Logger.debug("Game loading")
+
+        let room = Room()
+        rooms.append(room)
+
+        // Spawn the player
+        self.player = Player(room: room)
+
         Logger.debug("Game instatiated")
+    }
+
+    func run() {
+        self.State = .Running
+    }
+
+    func render() {
+        // Render the current room
+        self.player.room.render()
+    }
+
+    // MARK: Player Input
+    func executePlayerInput(_ input: String) {
+        Logger.debug("Processing player input - > ", input)
     }
 
     // MARK: GameState Changes
