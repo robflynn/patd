@@ -14,6 +14,7 @@
 		FDC870E320E95B3000A5311A /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870E220E95B3000A5311A /* Room.swift */; };
 		FDC870E620E98B9000A5311A /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870E520E98B9000A5311A /* GameObject.swift */; };
 		FDC870E820E9967100A5311A /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870E720E9967100A5311A /* Direction.swift */; };
+		FDC870EA20E99A4500A5311A /* Exit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870E920E99A4500A5311A /* Exit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,7 @@
 		FDC870E220E95B3000A5311A /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		FDC870E520E98B9000A5311A /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		FDC870E720E9967100A5311A /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
+		FDC870E920E99A4500A5311A /* Exit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,15 +71,24 @@
 		FDC870D420E9559B00A5311A /* patd */ = {
 			isa = PBXGroup;
 			children = (
+				FDC870EB20E99A5B00A5311A /* Game */,
 				FDC870D520E9559B00A5311A /* main.swift */,
+			);
+			path = patd;
+			sourceTree = "<group>";
+		};
+		FDC870EB20E99A5B00A5311A /* Game */ = {
+			isa = PBXGroup;
+			children = (
 				FDC870DC20E956A600A5311A /* Game.swift */,
 				FDC870DE20E956B900A5311A /* Logger.swift */,
 				FDC870E020E95A3F00A5311A /* Player.swift */,
 				FDC870E220E95B3000A5311A /* Room.swift */,
 				FDC870E520E98B9000A5311A /* GameObject.swift */,
 				FDC870E720E9967100A5311A /* Direction.swift */,
+				FDC870E920E99A4500A5311A /* Exit.swift */,
 			);
-			path = patd;
+			path = Game;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +155,7 @@
 				FDC870DD20E956A600A5311A /* Game.swift in Sources */,
 				FDC870E620E98B9000A5311A /* GameObject.swift in Sources */,
 				FDC870E320E95B3000A5311A /* Room.swift in Sources */,
+				FDC870EA20E99A4500A5311A /* Exit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

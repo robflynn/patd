@@ -13,11 +13,6 @@ protocol RoomDelegate {
     func room(exited room: Room)
 }
 
-struct Exit {
-    var direction: Direction
-    var target: Room
-}
-
 class Room: GameObject {
     var name: String = "A Room"
     var description: String = "A nondescript room."
