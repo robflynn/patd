@@ -8,5 +8,16 @@
 
 import Foundation
 
-print("Hello, World!")
+func display(_ message: String) {
+    print(message)
+}
 
+func display(_ message: String, noReturn: Bool) {
+    if noReturn {
+        print(message, terminator: "")
+    } else {
+        display(message)
+    }
+}
+
+display("Hello World")
