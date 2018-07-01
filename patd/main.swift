@@ -62,6 +62,13 @@ class Patd: GameProtocol {
     func game(enteredState state: GameState) {
     }
 
+    func game(playerDidEnterRoom room: Room) {
+        print("what?")
+    }
+
+    func game(playerDidExitRoom room: Room) {
+    }
+
 }
 
 Patd().run()

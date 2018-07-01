@@ -12,6 +12,7 @@
 		FDC870DF20E956B900A5311A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870DE20E956B900A5311A /* Logger.swift */; };
 		FDC870E120E95A3F00A5311A /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870E020E95A3F00A5311A /* Player.swift */; };
 		FDC870E320E95B3000A5311A /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870E220E95B3000A5311A /* Room.swift */; };
+		FDC870E620E98B9000A5311A /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870E520E98B9000A5311A /* GameObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +34,7 @@
 		FDC870DE20E956B900A5311A /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		FDC870E020E95A3F00A5311A /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FDC870E220E95B3000A5311A /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		FDC870E520E98B9000A5311A /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				FDC870DE20E956B900A5311A /* Logger.swift */,
 				FDC870E020E95A3F00A5311A /* Player.swift */,
 				FDC870E220E95B3000A5311A /* Room.swift */,
+				FDC870E520E98B9000A5311A /* GameObject.swift */,
 			);
 			path = patd;
 			sourceTree = "<group>";
@@ -135,6 +138,7 @@
 				FDC870D620E9559B00A5311A /* main.swift in Sources */,
 				FDC870DF20E956B900A5311A /* Logger.swift in Sources */,
 				FDC870DD20E956A600A5311A /* Game.swift in Sources */,
+				FDC870E620E98B9000A5311A /* GameObject.swift in Sources */,
 				FDC870E320E95B3000A5311A /* Room.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

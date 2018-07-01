@@ -17,6 +17,9 @@ enum GameState {
 protocol GameProtocol {
     func game(exitedState state: GameState)
     func game(enteredState state: GameState)
+
+    func game(playerDidEnterRoom room: Room)
+    func game(playerDidExitRoom room: Room)
 }
 
 struct UserRequest {
@@ -24,7 +27,7 @@ struct UserRequest {
     var arguments: [String]
 }
 
-class Game {
+class Game: RoomDelegate {
     var delegate: GameProtocol?
     var player: Player
 
@@ -39,12 +42,15 @@ class Game {
 
     init() {
         Logger.debug("Game loading")
+        // Spawn the player
+        self.player = Player()
 
         let room = Room()
+        room.delegate = self
+
         rooms.append(room)
 
-        // Spawn the player
-        self.player = Player(room: room)
+        self.player.room = room
 
         Logger.debug("Game instatiated")
     }
@@ -55,7 +61,7 @@ class Game {
 
     func render() {
         // Render the current room
-        self.player.room.render()
+        self.player.room?.render()
     }
 
     // MARK: Player Input
@@ -102,5 +108,18 @@ class Game {
         Logger.debug("Entered State -> ", state)
 
         self.delegate?.game(enteredState: state)
+    }
+
+    // MARK: Room
+    func room(entered room: Room) {
+        Logger.debug("Entered room: ", room.name)
+
+        self.delegate?.game(playerDidEnterRoom: room)
+    }
+
+    func room(exited room: Room) {
+        Logger.debug("Exited room: ", room.name)
+
+        self.delegate?.game(playerDidExitRoom: room)
     }
 }

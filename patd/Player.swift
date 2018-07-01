@@ -8,10 +8,20 @@
 
 import Foundation
 
-class Player {
-    var room: Room
-    
-    init(room: Room) {
-        self.room = room
+class Player: GameObject {
+    var room: Room? {
+        didSet {
+            if let oldRoom = oldValue {
+                oldRoom.remove(player: self)
+            }
+
+            if let newRoom = self.room {
+                newRoom.add(player: self)
+            }
+        }
+    }
+
+    override init() {
+        super.init()
     }
 }
