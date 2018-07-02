@@ -29,6 +29,7 @@
 		FDC870EA20E99A4500A5311A /* Exit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870E920E99A4500A5311A /* Exit.swift */; };
 		FDD87BE320EA99E300E7CAC8 /* Mailbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD87BE220EA99E300E7CAC8 /* Mailbox.swift */; };
 		FDD87BE520EAA59C00E7CAC8 /* LookInsideItemIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD87BE420EAA59C00E7CAC8 /* LookInsideItemIntent.swift */; };
+		FDD87BEB20EACE2700E7CAC8 /* Openable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD87BEA20EACE2700E7CAC8 /* Openable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -67,6 +68,7 @@
 		FDC870E920E99A4500A5311A /* Exit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exit.swift; sourceTree = "<group>"; };
 		FDD87BE220EA99E300E7CAC8 /* Mailbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mailbox.swift; sourceTree = "<group>"; };
 		FDD87BE420EAA59C00E7CAC8 /* LookInsideItemIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookInsideItemIntent.swift; sourceTree = "<group>"; };
+		FDD87BEA20EACE2700E7CAC8 /* Openable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Openable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 		FDC870EB20E99A5B00A5311A /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				FDD87BE920EACE0800E7CAC8 /* ObjectAttributes */,
 				FDA567B020E9F4EF001BF074 /* Player */,
 				FDA567A820E9F418001BF074 /* Intents */,
 				FDA567A420E9F3DA001BF074 /* Room */,
@@ -187,6 +190,14 @@
 				FDD87BE220EA99E300E7CAC8 /* Mailbox.swift */,
 			);
 			path = Game;
+			sourceTree = "<group>";
+		};
+		FDD87BE920EACE0800E7CAC8 /* ObjectAttributes */ = {
+			isa = PBXGroup;
+			children = (
+				FDD87BEA20EACE2700E7CAC8 /* Openable.swift */,
+			);
+			path = ObjectAttributes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,6 +278,7 @@
 				FDA5679D20E9F33A001BF074 /* OpenItemIntent.swift in Sources */,
 				FDA567A720E9F3EE001BF074 /* ExamineRoomIntent.swift in Sources */,
 				FDA567B520E9F690001BF074 /* CloseItemIntent.swift in Sources */,
+				FDD87BEB20EACE2700E7CAC8 /* Openable.swift in Sources */,
 				FDC870EA20E99A4500A5311A /* Exit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

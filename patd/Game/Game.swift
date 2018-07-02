@@ -70,6 +70,7 @@ class Game: RoomDelegate {
         let mat = Item(name: "mat", description: "Welcome to Zork!", properties: [.Renderable])
         mat.renderText = "A rubber mat saying 'Welcome to Zork!' lies by the door."
         wohouse.add(item: mat)
+        wohouse.add(item: Item(name: "fish", properties: [.Openable, .Gettable]))
 
         player.room = wohouse
 
@@ -160,13 +161,9 @@ class Game: RoomDelegate {
             }
         case .CloseItem:
             if let closeIntent = intent as? CloseItemIntent {
-                if closeIntent.item.isOpenable {
-                    closeIntent.item.isOpen = false
-
-                    display("You close the \(closeIntent.item.name)")
-                } else {
-                    display("You cannot close the \(closeIntent.item.name).")
-                }
+                let item = closeIntent.item
+                
+                item.close()
             }
         case .Inventory:
             showInventory()

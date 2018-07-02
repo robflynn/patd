@@ -8,22 +8,23 @@
 
 import Foundation
 
-protocol OpenableItemDelegate {
-    func item(didOpen item: Item)
-}
-
 protocol LockableItemDelegate {
     func item(didUnlock item: Item)
 }
 
-class Item: GameObject, OpenableItemDelegate, LockableItemDelegate {
+protocol OpenableItemDelegate {
+    func item(didOpen item: Item)
+    func item(didClose item: Item)
+}
+
+class Item: GameObject, Openable, OpenableItemDelegate, LockableItemDelegate {
     enum Property {
         case Openable
         case Gettable
         case Lockable
         case Renderable
     }
-    
+
     var name: String
     var description: String {
         set {
@@ -31,12 +32,16 @@ class Item: GameObject, OpenableItemDelegate, LockableItemDelegate {
         }
         
         get {
-            guard let desc = self._description else { return "I see nothing special about the \(self.name)" }
+            var blurbs: [String] = []
             
-            var blurbs = [desc]
+            if let desc = self._description {
+                blurbs.append(desc)
+            } else {
+                blurbs.append("I see nothing special about the \(self.name).")
+            }
             
             if self.isOpenable {
-                blurbs.append("The \(self.name) is \(self.isOpen ? "open" : "closed").")
+                blurbs.append("It is \(self.isOpen ? "open" : "closed").")
             }
             
             return blurbs.joined(separator: " ")
@@ -65,8 +70,6 @@ class Item: GameObject, OpenableItemDelegate, LockableItemDelegate {
         return self.properties.contains(.Renderable)
     }
     
-    var isOpen: Bool = false
-    var openableDelegate: OpenableItemDelegate?
     var lockableDelegate: LockableItemDelegate?
     
     var isLocked: Bool {
@@ -80,20 +83,19 @@ class Item: GameObject, OpenableItemDelegate, LockableItemDelegate {
     init(name: String, properties: [Item.Property]) {
         self.name = name
         self.properties = properties
-        self.isOpen = false
         self.isLocked = false
         
         super.init()
         
         self.intents.append(ExamineItemIntent(item: self))
-        
         self.intents.append(GetItemIntent(item: self))
         self.intents.append(DropItemIntent(item: self))
+        self.intents.append(UnlockItemIntent(item: self))
         
+        // Items are responsible for opening themselves
+        self.openableDelegate = self
         self.intents.append(OpenItemIntent(item: self))
         self.intents.append(CloseItemIntent(item: self))
-        
-        self.intents.append(UnlockItemIntent(item: self))
     }
     
     convenience init(name: String, description: String, properties: [Item.Property]) {
@@ -109,6 +111,9 @@ class Item: GameObject, OpenableItemDelegate, LockableItemDelegate {
     }
     
     // MARK: Openable
+    var openState: OpenState = .Closed
+    var openableDelegate: OpenableItemDelegate?
+    
     func open() -> Bool {
         // By default, items cannot be opened
         if !self.isOpenable { display("You cannot open the \(self.name)"); return false }
@@ -119,15 +124,32 @@ class Item: GameObject, OpenableItemDelegate, LockableItemDelegate {
         // And you can't open things that are locked
         if self.isLocked { display("It is locked."); return false  }
 
-        self.isOpen = true
+        self.openState = .Open
         
         self.openableDelegate?.item(didOpen: self)
         
         return true
     }
     
+    func close() -> Bool {
+        // FIXME: I feel like we should handle this differently
+        if !self.isOpenable { display("You cannot close the \(self.name)"); return false }
+        
+        if self.isClosed { display("It is already closed."); return false}
+        
+        self.openState = .Closed
+        
+        self.openableDelegate?.item(didClose: self)
+        
+        return true
+    }
+    
     func item(didOpen item: Item) {
         display("You open the \(item.name).")
+    }
+    
+    func item(didClose item: Item) {
+        display("You close the \(item.name).")
     }
     
     // MARK: Unlockable

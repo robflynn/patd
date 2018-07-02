@@ -8,18 +8,7 @@
 
 import Foundation
 
-protocol Container {
-    var womble: String { get set }
-}
-
-extension Container {
-    func bruise() {
-    }
-}
-
-class Mailbox: Item, Container {
-    var womble: String = "Woozle"
-    
+class Mailbox: Item {
     var items: [Item] = []
     var leaflet: Item?
     
@@ -47,9 +36,7 @@ class Mailbox: Item, Container {
         self.lockableDelegate = self
         
         self.leaflet = Item(name: "leaflet", properties: [.Gettable])
-        
-        self.bruise()
-        
+                
         if let leaflet = self.leaflet {
             leaflet.description = """
             WELCOME TO ZORK
