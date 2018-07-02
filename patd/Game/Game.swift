@@ -110,12 +110,12 @@ class Game: RoomDelegate {
         self.addIntent(QuitGameIntent())
 
         let room = Room()
-        room.name = "A Room"
-        room.description = "This is a description of the room."
+        room.name = "In Front of Cabin"
+        room.description = "You are in front fo a cabin.\n\nThere is a mailbox here."
         room.delegate = self
         self.rooms.append(room)
-
-        room.items.append(Item(name: "spoon", description: "a weird metal spoon"))
+        room.items.append(Item(name: "spoon", description: "a weird metal spoon", isGettable: true))
+        room.items.append(Item(name: "mailbox", description: "a red wooden mailbox"))
 
         player.room = room
 
@@ -171,10 +171,15 @@ class Game: RoomDelegate {
             }
         case .getItem:
             if let getIntent = intent as? GetItemIntent {
-                display("You get \(getIntent.item.name)")
 
-                self.player.room?.remove(item: getIntent.item)
-                self.player.add(toInventory: getIntent.item)
+                if getIntent.item.isGettable {
+                    display("You get \(getIntent.item.name)")
+
+                    self.player.room?.remove(item: getIntent.item)
+                    self.player.add(toInventory: getIntent.item)
+                } else {
+                    display("You cannot get the \(getIntent.item.name)")
+                }
             }
         case .dropItem:
             if let dropIntent = intent as? DropItemIntent {

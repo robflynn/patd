@@ -60,8 +60,11 @@ class Room: GameObject {
 
     private func renderItems() {
         display("")
-        if !self.items.isEmpty {
-            display("Items:  \(self.items.map { $0.name }.joined(separator: ", "))")
+
+        let visibleItems = self.items.filter { $0.isGettable }
+
+        if !visibleItems.isEmpty {
+            display("Items:  \(visibleItems.map { $0.name }.joined(separator: ", "))")
         }
     }
 
