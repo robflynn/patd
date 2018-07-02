@@ -25,6 +25,11 @@ class TakeExitIntent: Intent {
             triggers.append(alias)
         }
 
+        triggers.append("take \(exit.direction.Name.lowercased())")
+        triggers.append("go \(exit.direction.Name.lowercased())")
+        triggers.append("take \(exit.direction.Name.lowercased()) exit")
+        triggers.append("take the \(exit.direction.Name.lowercased()) exit")
+
         self.exit = exit
     }
 }
