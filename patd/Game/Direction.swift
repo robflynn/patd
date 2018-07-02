@@ -17,27 +17,27 @@ enum Direction: String {
     case NorthWest
 
     var Name: String {
-        return self.rawValue
+        return self.rawValue.lowercased()
     }
 
-    var Abbr: String {
+    var Aliases: [String] {
         switch(self) {
         case .North:
-            return "n"
+            return ["n"]
         case .NorthEast:
-            return "ne"
+            return ["ne", "north east"]
         case .East:
-            return "e"
+            return ["e"]
         case .SouthEast:
-            return "se"
+            return ["se", "south east"]
         case .South:
-            return "s"
+            return ["s"]
         case .SouthWest:
-            return "sw"
+            return ["sw", "south west"]
         case .West:
-            return "w"
+            return ["w"]
         case .NorthWest:
-            return "nw"
+            return ["nw", "north west"]
         }
     }
 }

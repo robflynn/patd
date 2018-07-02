@@ -19,8 +19,9 @@ class Room: GameObject {
 
     var players: [Player] = []
     var delegate: RoomDelegate?
+    var intents: [Intent] = []
 
-    var exits: [Exit] = []
+    private(set) var exits: [Exit] = []
 
     override init() {
         super.init()
@@ -66,5 +67,16 @@ class Room: GameObject {
         let _ = self.players.filter { $0 == player }
 
         self.delegate?.room(exited: self)
+    }
+
+    func add(exit: Exit) {
+        self.exits.append(exit)
+
+        let intent = TakeExitIntent(with: exit)
+        self.addIntent(intent)
+    }
+
+    private func addIntent(_ intent: Intent) {
+        intents.append(intent)
     }
 }
