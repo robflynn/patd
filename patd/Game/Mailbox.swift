@@ -27,8 +27,9 @@ class Mailbox: Item {
 
     init() {
         super.init(name: "mailbox", properties: [.Openable, .Renderable, .Lockable])
-        
-        self.isLocked = true
+
+        self.lockState = .Locked
+
         self.description = "You see a small wooden mailbox."
         self.renderText = "There is a small mailbox here."
         

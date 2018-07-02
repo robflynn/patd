@@ -6,8 +6,6 @@
 //  Copyright © 2018 Thingerly. All rights reserved.
 //
 
-import Foundation
-
 enum OpenState {
     case Open
     case Closed
@@ -23,18 +21,28 @@ protocol Openable {
 
 extension Openable  {
     var isOpenable: Bool { return true }
+    var isClosable: Bool { return true }
+
     var isOpen: Bool { return self.openState == .Open }
     var isClosed: Bool { return self.openState == .Closed }
     
     mutating func open() -> Bool {
-        self.openState = .Open
-        
-        return true
+        if isOpenable {
+            self.openState = .Open
+
+            return true
+        }
+
+        return false
     }
     
     mutating func close() -> Bool {
-        self.openState = .Closed
-        
-        return true
+        if isClosable {
+            self.openState = .Closed
+
+            return true
+        }
+
+        return false
     }
 }

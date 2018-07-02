@@ -46,18 +46,6 @@ class Game: RoomDelegate {
     init() {
         Logger.debug("Game loading")
 
-        var map:String = """
-{
-    rooms: [
-        {
-            id: "room",
-            name: "Room",
-            description: "A nondescript room"
-        }
-    ]
-}
-"""
-
         // Spawn the player
         self.player = Player()
 
