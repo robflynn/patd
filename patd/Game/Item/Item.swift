@@ -16,7 +16,17 @@ class Item: GameObject {
     }
 
     var name: String
-    var description: String
+    var description: String {
+        var blurbs = [self._description]
+
+        if self.isOpenable {
+            blurbs.append("The \(self.name) is \(self.isOpen ? "open" : "closed").")
+        }
+
+        return blurbs.joined(separator: " ")
+    }
+
+    private var _description: String
 
     var intents: [Intent] = []
     private(set) var properties: [Item.Property] = []
@@ -39,7 +49,7 @@ class Item: GameObject {
 
     init(name: String, description: String, properties: [Item.Property]) {
         self.name = name
-        self.description = description
+        self._description = description
         self.properties = properties
         self.isOpen = false
 

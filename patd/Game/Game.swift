@@ -78,8 +78,8 @@ class Game: RoomDelegate {
         room.description = "You are in front fo a cabin.\n\nThere is a mailbox here."
         room.delegate = self
         self.rooms.append(room)
-        room.items.append(Item(name: "spoon", description: "a weird metal spoon", properties: [.Gettable]))
-        room.items.append(Item(name: "mailbox", description: "a red wooden mailbox", properties: [.Openable]))
+        room.items.append(Item(name: "spoon", description: "a weird metal spoon.", properties: [.Gettable]))
+        room.items.append(Item(name: "mailbox", description: "a red wooden mailbox.", properties: [.Openable]))
 
         player.room = room
 
