@@ -64,11 +64,11 @@ class Game: RoomDelegate {
 
         let wohouse = self.createRoom(name: "West of House", description: "This is an open field west of a white house, with a boarded front door.", exits: [], items: [])
 
-        let mailbox = Item(name: "mailbox", description: "a red wooden mailbox.", properties: [.Openable, .Environmental])
+        let mailbox = Item(name: "mailbox", description: "a red wooden mailbox.", properties: [.Openable, .Renderable])
         mailbox.renderText = "There is a small mailbox here."
         wohouse.add(item: mailbox)
 
-        let mat = Item(name: "mat", description: "Welcome to Zork!", properties: [.Environmental])
+        let mat = Item(name: "mat", description: "Welcome to Zork!", properties: [.Renderable])
         mat.renderText = "A rubber mat saying 'Welcome to Zork!' lies by the door."
         wohouse.add(item: mat)
 

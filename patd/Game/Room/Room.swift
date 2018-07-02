@@ -48,7 +48,7 @@ class Room: GameObject {
         display(description)
 
         for item in items {
-            if item.isEnvironmental {
+            if item.isRenderable {
                 item.render()
             }
         }

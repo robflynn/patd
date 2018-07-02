@@ -14,7 +14,7 @@ class Item: GameObject {
         case Openable
         case Gettable
         case Lockable
-        case Environmental
+        case Renderable
     }
 
     var name: String
@@ -46,8 +46,8 @@ class Item: GameObject {
         return self.properties.contains(.Lockable)
     }
 
-    var isEnvironmental: Bool {
-        return self.properties.contains(.Environmental)
+    var isRenderable: Bool {
+        return self.properties.contains(.Renderable)
     }
 
     var isOpen: Bool {
