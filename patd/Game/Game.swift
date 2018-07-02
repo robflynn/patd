@@ -32,8 +32,9 @@ class Game: RoomDelegate {
     var delegate: GameProtocol?
     var player: Player
     var intents: [Intent] = []
-
+    
     private var rooms: [Room] = []
+    private var moves: Int = 0
 
     var State: GameState = .NotRunning {
         didSet {
@@ -171,6 +172,12 @@ class Game: RoomDelegate {
             showInventory()
         case .ExamineRoom:
             self.player.room?.render()
+        case .UnlockItem:
+            if let unlockIntent = intent as? UnlockItemIntent {
+                let item = unlockIntent.item
+                
+                item.unlock()
+            }
         case .LookInsideItem:
             if let lookInsideIntent = intent as? LookInsideItemIntent {
                 let item = lookInsideIntent.item
@@ -178,8 +185,13 @@ class Game: RoomDelegate {
                 // FIXME: For now we're just going to assume it's always a mailbox as I'm not sure how I want to structure this yet
                 guard let mailbox = item as? Mailbox else { return }
                 
-                display(mailbox.internalDescription)
+                if mailbox.isOpen == false {
+                    display("The \(item.name) is not open.")
+                    
+                    return
+                }
                 
+                display(mailbox.internalDescription)
             }
         default:
             Logger.error("Unhandled Intent: ", intent.intentType)
@@ -255,6 +267,8 @@ class Game: RoomDelegate {
     // MARK: Room
     func room(entered room: Room) {
         Logger.debug("Entered room: ", room.name)
+        
+        self.moves = self.moves + 1
 
         self.delegate?.game(playerDidEnterRoom: room)
     }

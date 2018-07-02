@@ -28,6 +28,7 @@
 		FDC870E820E9967100A5311A /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870E720E9967100A5311A /* Direction.swift */; };
 		FDC870EA20E99A4500A5311A /* Exit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870E920E99A4500A5311A /* Exit.swift */; };
 		FDD87BE320EA99E300E7CAC8 /* Mailbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD87BE220EA99E300E7CAC8 /* Mailbox.swift */; };
+		FDD87BE520EAA59C00E7CAC8 /* LookInsideItemIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD87BE420EAA59C00E7CAC8 /* LookInsideItemIntent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -65,6 +66,7 @@
 		FDC870E720E9967100A5311A /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
 		FDC870E920E99A4500A5311A /* Exit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exit.swift; sourceTree = "<group>"; };
 		FDD87BE220EA99E300E7CAC8 /* Mailbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mailbox.swift; sourceTree = "<group>"; };
+		FDD87BE420EAA59C00E7CAC8 /* LookInsideItemIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookInsideItemIntent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				FDA567A220E9F38A001BF074 /* DropItemIntent.swift */,
 				FDA567B420E9F690001BF074 /* CloseItemIntent.swift */,
 				FDA567B620E9FC3B001BF074 /* UnlockItemIntent.swift */,
+				FDD87BE420EAA59C00E7CAC8 /* LookInsideItemIntent.swift */,
 			);
 			path = Intents;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 				FD5F558220E9CF1C00E6BD78 /* Item.swift in Sources */,
 				FDA567A120E9F37B001BF074 /* ExamineItemIntent.swift in Sources */,
 				FDA567B320E9F501001BF074 /* InventoryIntent.swift in Sources */,
+				FDD87BE520EAA59C00E7CAC8 /* LookInsideItemIntent.swift in Sources */,
 				FDC870E120E95A3F00A5311A /* Player.swift in Sources */,
 				FDA567B720E9FC3B001BF074 /* UnlockItemIntent.swift in Sources */,
 				FDC870D620E9559B00A5311A /* main.swift in Sources */,

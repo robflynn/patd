@@ -12,8 +12,11 @@ protocol OpenableItemDelegate {
     func item(didOpen item: Item)
 }
 
-class Item: GameObject, OpenableItemDelegate {
-    
+protocol LockableItemDelegate {
+    func item(didUnlock item: Item)
+}
+
+class Item: GameObject, OpenableItemDelegate, LockableItemDelegate {
     enum Property {
         case Openable
         case Gettable
@@ -64,6 +67,7 @@ class Item: GameObject, OpenableItemDelegate {
     
     var isOpen: Bool = false
     var openableDelegate: OpenableItemDelegate?
+    var lockableDelegate: LockableItemDelegate?
     
     var isLocked: Bool {
         didSet {
@@ -104,8 +108,7 @@ class Item: GameObject, OpenableItemDelegate {
         }
     }
     
-    // MARK: OpenableItem
-    
+    // MARK: Openable
     func open() -> Bool {
         // By default, items cannot be opened
         if !self.isOpenable { display("You cannot open the \(self.name)"); return false }
@@ -125,5 +128,20 @@ class Item: GameObject, OpenableItemDelegate {
     
     func item(didOpen item: Item) {
         display("You open the \(item.name).")
+    }
+    
+    // MARK: Unlockable
+    func unlock() -> Bool {
+        if !self.isLockable { display("You cannot unlock \(self.name)"); return false }
+        if !self.isLocked { display("It is already unlocked."); return false }
+        
+        self.isLocked = false
+        self.lockableDelegate?.item(didUnlock: self)
+        
+        return true
+    }
+    
+    func item(didUnlock item: Item) {
+        display("You unlock the \(item.name).")
     }
 }

@@ -8,28 +8,18 @@
 
 import Foundation
 
-class LookInsideItemIntent: Intent {
-    var intentType: IntentType {
-        return .LookInsideItem
-    }
-    
-    var triggers: [String] = []
-    
-    var item: Item
-    
-    init(item: Item) {
-        let actions = ["look inside", "peer into", "look into", "look in to", "peer in to"]
-        
-        for action in actions {
-            triggers.append("\(action) \(item.name)")
-            triggers.append("\(action) the \(item.name)")
-        }
-        
-        self.item = item
+protocol Container {
+    var womble: String { get set }
+}
+
+extension Container {
+    func bruise() {
     }
 }
 
-class Mailbox: Item {
+class Mailbox: Item, Container {
+    var womble: String = "Woozle"
+    
     var items: [Item] = []
     var leaflet: Item?
     
@@ -45,16 +35,20 @@ class Mailbox: Item {
         
       return "The mailbox is empty."
     }
-    
+
     init() {
-        super.init(name: "mailbox", properties: [.Openable, .Renderable])
+        super.init(name: "mailbox", properties: [.Openable, .Renderable, .Lockable])
         
+        self.isLocked = true
         self.description = "You see a small wooden mailbox."
         self.renderText = "There is a small mailbox here."
         
         self.openableDelegate = self
+        self.lockableDelegate = self
         
         self.leaflet = Item(name: "leaflet", properties: [.Gettable])
+        
+        self.bruise()
         
         if let leaflet = self.leaflet {
             leaflet.description = """

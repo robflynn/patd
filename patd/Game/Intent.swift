@@ -21,7 +21,7 @@ enum IntentType {
     case LookInsideItem
 }
 
-protocol Intent {
+protocol Intent {    
     var intentType: IntentType { get }
     var triggers: [String] { get }
 }

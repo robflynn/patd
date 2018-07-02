@@ -22,7 +22,7 @@ class Player: GameObject {
     }
 
     private var _inventory: [Item] = []
-
+    
     var inventory: [Item] {
         return self._inventory
     }
