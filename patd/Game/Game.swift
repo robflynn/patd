@@ -64,9 +64,7 @@ class Game: RoomDelegate {
 
         let wohouse = self.createRoom(name: "West of House", description: "This is an open field west of a white house, with a boarded front door.", exits: [], items: [])
 
-        let mailbox = Item(name: "mailbox", description: "a red wooden mailbox.", properties: [.Openable, .Renderable])
-        mailbox.renderText = "There is a small mailbox here."
-        wohouse.add(item: mailbox)
+        wohouse.add(item: Mailbox())
 
         let mat = Item(name: "mat", description: "Welcome to Zork!", properties: [.Renderable])
         mat.renderText = "A rubber mat saying 'Welcome to Zork!' lies by the door."
@@ -156,22 +154,8 @@ class Game: RoomDelegate {
         case .OpenItem:
             if let openIntent = intent as? OpenItemIntent {
                 let item = openIntent.item
-
-                if item.isOpenable {
-                    if item.isLockable {
-                        if item.isLocked {
-                            display("It is locked.")
-
-                            return
-                        }
-                    }
-
-                    item.isOpen = true
-
-                    display("You open the \(item.name)")
-                } else {
-                    display("You cannot open the \(openIntent.item.name).")
-                }
+                
+                item.open()
             }
         case .CloseItem:
             if let closeIntent = intent as? CloseItemIntent {
@@ -187,6 +171,16 @@ class Game: RoomDelegate {
             showInventory()
         case .ExamineRoom:
             self.player.room?.render()
+        case .LookInsideItem:
+            if let lookInsideIntent = intent as? LookInsideItemIntent {
+                let item = lookInsideIntent.item
+                
+                // FIXME: For now we're just going to assume it's always a mailbox as I'm not sure how I want to structure this yet
+                guard let mailbox = item as? Mailbox else { return }
+                
+                display(mailbox.internalDescription)
+                
+            }
         default:
             Logger.error("Unhandled Intent: ", intent.intentType)
         }

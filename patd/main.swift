@@ -40,8 +40,6 @@ class Patd: GameProtocol {
     }
 
     func run() {
-        display("Hello World! You have entered the game. Where be ye, yo?")
-
         game.run()
 
         game.render()

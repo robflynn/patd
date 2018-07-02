@@ -27,6 +27,7 @@
 		FDC870E620E98B9000A5311A /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870E520E98B9000A5311A /* GameObject.swift */; };
 		FDC870E820E9967100A5311A /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870E720E9967100A5311A /* Direction.swift */; };
 		FDC870EA20E99A4500A5311A /* Exit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870E920E99A4500A5311A /* Exit.swift */; };
+		FDD87BE320EA99E300E7CAC8 /* Mailbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD87BE220EA99E300E7CAC8 /* Mailbox.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -63,6 +64,7 @@
 		FDC870E520E98B9000A5311A /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		FDC870E720E9967100A5311A /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
 		FDC870E920E99A4500A5311A /* Exit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exit.swift; sourceTree = "<group>"; };
+		FDD87BE220EA99E300E7CAC8 /* Mailbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mailbox.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 				FDC870E520E98B9000A5311A /* GameObject.swift */,
 				FDC870E720E9967100A5311A /* Direction.swift */,
 				FDA567AE20E9F4C5001BF074 /* Intent.swift */,
+				FDD87BE220EA99E300E7CAC8 /* Mailbox.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 				FDA567A320E9F38A001BF074 /* DropItemIntent.swift in Sources */,
 				FDC870E320E95B3000A5311A /* Room.swift in Sources */,
 				FDA567AA20E9F422001BF074 /* QuitGameIntent.swift in Sources */,
+				FDD87BE320EA99E300E7CAC8 /* Mailbox.swift in Sources */,
 				FDA5679D20E9F33A001BF074 /* OpenItemIntent.swift in Sources */,
 				FDA567A720E9F3EE001BF074 /* ExamineRoomIntent.swift in Sources */,
 				FDA567B520E9F690001BF074 /* CloseItemIntent.swift in Sources */,
