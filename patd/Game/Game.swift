@@ -78,6 +78,10 @@ class Game: RoomDelegate {
         room2.delegate = self
         self.rooms.append(room2)
 
+        let box = Item(name: "mysterious box", description: "a box of unknown origin. it has many strange runes carved into it.", properties: [.Openable, .Lockable, .Gettable])
+        box.isLocked = true
+        room2.add(item: box)
+
         room2.add(exit: Exit(direction: .South, target: room), mutual: true)
 
         Logger.debug("Game instatiated")
@@ -144,10 +148,20 @@ class Game: RoomDelegate {
             }
         case .OpenItem:
             if let openIntent = intent as? OpenItemIntent {
-                if openIntent.item.isOpenable {
-                    openIntent.item.isOpen = true
+                let item = openIntent.item
 
-                    display("You open the \(openIntent.item.name)")
+                if item.isOpenable {
+                    if item.isLockable {
+                        if item.isLocked {
+                            display("It is locked.")
+
+                            return
+                        }
+                    }
+
+                    item.isOpen = true
+
+                    display("You open the \(item.name)")
                 } else {
                     display("You cannot open the \(openIntent.item.name).")
                 }

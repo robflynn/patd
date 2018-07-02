@@ -17,6 +17,7 @@ enum IntentType {
     case ExamineRoom
     case OpenItem
     case CloseItem
+    case UnlockItem
 }
 
 protocol Intent {

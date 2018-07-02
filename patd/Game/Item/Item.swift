@@ -13,6 +13,7 @@ class Item: GameObject {
     enum Property {
         case Openable
         case Gettable
+        case Lockable
     }
 
     var name: String
@@ -39,10 +40,22 @@ class Item: GameObject {
         return self.properties.contains(.Openable)
     }
 
+    var isLockable: Bool {
+        return self.properties.contains(.Lockable)
+    }
+
     var isOpen: Bool {
         didSet {
             if !self.isOpenable {
                 self.isOpen = false
+            }
+        }
+    }
+
+    var isLocked: Bool {
+        didSet {
+            if !self.isLockable {
+                self.isLocked = false
             }
         }
     }
@@ -52,14 +65,18 @@ class Item: GameObject {
         self._description = description
         self.properties = properties
         self.isOpen = false
+        self.isLocked = false
 
         super.init()
 
         self.intents.append(ExamineItemIntent(item: self))
-        self.intents.append(DropItemIntent(item: self))
 
         self.intents.append(GetItemIntent(item: self))
+        self.intents.append(DropItemIntent(item: self))
+        
         self.intents.append(OpenItemIntent(item: self))
         self.intents.append(CloseItemIntent(item: self))
+
+        self.intents.append(UnlockItemIntent(item: self))
     }
 }
