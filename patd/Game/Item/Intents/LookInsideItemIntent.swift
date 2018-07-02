@@ -18,11 +18,14 @@ class LookInsideItemIntent: Intent {
     var item: Item
     
     init(item: Item) {
-        let actions = ["look inside", "peer into", "look into", "look in to", "peer in to"]
+        let actions = ["look", "peer", "gaze"]
+        let prepositions = ["at", "into", "inside", "in to"]
         
         for action in actions {
-            triggers.append("\(action) \(item.name)")
-            triggers.append("\(action) the \(item.name)")
+            for preposition in prepositions {
+                triggers.append("\(action) \(preposition) \(item.name)")
+                triggers.append("\(action) \(preposition) the \(item.name)")
+            }
         }
         
         self.item = item
