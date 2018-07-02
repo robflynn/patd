@@ -23,13 +23,14 @@ protocol GameProtocol {
 }
 
 enum IntentType {
-    case takeExit
-    case quitGame
-    case getItem
-    case lookAtItem
-    case dropItem
+    case TakeExit
+    case QuitGame
+    case GetItem
+    case LookAtItem
+    case DropItem
     case Inventory
     case ExamineRoom
+    case OpenItem
 }
 
 // This intent system is going to be very basic for now
@@ -43,13 +44,13 @@ class QuitGameIntent: Intent {
     var triggers: [String] = ["quit"]
 
     var intentType: IntentType {
-        return .quitGame
+        return .QuitGame
     }
 }
 
 class TakeExitIntent: Intent {
     var intentType: IntentType {
-        return .takeExit
+        return .TakeExit
     }
 
     var triggers: [String] = []
@@ -114,8 +115,8 @@ class Game: RoomDelegate {
         room.description = "You are in front fo a cabin.\n\nThere is a mailbox here."
         room.delegate = self
         self.rooms.append(room)
-        room.items.append(Item(name: "spoon", description: "a weird metal spoon", isGettable: true))
-        room.items.append(Item(name: "mailbox", description: "a red wooden mailbox"))
+        room.items.append(Item(name: "spoon", description: "a weird metal spoon", properties: [.Gettable]))
+        room.items.append(Item(name: "mailbox", description: "a red wooden mailbox", properties: [.Openable]))
 
         player.room = room
 
@@ -159,17 +160,17 @@ class Game: RoomDelegate {
         }
 
         switch(intent.intentType) {
-        case .quitGame:
+        case .QuitGame:
             self.State = .Exiting
-        case .takeExit:
+        case .TakeExit:
             if let exitIntent = intent as? TakeExitIntent {
                 self.player.room = exitIntent.exit.target
             }
-        case .lookAtItem:
+        case .LookAtItem:
             if let lookIntent = intent as? LookAtItemIntent {
                 display(lookIntent.item.description)
             }
-        case .getItem:
+        case .GetItem:
             if let getIntent = intent as? GetItemIntent {
 
                 if getIntent.item.isGettable {
@@ -181,12 +182,22 @@ class Game: RoomDelegate {
                     display("You cannot get the \(getIntent.item.name)")
                 }
             }
-        case .dropItem:
+        case .DropItem:
             if let dropIntent = intent as? DropItemIntent {
                 if let item = self.player.remove(fromInventory: dropIntent.item) {
                     display("You drop \(dropIntent.item.name)")
 
                     self.player.room?.add(item: item)
+                }
+            }
+        case .OpenItem:
+            if let openIntent = intent as? OpenItemIntent {
+                if openIntent.item.isOpenable {
+                    openIntent.item.isOpen = true
+
+                    display("You open the \(openIntent.item.name)")
+                } else {
+                    display("You cannot open the \(openIntent.item.name).")
                 }
             }
         case .Inventory:

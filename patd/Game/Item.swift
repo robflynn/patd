@@ -8,9 +8,9 @@
 
 import Foundation
 
-class GetItemIntent: Intent {
+class OpenItemIntent: Intent {
     var intentType: IntentType {
-        return .getItem
+        return .OpenItem
     }
 
     var triggers: [String] = []
@@ -18,10 +18,32 @@ class GetItemIntent: Intent {
     var item: Item
 
     init(item: Item) {
-        let actions = ["get", "pick up", "loot", "grab", "fetch", "get the"]
+        let actions = ["open"]
 
         for action in actions {
             self.triggers.append("\(action) \(item.name.lowercased())")
+            self.triggers.append("\(action) the \(item.name.lowercased())")
+        }
+
+        self.item = item
+    }
+}
+
+class GetItemIntent: Intent {
+    var intentType: IntentType {
+        return .GetItem
+    }
+
+    var triggers: [String] = []
+
+    var item: Item
+
+    init(item: Item) {
+        let actions = ["get", "pick up", "loot", "grab", "fetch"]
+
+        for action in actions {
+            self.triggers.append("\(action) \(item.name.lowercased())")
+            self.triggers.append("\(action) the \(item.name.lowercased())")
         }
 
         self.item = item
@@ -30,7 +52,7 @@ class GetItemIntent: Intent {
 
 class LookAtItemIntent: Intent {
     var intentType: IntentType {
-        return .lookAtItem
+        return .LookAtItem
     }
 
     var triggers: [String] = []
@@ -38,10 +60,11 @@ class LookAtItemIntent: Intent {
     var item: Item
 
     init(item: Item) {
-        let actions = ["look", "look at", "observe", "examine", "inspect", "look at the", "examine the"]
+        let actions = ["look", "look at", "observe", "examine", "inspect"]
 
         for action in actions {
             self.triggers.append("\(action) \(item.name.lowercased())")
+            self.triggers.append("\(action) the \(item.name.lowercased())")
         }
 
         self.item = item
@@ -50,7 +73,7 @@ class LookAtItemIntent: Intent {
 
 class DropItemIntent: Intent {
     var intentType: IntentType {
-        return .dropItem
+        return .DropItem
     }
 
     var triggers: [String] = []
@@ -62,33 +85,53 @@ class DropItemIntent: Intent {
 
         for action in actions {
             self.triggers.append("\(action) \(item.name.lowercased())")
+            self.triggers.append("\(action) the \(item.name.lowercased())")
         }
 
         self.item = item
     }
 }
 
+enum ItemProperty {
+    case Openable
+    case Gettable
+}
+
 class Item: GameObject {
     var name: String
     var description: String
+
     var intents: [Intent] = []
+    private(set) var properties: [ItemProperty] = []
 
-    var isGettable: Bool = false
+    var isGettable: Bool {
+        return self.properties.contains(.Gettable)
+    }
 
-    init(name: String, description: String) {
+    var isOpenable: Bool {
+        return self.properties.contains(.Openable)
+    }
+
+    var isOpen: Bool {
+        didSet {
+            if !self.isOpenable {
+                self.isOpen = false
+            }
+        }
+    }
+
+    init(name: String, description: String, properties: [ItemProperty]) {
         self.name = name
         self.description = description
+        self.properties = properties
+        self.isOpen = false
 
         super.init()
 
         self.intents.append(LookAtItemIntent(item: self))
         self.intents.append(DropItemIntent(item: self))
+
         self.intents.append(GetItemIntent(item: self))
-    }
-
-    convenience init(name: String, description: String, isGettable: Bool) {
-        self.init(name: name, description: description)
-
-        self.isGettable = isGettable
+        self.intents.append(OpenItemIntent(item: self))
     }
 }
