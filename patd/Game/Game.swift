@@ -33,12 +33,6 @@ enum IntentType {
     case OpenItem
 }
 
-// This intent system is going to be very basic for now
-protocol Intent {
-    var intentType: IntentType { get }
-    var triggers: [String] { get }
-}
-
 struct UserRequest {
     var action: String
     var arguments: [String]

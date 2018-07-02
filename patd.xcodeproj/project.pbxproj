@@ -15,6 +15,8 @@
 		FDA567A720E9F3EE001BF074 /* ExamineRoomIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA567A620E9F3EE001BF074 /* ExamineRoomIntent.swift */; };
 		FDA567AA20E9F422001BF074 /* QuitGameIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA567A920E9F422001BF074 /* QuitGameIntent.swift */; };
 		FDA567AC20E9F452001BF074 /* TakeExitIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA567AB20E9F452001BF074 /* TakeExitIntent.swift */; };
+		FDA567AF20E9F4C5001BF074 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA567AE20E9F4C5001BF074 /* Intent.swift */; };
+		FDA567B320E9F501001BF074 /* InventoryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA567B220E9F501001BF074 /* InventoryIntent.swift */; };
 		FDC870D620E9559B00A5311A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870D520E9559B00A5311A /* main.swift */; };
 		FDC870DD20E956A600A5311A /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870DC20E956A600A5311A /* Game.swift */; };
 		FDC870DF20E956B900A5311A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870DE20E956B900A5311A /* Logger.swift */; };
@@ -46,6 +48,8 @@
 		FDA567A620E9F3EE001BF074 /* ExamineRoomIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamineRoomIntent.swift; sourceTree = "<group>"; };
 		FDA567A920E9F422001BF074 /* QuitGameIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitGameIntent.swift; sourceTree = "<group>"; };
 		FDA567AB20E9F452001BF074 /* TakeExitIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeExitIntent.swift; sourceTree = "<group>"; };
+		FDA567AE20E9F4C5001BF074 /* Intent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intent.swift; sourceTree = "<group>"; };
+		FDA567B220E9F501001BF074 /* InventoryIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryIntent.swift; sourceTree = "<group>"; };
 		FDC870D220E9559B00A5311A /* patd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = patd; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDC870D520E9559B00A5311A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		FDC870DC20E956A600A5311A /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -114,6 +118,23 @@
 			path = Intents;
 			sourceTree = "<group>";
 		};
+		FDA567B020E9F4EF001BF074 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				FDA567B120E9F4F7001BF074 /* Intents */,
+				FDC870E020E95A3F00A5311A /* Player.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		FDA567B120E9F4F7001BF074 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				FDA567B220E9F501001BF074 /* InventoryIntent.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
 		FDC870C920E9559B00A5311A = {
 			isa = PBXGroup;
 			children = (
@@ -142,15 +163,16 @@
 		FDC870EB20E99A5B00A5311A /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				FDA567B020E9F4EF001BF074 /* Player */,
 				FDA567A820E9F418001BF074 /* Intents */,
 				FDA567A420E9F3DA001BF074 /* Room */,
 				FDA5679A20E9F31F001BF074 /* Item */,
 				FDC870DC20E956A600A5311A /* Game.swift */,
 				FDC870E920E99A4500A5311A /* Exit.swift */,
 				FDC870DE20E956B900A5311A /* Logger.swift */,
-				FDC870E020E95A3F00A5311A /* Player.swift */,
 				FDC870E520E98B9000A5311A /* GameObject.swift */,
 				FDC870E720E9967100A5311A /* Direction.swift */,
+				FDA567AE20E9F4C5001BF074 /* Intent.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -216,10 +238,12 @@
 				FDC870E820E9967100A5311A /* Direction.swift in Sources */,
 				FD5F558220E9CF1C00E6BD78 /* Item.swift in Sources */,
 				FDA567A120E9F37B001BF074 /* ExamineItemIntent.swift in Sources */,
+				FDA567B320E9F501001BF074 /* InventoryIntent.swift in Sources */,
 				FDC870E120E95A3F00A5311A /* Player.swift in Sources */,
 				FDC870D620E9559B00A5311A /* main.swift in Sources */,
 				FDC870DF20E956B900A5311A /* Logger.swift in Sources */,
 				FDA5679F20E9F34E001BF074 /* GetItemIntent.swift in Sources */,
+				FDA567AF20E9F4C5001BF074 /* Intent.swift in Sources */,
 				FDC870DD20E956A600A5311A /* Game.swift in Sources */,
 				FDC870E620E98B9000A5311A /* GameObject.swift in Sources */,
 				FDA567A320E9F38A001BF074 /* DropItemIntent.swift in Sources */,
