@@ -46,6 +46,13 @@ class Room: GameObject {
     func render() {
         display(name)
         display(description)
+
+        for item in items {
+            if item.isEnvironmental {
+                item.render()
+            }
+        }
+
         renderItems()
         renderExits()
     }

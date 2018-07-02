@@ -14,6 +14,7 @@ class Item: GameObject {
         case Openable
         case Gettable
         case Lockable
+        case Environmental
     }
 
     var name: String
@@ -26,6 +27,7 @@ class Item: GameObject {
 
         return blurbs.joined(separator: " ")
     }
+    var renderText: String?
 
     private var _description: String
 
@@ -42,6 +44,10 @@ class Item: GameObject {
 
     var isLockable: Bool {
         return self.properties.contains(.Lockable)
+    }
+
+    var isEnvironmental: Bool {
+        return self.properties.contains(.Environmental)
     }
 
     var isOpen: Bool {
@@ -78,5 +84,11 @@ class Item: GameObject {
         self.intents.append(CloseItemIntent(item: self))
 
         self.intents.append(UnlockItemIntent(item: self))
+    }
+
+    func render() {
+        if let text = self.renderText {
+            display(text)
+        }
     }
 }

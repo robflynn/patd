@@ -62,29 +62,36 @@ class Game: RoomDelegate {
 
         self.addIntent(QuitGameIntent())
 
-        let room = Room()
-        room.name = "In Front of Cabin"
-        room.description = "You are in front fo a cabin.\n\nThere is a mailbox here."
-        room.delegate = self
-        self.rooms.append(room)
-        room.items.append(Item(name: "spoon", description: "a weird metal spoon.", properties: [.Gettable]))
-        room.items.append(Item(name: "mailbox", description: "a red wooden mailbox.", properties: [.Openable]))
+        let wohouse = self.createRoom(name: "West of House", description: "This is an open field west of a white house, with a boarded front door.", exits: [], items: [])
 
-        player.room = room
+        let mailbox = Item(name: "mailbox", description: "a red wooden mailbox.", properties: [.Openable, .Environmental])
+        mailbox.renderText = "There is a small mailbox here."
+        wohouse.add(item: mailbox)
 
-        let room2 = Room()
-        room2.name = "Next Room"
-        room2.description = "This is a different room. There were no objects here."
-        room2.delegate = self
-        self.rooms.append(room2)
+        let mat = Item(name: "mat", description: "Welcome to Zork!", properties: [.Environmental])
+        mat.renderText = "A rubber mat saying 'Welcome to Zork!' lies by the door."
+        wohouse.add(item: mat)
 
-        let box = Item(name: "mysterious box", description: "a box of unknown origin. it has many strange runes carved into it.", properties: [.Openable, .Lockable, .Gettable])
-        box.isLocked = true
-        room2.add(item: box)
+        player.room = wohouse
 
-        room2.add(exit: Exit(direction: .South, target: room), mutual: true)
+        let forest1 = self.createRoom(name: "Forest", description: "This is a forest, with trees in all directions around you", exits: [], items: [])
+
+        let exit = Exit(direction: .West, target: forest1)
+        wohouse.add(exit: exit, mutual: true)
+
 
         Logger.debug("Game instatiated")
+    }
+
+    func createRoom(name: String, description: String, exits: [Exit], items: [Item]) -> Room {
+        let room = Room()
+
+        room.name = name
+        room.description = description
+        room.delegate = self
+        self.rooms.append(room)
+
+        return room
     }
 
     func run() {
