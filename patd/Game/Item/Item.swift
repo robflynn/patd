@@ -54,6 +54,7 @@ class Item: GameObject, Openable, OpenableItemDelegate, LockableItemDelegate {
     var intents: [Intent] = []
     internal(set) var properties: [Item.Property] = []
     
+    // MARK: Item Property Helpers
     var isGettable: Bool {
         return self.properties.contains(.Gettable)
     }
@@ -69,9 +70,8 @@ class Item: GameObject, Openable, OpenableItemDelegate, LockableItemDelegate {
     var isRenderable: Bool {
         return self.properties.contains(.Renderable)
     }
-    
+
     var lockableDelegate: LockableItemDelegate?
-    
     var isLocked: Bool {
         didSet {
             if !self.isLockable {
@@ -104,6 +104,7 @@ class Item: GameObject, Openable, OpenableItemDelegate, LockableItemDelegate {
         self._description = description
     }
     
+    // MARK: Renderable
     func render() {
         if let text = self.renderText {
             display(text)
