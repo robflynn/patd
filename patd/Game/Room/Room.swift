@@ -13,14 +13,6 @@ protocol RoomDelegate {
     func room(exited room: Room)
 }
 
-class ExamineRoomIntent: Intent {
-    var intentType: IntentType {
-        return .ExamineRoom
-    }
-
-    var triggers: [String] = ["examine room", "look around", "look at surroundings", "look at my surroundings", "look around the room", "look at room"]
-}
-
 class Room: GameObject {
     var name: String = "A Room"
     var description: String = "A nondescript room."

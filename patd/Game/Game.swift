@@ -39,37 +39,6 @@ protocol Intent {
     var triggers: [String] { get }
 }
 
-// FIXME: Make a generic intent type, and change Intent procol's name to something else
-class QuitGameIntent: Intent {
-    var triggers: [String] = ["quit"]
-
-    var intentType: IntentType {
-        return .QuitGame
-    }
-}
-
-class TakeExitIntent: Intent {
-    var intentType: IntentType {
-        return .TakeExit
-    }
-
-    var triggers: [String] = []
-    private(set) var exit: Exit
-
-    init(with exit: Exit) {
-        // Add the direction as a trigger
-        triggers.append(exit.direction.Name)
-
-        // And all of the aliases
-        for alias in exit.direction.Aliases {
-            triggers.append(alias)
-        }
-
-        self.exit = exit
-    }
-}
-
-
 struct UserRequest {
     var action: String
     var arguments: [String]
@@ -167,7 +136,7 @@ class Game: RoomDelegate {
                 self.player.room = exitIntent.exit.target
             }
         case .LookAtItem:
-            if let lookIntent = intent as? LookAtItemIntent {
+            if let lookIntent = intent as? ExamineItemIntent {
                 display(lookIntent.item.description)
             }
         case .GetItem:
