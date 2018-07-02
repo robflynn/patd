@@ -7,6 +7,18 @@
 //
 
 // This intent system is going to be very basic for now
+enum IntentType {
+    case TakeExit
+    case QuitGame
+    case GetItem
+    case LookAtItem
+    case DropItem
+    case Inventory
+    case ExamineRoom
+    case OpenItem
+    case CloseItem
+}
+
 protocol Intent {
     var intentType: IntentType { get }
     var triggers: [String] { get }

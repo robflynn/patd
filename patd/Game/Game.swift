@@ -22,17 +22,6 @@ protocol GameProtocol {
     func game(playerDidExitRoom room: Room)
 }
 
-enum IntentType {
-    case TakeExit
-    case QuitGame
-    case GetItem
-    case LookAtItem
-    case DropItem
-    case Inventory
-    case ExamineRoom
-    case OpenItem
-}
-
 struct UserRequest {
     var action: String
     var arguments: [String]
@@ -161,6 +150,16 @@ class Game: RoomDelegate {
                     display("You open the \(openIntent.item.name)")
                 } else {
                     display("You cannot open the \(openIntent.item.name).")
+                }
+            }
+        case .CloseItem:
+            if let closeIntent = intent as? CloseItemIntent {
+                if closeIntent.item.isOpenable {
+                    closeIntent.item.isOpen = false
+
+                    display("You close the \(closeIntent.item.name)")
+                } else {
+                    display("You cannot close the \(closeIntent.item.name).")
                 }
             }
         case .Inventory:

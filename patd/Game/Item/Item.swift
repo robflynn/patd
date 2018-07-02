@@ -60,5 +60,6 @@ class Item: GameObject {
 
         self.intents.append(GetItemIntent(item: self))
         self.intents.append(OpenItemIntent(item: self))
+        self.intents.append(CloseItemIntent(item: self))
     }
 }
