@@ -13,6 +13,14 @@ protocol RoomDelegate {
     func room(exited room: Room)
 }
 
+class ExamineRoomIntent: Intent {
+    var intentType: IntentType {
+        return .ExamineRoom
+    }
+
+    var triggers: [String] = ["examine room", "look around", "look at surroundings", "look at my surroundings", "look around the room", "look at room"]
+}
+
 class Room: GameObject {
     var name: String = "A Room"
     var description: String = "A nondescript room."
@@ -24,13 +32,11 @@ class Room: GameObject {
     private var _intents: [Intent] = []
 
     var intents: [Intent] {
-        Logger.debug("Generating intent list query")
         var tmp: [[Intent]] = []
 
         tmp.append(self._intents)
 
         for item in self.items {
-            Logger.debug(" -> \(item.name)")
             tmp.append(item.intents)
         }
 
@@ -41,6 +47,8 @@ class Room: GameObject {
 
     override init() {
         super.init()
+
+        self._intents.append(ExamineRoomIntent())
     }
 
     func render() {
@@ -76,11 +84,7 @@ class Room: GameObject {
 
     func remove(item: Item) {
         if let index = self.items.index(of: item) {
-            Logger.debug(self.items.map { $0.Id })
-
             self.items.remove(at: index)
-
-            Logger.debug(self.items.map { $0.Id })
         }
     }
 

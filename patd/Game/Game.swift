@@ -29,6 +29,7 @@ enum IntentType {
     case lookAtItem
     case dropItem
     case Inventory
+    case ExamineRoom
 }
 
 // This intent system is going to be very basic for now
@@ -185,6 +186,8 @@ class Game: RoomDelegate {
             }
         case .Inventory:
             showInventory()
+        case .ExamineRoom:
+            self.player.room?.render()
         default:
             Logger.error("Unhandled Intent: ", intent.intentType)
         }
