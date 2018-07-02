@@ -44,9 +44,8 @@ class Patd: GameProtocol {
 
         game.run()
 
+        game.render()
         while gameState == .Running {
-            game.render()
-
             // Exit if we can't get input from the user, handle with proper exceptions later
             guard let input = self.getUserInput() else { return }
 
@@ -63,7 +62,7 @@ class Patd: GameProtocol {
     }
 
     func game(playerDidEnterRoom room: Room) {
-        print("what?")
+        game.render()
     }
 
     func game(playerDidExitRoom room: Room) {

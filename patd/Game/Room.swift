@@ -19,7 +19,21 @@ class Room: GameObject {
 
     var players: [Player] = []
     var delegate: RoomDelegate?
-    var intents: [Intent] = []
+    var items: [Item] = []
+
+    private var _intents: [Intent] = []
+
+    var intents: [Intent] {
+        var tmp: [[Intent]] = []
+
+        tmp.append(self._intents)
+
+        for item in self.items {
+            tmp.append(item.intents)
+        }
+
+        return tmp.flatMap{ $0 }
+    }
 
     private(set) var exits: [Exit] = []
 
@@ -30,7 +44,15 @@ class Room: GameObject {
     func render() {
         display(name)
         display(description)
+        renderItems()
         renderExits()
+    }
+
+    private func renderItems() {
+        display("")
+        if !self.items.isEmpty {
+            display("Items:  \(self.items.map { $0.name }.joined(separator: ", "))")
+        }
     }
 
     private func renderExits() {
@@ -44,6 +66,18 @@ class Room: GameObject {
 
         display("Obvious exits are: ", noReturn: true)
         display(self.exits.map { $0.direction.Name }.joined(separator: ", "))
+    }
+
+    func add(item: Item) {
+        self.items.append(item)
+    }
+
+    func remove(item: Item) {
+        self.items.filter { $0 == item }
+    }
+
+    func contains(item: Item) -> Bool {
+        return self.items.contains(item)
     }
 
     func add(player: Player) {
@@ -87,6 +121,6 @@ class Room: GameObject {
     }
 
     private func addIntent(_ intent: Intent) {
-        intents.append(intent)
+        _intents.append(intent)
     }
 }

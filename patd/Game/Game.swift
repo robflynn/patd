@@ -25,6 +25,8 @@ protocol GameProtocol {
 enum IntentType {
     case takeExit
     case quitGame
+    case getItem
+    case lookAtItem
 }
 
 // This intent system is going to be very basic for now
@@ -86,34 +88,33 @@ class Game: RoomDelegate {
 
     init() {
         Logger.debug("Game loading")
+
+        var map:String = """
+{
+    rooms: [
+        {
+            id: "room",
+            name: "Room",
+            description: "A nondescript room"
+        }
+    ]
+}
+"""
+
         // Spawn the player
         self.player = Player()
 
-        let room = Room()
-        room.delegate = self
-        rooms.append(room)
-
-        let room2 = Room()
-        room2.name = "Another Room"
-        room2.description = "This room is different but you're not sure how."
-        room2.delegate = self
-        rooms.append(room)
-
-        let exit = Exit(direction: .North, target: room2)
-        room.add(exit: exit, mutual: true)
-
-        self.player.room = room
-
-        let room3 = Room()
-        room3.name = "Kitchen"
-        room3.description = "This room looks just like the rest. How do you even know it's a kitchen? You can't even."
-        room3.delegate = self
-        rooms.append(room)
-
-        room2.add(exit: Exit(direction: .East, target: room3), mutual: true)
-
-
         self.addIntent(QuitGameIntent())
+
+        let room = Room()
+        room.name = "A Room"
+        room.description = "This is a description of the room."
+        room.delegate = self
+        self.rooms.append(room)
+
+        room.items.append(Item(name: "spoon", description: "a weird metal spoon"))
+
+        player.room = room
 
         Logger.debug("Game instatiated")
     }
@@ -146,6 +147,10 @@ class Game: RoomDelegate {
         case .takeExit:
             if let exitIntent = intent as? TakeExitIntent {
                 self.player.room = exitIntent.exit.target
+            }
+        case .lookAtItem:
+            if let lookIntent = intent as? LookAtItemIntent {
+                display(lookIntent.item.description)
             }
         default:
             Logger.error("Unhandled Intent: ", intent.intentType)
