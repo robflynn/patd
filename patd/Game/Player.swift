@@ -35,12 +35,44 @@ class Player: GameObject {
         }
     }
 
-    var inventory: [Item] = []
-    var intents: [Intent] = []
+    private var _inventory: [Item] = []
+
+    var inventory: [Item] {
+        return self._inventory
+    }
+
+    var intents: [Intent] {
+        var tmp: [[Intent]] = []
+
+        tmp.append(self._intents)
+
+        for item in self._inventory {
+            Logger.debug(" -> \(item.name)")
+            tmp.append(item.intents)
+        }
+
+        return tmp.flatMap{ $0 }
+    }
+
+    private var _intents: [Intent] = []
 
     override init() {
         super.init()
 
-        self.intents.append(InventoryIntent())
+        self._intents.append(InventoryIntent())
+    }
+
+    func add(toInventory item: Item) {
+        self._inventory.append(item)
+    }
+
+    func remove(fromInventory item: Item) -> Item? {
+        if let index = self._inventory.index(of: item) {
+            self._inventory.remove(at: index)
+
+            return item
+        }
+
+        return nil
     }
 }

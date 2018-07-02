@@ -24,11 +24,13 @@ class Room: GameObject {
     private var _intents: [Intent] = []
 
     var intents: [Intent] {
+        Logger.debug("Generating intent list query")
         var tmp: [[Intent]] = []
 
         tmp.append(self._intents)
 
         for item in self.items {
+            Logger.debug(" -> \(item.name)")
             tmp.append(item.intents)
         }
 
@@ -73,7 +75,13 @@ class Room: GameObject {
     }
 
     func remove(item: Item) {
-        self.items.filter { $0 == item }
+        if let index = self.items.index(of: item) {
+            Logger.debug(self.items.map { $0.Id })
+
+            self.items.remove(at: index)
+
+            Logger.debug(self.items.map { $0.Id })
+        }
     }
 
     func contains(item: Item) -> Bool {
@@ -92,15 +100,12 @@ class Room: GameObject {
     }
 
     func remove(player: Player) {
-        if !self.players.contains(player) {
-            // The player is not in the room.
-            return
+        if let index = self.players.index(of: player) {
+
+            self.players.remove(at: index)
+
+            self.delegate?.room(exited: self)
         }
-
-        // Remove
-        let _ = self.players.filter { $0 == player }
-
-        self.delegate?.room(exited: self)
     }
 
     func add(exit: Exit) {

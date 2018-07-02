@@ -118,6 +118,14 @@ class Game: RoomDelegate {
 
         player.room = room
 
+        let room2 = Room()
+        room2.name = "Next Room"
+        room2.description = "This is a different room. There were no objects here."
+        room2.delegate = self
+        self.rooms.append(room2)
+
+        room2.add(exit: Exit(direction: .South, target: room), mutual: true)
+
         Logger.debug("Game instatiated")
     }
 
@@ -127,7 +135,13 @@ class Game: RoomDelegate {
 
     func render() {
         // Render the current room
-        self.player.room?.render()
+        guard let room = self.player.room else {
+            print("WHY IS ROOM NIL!?!?!?!?!")
+
+            return
+        }
+
+        room.render()
     }
 
     // MARK: Player Input
@@ -159,7 +173,15 @@ class Game: RoomDelegate {
                 display("You get \(getIntent.item.name)")
 
                 self.player.room?.remove(item: getIntent.item)
-                self.player.inventory.append(getIntent.item)
+                self.player.add(toInventory: getIntent.item)
+            }
+        case .dropItem:
+            if let dropIntent = intent as? DropItemIntent {
+                if let item = self.player.remove(fromInventory: dropIntent.item) {
+                    display("You drop \(dropIntent.item.name)")
+
+                    self.player.room?.add(item: item)
+                }
             }
         case .Inventory:
             showInventory()
@@ -250,5 +272,4 @@ class Game: RoomDelegate {
     private func addIntent(_ intent: Intent) {
         intents.append(intent)
     }
-
 }
