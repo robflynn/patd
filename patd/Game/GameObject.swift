@@ -14,7 +14,6 @@ class GameObject: Equatable {
     var Id: ObjectID = ObjectID()
 
     static func == (lhs: GameObject, rhs: GameObject) -> Bool {
-        print("Comparring: ", lhs.Id, " <=> ", rhs.Id)
         return lhs.Id.uuidString == rhs.Id.uuidString
     }
 }

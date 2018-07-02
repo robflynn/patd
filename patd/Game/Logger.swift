@@ -8,16 +8,20 @@
 
 import Foundation
 
+let DEBUG = false
+
 class Logger {
     // FIXME: DRY this up
     static func debug(_ items: Any...) {
-        print("[DEBUG] ", terminator: "")
+        if DEBUG {
+            print("[DEBUG] ", terminator: "")
 
-        for item in items {
-            print(item, terminator: "")
+            for item in items {
+                print(item, terminator: "")
+            }
+
+            print("")
         }
-
-        print("")
     }
 
     static func error(_ items: Any...) {
