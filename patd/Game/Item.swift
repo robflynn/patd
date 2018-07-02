@@ -48,6 +48,26 @@ class LookAtItemIntent: Intent {
     }
 }
 
+class DropItemIntent: Intent {
+    var intentType: IntentType {
+        return .dropItem
+    }
+
+    var triggers: [String] = []
+
+    var item: Item
+
+    init(item: Item) {
+        let actions = ["drop"]
+
+        for action in actions {
+            self.triggers.append("\(action) \(item.name.lowercased())")
+        }
+
+        self.item = item
+    }
+}
+
 class Item: GameObject {
     var name: String
     var description: String
@@ -61,5 +81,6 @@ class Item: GameObject {
 
         self.intents.append(GetItemIntent(item: self))
         self.intents.append(LookAtItemIntent(item: self))
+        self.intents.append(DropItemIntent(item: self))
     }
 }

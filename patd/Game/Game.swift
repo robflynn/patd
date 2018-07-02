@@ -27,6 +27,8 @@ enum IntentType {
     case quitGame
     case getItem
     case lookAtItem
+    case dropItem
+    case Inventory
 }
 
 // This intent system is going to be very basic for now
@@ -152,8 +154,25 @@ class Game: RoomDelegate {
             if let lookIntent = intent as? LookAtItemIntent {
                 display(lookIntent.item.description)
             }
+        case .getItem:
+            if let getIntent = intent as? GetItemIntent {
+                display("You get \(getIntent.item.name)")
+
+                self.player.room?.remove(item: getIntent.item)
+                self.player.inventory.append(getIntent.item)
+            }
+        case .Inventory:
+            showInventory()
         default:
             Logger.error("Unhandled Intent: ", intent.intentType)
+        }
+    }
+
+    private func showInventory() {
+        if self.player.inventory.isEmpty {
+            display("You are not carrying any items.")
+        } else {
+            display(self.player.inventory.map { $0.name }.joined(separator: ", "))
         }
     }
 
@@ -185,6 +204,12 @@ class Game: RoomDelegate {
         //        intents directly with the game itself via some kind of intent registration
         //        system.  This is because we'll eventually want items to be able to
         //        register intents and this func could get ridiculous
+        for intent in self.player.intents {
+            if intent.triggers.contains(request.command) {
+                return intent
+            }
+        }
+
         if let room = self.player.room {
             for intent in room.intents {
                 if intent.triggers.contains(request.command) {

@@ -8,6 +8,20 @@
 
 import Foundation
 
+class InventoryIntent: Intent {
+    var intentType: IntentType  {
+        return .Inventory
+    }
+
+    var triggers: [String] = []
+
+    init() {
+        triggers.append("inventory")
+        triggers.append("inv")
+        triggers.append("i")
+    }
+}
+
 class Player: GameObject {
     var room: Room? {
         didSet {
@@ -21,7 +35,12 @@ class Player: GameObject {
         }
     }
 
+    var inventory: [Item] = []
+    var intents: [Intent] = []
+
     override init() {
         super.init()
+
+        self.intents.append(InventoryIntent())
     }
 }
