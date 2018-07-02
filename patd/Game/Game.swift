@@ -100,9 +100,18 @@ class Game: RoomDelegate {
         rooms.append(room)
 
         let exit = Exit(direction: .North, target: room2)
-        room.add(exit: exit)
+        room.add(exit: exit, mutual: true)
 
         self.player.room = room
+
+        let room3 = Room()
+        room3.name = "Kitchen"
+        room3.description = "This room looks just like the rest. How do you even know it's a kitchen? You can't even."
+        room3.delegate = self
+        rooms.append(room)
+
+        room2.add(exit: Exit(direction: .East, target: room3), mutual: true)
+
 
         self.addIntent(QuitGameIntent())
 

@@ -43,7 +43,7 @@ class Room: GameObject {
         }
 
         display("Obvious exits are: ", noReturn: true)
-        display(self.exits.map { $0.direction.Name }.joined(separator: ","))
+        display(self.exits.map { $0.direction.Name }.joined(separator: ", "))
     }
 
     func add(player: Player) {
@@ -74,6 +74,16 @@ class Room: GameObject {
 
         let intent = TakeExitIntent(with: exit)
         self.addIntent(intent)
+    }
+
+    func add(exit: Exit, mutual: Bool) {
+        self.add(exit: exit)
+
+        if (mutual) {
+            let returnExit = Exit(direction: exit.direction.Opposite, target: self)
+            
+            exit.target.add(exit: returnExit)
+        }
     }
 
     private func addIntent(_ intent: Intent) {

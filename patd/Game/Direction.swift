@@ -40,4 +40,25 @@ enum Direction: String {
             return ["nw", "north west"]
         }
     }
+
+    var Opposite: Direction {
+        switch(self) {
+        case .North:
+            return .South
+        case .NorthEast:
+            return .SouthWest
+        case .East:
+            return .West
+        case .SouthEast:
+            return .NorthWest
+        case .South:
+            return .North
+        case .SouthWest:
+            return .NorthEast
+        case .West:
+            return .East
+        case .NorthWest:
+            return .SouthEast
+        }
+    }
 }
