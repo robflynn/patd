@@ -9,11 +9,6 @@
 import Foundation
 
 class Mailbox: Item {
-    // FIXME: This needs to be cleaned up
-    var internalDescription: String {
-        return "The mailbox is empty."
-    }
-
     // This is poorly implemented, just testing, delete me FIXME: DELETE
     var containsLeaflet: Bool {
         for item in self.items {
@@ -53,10 +48,16 @@ class Mailbox: Item {
 
         self.leafIntent = GetItemIntent(item: leaflet)
         self.leafIntent?.hooble = {
-            self.remove(item: leaflet)
-            Game.shared.player.add(toInventory: leaflet)
+            if self.containsLeaflet && self.isOpen {
+                self.remove(item: leaflet)
+                Game.shared.player.add(toInventory: leaflet)
 
-            return true
+                Game.shared.display("You get the leaflet.")
+
+                return true
+            }
+
+            return false
         }
     }
 

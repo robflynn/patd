@@ -80,6 +80,9 @@ class Game: RoomDelegate {
         self.player = Player(room: wohouse)
 
         self.add(intent: QuitGameIntent())
+        self.add(intent: HelpIntent())
+
+        self.add(intent: IntentsIntent())
 
         Logger.debug("Game instatiated")
     }
@@ -158,6 +161,10 @@ class Game: RoomDelegate {
         let request = UserRequest(action: String(action), arguments: tokens.map { String($0) }, command: input.lowercased())
 
         return request
+    }
+
+    func allIntentsAndPurposes() -> [Intent] {
+        return [self.intents, self.player.intents, self.currentRoom.intents].flatMap { $0 }
     }
 
     private func processRequest(_ request: UserRequest) -> Intent? {
