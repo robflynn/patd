@@ -52,7 +52,7 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
     var renderText: String?
     
     private var _description: String?
-    
+
     var intents: [Intent] = []
     internal(set) var properties: [Item.Property] = [] {
         didSet {

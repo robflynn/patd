@@ -20,7 +20,7 @@ class Patd: GameProtocol {
     }
 
     func getUserInput() -> String? {
-        Game.shared.display("> ", noReturn: true)
+        print("> ", terminator: "")
 
         let input = readLine()
 

@@ -35,6 +35,7 @@ class Game: RoomDelegate {
 
     private var rooms: [Room] = []
     private var moves: Int = 0
+    private var displayBuffer: String = ""
 
     var State: GameState = .NotRunning {
         didSet {
@@ -75,12 +76,14 @@ class Game: RoomDelegate {
     }
 
     func display(_ message: String) {
-        print(message)
+        print(displayBuffer + message)
+
+        self.displayBuffer = ""
     }
 
     func display(_ message: String, noReturn: Bool) {
         if noReturn {
-            print(message, terminator: "")
+            self.displayBuffer.append(message)
         } else {
             Game.shared.display(message)
         }
