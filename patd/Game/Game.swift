@@ -67,11 +67,18 @@ class Game: RoomDelegate {
 
         let forest1 = Room()
         forest1.name = "Forest"
-        forest1.description = "This is a forest, with trees in all directions around you"
-
+        forest1.description = "This is a forest, with trees in all directions around you. You can see sunlight to the east."
 
         let exit = Exit(direction: .West, target: forest1)
         wohouse.add(exit: exit, mutual: true)
+
+        let forest2 = Room()
+        forest2.name = "Forest"
+        forest2.description = "This is a forest, with trees in all directions around you"
+
+        let exit2 = Exit(direction: .West, target: forest2)
+        forest1.add(exit: exit2, mutual: true)
+
 
         // Spawn the player
         self.player = Player(room: wohouse)
