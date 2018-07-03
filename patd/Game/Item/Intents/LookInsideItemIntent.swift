@@ -19,7 +19,7 @@ class LookInsideItemIntent: Intent {
     
     init(item: Item) {
         let actions = ["look", "peer", "gaze"]
-        let prepositions = ["at", "into", "inside", "in to"]
+        let prepositions = ["at", "into", "inside", "in to", "in"]
         
         for action in actions {
             for preposition in prepositions {

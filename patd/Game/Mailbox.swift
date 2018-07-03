@@ -14,6 +14,17 @@ class Mailbox: Item {
         return "The mailbox is empty."
     }
 
+    // This is poorly implemented, just testing, delete me FIXME: DELETE
+    var containsLeaflet: Bool {
+        for item in self.items {
+            if item.name == "leaflet" {
+                return true
+            }
+        }
+
+        return false
+    }
+
     init() {
         super.init(name: "mailbox")
 
@@ -26,5 +37,13 @@ class Mailbox: Item {
         self.add(item: leaflet)
 
         self.intents = [LookInsideItemIntent(item: self), OpenItemIntent(item: self)]
+    }
+
+    override func item(didOpen item: Item) {
+        Game.shared.display("You open the mailbox", noReturn: true)
+
+        if containsLeaflet {
+            Game.shared.display(" revealing a small leaflet.")
+        }
     }
 }

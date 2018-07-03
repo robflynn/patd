@@ -110,8 +110,8 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
         self.description = description
     }
 
-    func named() -> String {
-        return "the \(self.name)"
+    func named(article: String = "the") -> String {
+        return "\(article) \(self.name)"
     }
 
     func isInteriorVisible() -> Bool {
@@ -232,7 +232,7 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
                 return "It's empty."
             }
 
-            return self.items.map { $0.name }.joined(separator: ", ")
+            return "You see " + self.items.map { $0.named(article: "a") }.joined(separator: ", ")
         }
 
         return "You can't see inside it."
