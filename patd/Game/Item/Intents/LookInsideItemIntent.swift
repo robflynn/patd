@@ -32,16 +32,20 @@ class LookInsideItemIntent: Intent {
     }
 
     func execute() -> Bool {
-        // FIXME: For now we're just going to assume it's always a mailbox as I'm not sure how I want to structure this yet
-        guard let mailbox = item as? Mailbox else { return false }
-
-        if mailbox.isOpen == false {
-            Game.shared.display("The \(item.name) is not open.")
+        if !item.isContainer {
+            Game.shared.display("You can't look look in that.")
 
             return false
         }
 
-        Game.shared.display(mailbox.internalDescription)
+        // Is this container openable? If so, it has to be open to look inside it
+        if item.isOpenable && item.isClosed {
+            Game.shared.display("You can't see inside it.")
+
+            return false
+        }
+
+        Game.shared.display(item.interiorDescription)
 
         return true
     }

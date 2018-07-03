@@ -87,6 +87,9 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
         self.openableDelegate = self
         self.intents.append(OpenItemIntent(item: self))
         self.intents.append(CloseItemIntent(item: self))
+
+        // Container
+        self.intents.append(LookInsideItemIntent(item: self))
     }
 
     convenience init(name: String, properties: [Item.Property]) {
@@ -109,6 +112,22 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
 
     func named() -> String {
         return "the \(self.name)"
+    }
+
+    func isInteriorVisible() -> Bool {
+        if isContainer {
+            if isOpenable {
+                if isOpen {
+                    return true
+                }
+
+                return false
+            }
+
+            return true
+        }
+
+        return false
     }
 
     // MARK: Renderable
@@ -205,6 +224,18 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
 
     var isContainer: Bool {
         return self.properties.contains(.Container)
+    }
+
+    var interiorDescription: String {
+        if (isContainer && isInteriorVisible()) {
+            if self.items.isEmpty {
+                return "It's empty."
+            }
+
+            return self.items.map { $0.name }.joined(separator: ", ")
+        }
+
+        return "You can't see inside it."
     }
 
     func add(item: Item) {
