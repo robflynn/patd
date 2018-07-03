@@ -24,50 +24,73 @@ class Patd: GameProtocol {
         }
     }
     
+    func createItem(fromData itemData: MapParser.ItemData) -> Item {
+        let item = Item(name: itemData.name)
+        item.description = itemData.description
+        
+        item.environmentalText = itemData.environmentalText
+        
+        if let traits = itemData.traits {
+            for traitData in traits {
+                // FIXME: Don't allow bad traits, throw probably
+                guard let trait = Item.Trait(rawValue: traitData) else { continue }
+                
+                item.add(trait: trait)
+            }
+        }
+
+        if let childItems = itemData.items {
+            for childItemData in childItems {
+                let childItem = self.createItem(fromData: childItemData)
+                
+            
+                item.add(item: childItem)
+            }
+        }
+        
+        return item
+    }
+    
+    func createRoom(fromData roomData: MapParser.RoomData) -> Room {
+        let room = Room()
+        room.name = roomData.name
+        room.description = roomData.description
+        
+        if let id = roomData.id { room.Id = id }
+        
+        if let exits = roomData.exits {
+            for exitData in exits {
+                // FIXME: Don't allow invalid directions, we'll want to throw some kind of error here
+                guard let direction = Direction(rawValue: exitData.direction) else { continue }
+                
+                let exit = Exit(direction: direction, target: exitData.target)
+                
+                room.add(exit: exit)
+            }
+        }
+        
+        if let items = roomData.items {
+            for itemData in items {
+                
+                let item = self.createItem(fromData: itemData)
+                
+                room.add(item: item)
+            }
+        }
+        
+        return room
+    }
+    
+    
     func loadGameData() -> Bool {
         do {
             // FIXME: Couldn't find map file.  Handle This
             guard let mapJSON: String = try String(contentsOfFile: "map.json") else { return false }
             guard let  map = try? MapParser.parse(jsonString: mapJSON) else { return false }
             
+            
             for roomData in map.rooms {
-                let room = Room()
-                room.name = roomData.name
-                room.description = roomData.description
-                
-                if let id = roomData.id { room.Id = id }
-                
-                if let exits = roomData.exits {
-                    for exitData in exits {
-                        // FIXME: Don't allow invalid directions, we'll want to throw some kind of error here
-                        guard let direction = Direction(rawValue: exitData.direction) else { continue }
-                        
-                        let exit = Exit(direction: direction, target: exitData.target)
-                        
-                        room.add(exit: exit)
-                    }
-                }
-                
-                if let items = roomData.items {
-                    for itemData in items {
-                        let item = Item(name: itemData.name)
-                        item.description = itemData.description
-                        
-                        item.environmentalText = itemData.environmentalText
-                        
-                        if let traits = itemData.traits {
-                            for traitData in traits {
-                                // FIXME: Don't allow bad traits, throw probably
-                                guard let trait = Item.Trait(rawValue: traitData) else { continue }
-                                
-                                item.add(trait: trait)
-                            }
-                        }
-                        
-                        room.add(item: item)                        
-                    }
-                }
-                
+                let room = self.createRoom(fromData: roomData)
                 Game.shared.add(room: room)
             }
             

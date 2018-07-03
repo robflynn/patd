@@ -9,8 +9,15 @@
                 {
                     "name": "mailbox",
                     "description": "A small, red, wooden mailbox.",
-                    "traits": ["renderable", "openable"],
-                    "environmentalText": "There is a small mailbox here."
+                    "traits": ["renderable", "openable", "container"],
+                    "environmentalText": "There is a small mailbox here.",
+                    "items": [
+                    	{
+                    		"name": "leaflet",
+                    		"description": "Letter Heading\n\nBlah blah this is some text or some other stuff.",
+                    		"traits": ["gettable"]
+                    	}
+                    ]
                 }
             ]
         },

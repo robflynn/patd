@@ -24,6 +24,7 @@ final class MapParser {
         var description: String
         var traits: [String]?
         var environmentalText: String?
+        var items: [ItemData]?
     }
     
     struct RoomData: Decodable {
