@@ -13,7 +13,7 @@ protocol RoomDelegate {
     func room(exited room: Room)
 }
 
-class Room: GameObject {
+class Room: GameObject, Container, ContainerDelegate {
     var name: String = "A Room"
     var description: String = "A nondescript room."
 
@@ -80,20 +80,6 @@ class Room: GameObject {
         Game.shared.display(self.exits.map { $0.direction.Name }.joined(separator: ", "))
     }
 
-    func add(item: Item) {
-        self.items.append(item)
-    }
-
-    func remove(item: Item) {
-        if let index = self.items.index(of: item) {
-            self.items.remove(at: index)
-        }
-    }
-
-    func contains(item: Item) -> Bool {
-        return self.items.contains(item)
-    }
-
     func add(player: Player) {
         // Player is already in the room, they can't be in it twice
         if self.players.contains(player) {
@@ -131,7 +117,37 @@ class Room: GameObject {
         }
     }
 
+    // MARK: Container
+
+    var interiorDescription: String {
+        return description
+    }
+
+    func add(item: Item) {
+        self.items.append(item)
+    }
+
+    func remove(item: Item) {
+        if let index = self.items.index(of: item) {
+            self.items.remove(at: index)
+        }
+    }
+
+    func contains(item: Item) -> Bool {
+        return self.items.contains(item)
+    }
+
     private func addIntent(_ intent: Intent) {
         _intents.append(intent)
+    }
+
+    func container(didAcceptItem item: Item) {
+    }
+
+    func container(didRemoveItem item: Item) {
+    }
+
+    var isContainer: Bool {
+        return true
     }
 }
