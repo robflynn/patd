@@ -27,4 +27,16 @@ class DropItemIntent: Intent {
 
         self.item = item
     }
+
+    func execute() -> Bool {
+        if !Game.shared.player.isCarrying(item: item) {
+            Game.shared.display("You are not carrying that.")
+            return false
+        }
+
+        Game.shared.player.remove(fromInventory: item)
+        Game.shared.currentRoom.add(item: item)
+
+        return true
+    }
 }

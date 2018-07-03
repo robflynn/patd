@@ -9,15 +9,10 @@
 import Foundation
 
 class Player: GameObject {
-    var room: Room? {
+    var room: Room {
         didSet {
-            if let oldRoom = oldValue {
-                oldRoom.remove(player: self)
-            }
-
-            if let newRoom = self.room {
-                newRoom.add(player: self)
-            }
+            oldValue.remove(player: self)
+            room.add(player: self)
         }
     }
 
@@ -42,10 +37,10 @@ class Player: GameObject {
 
     private var _intents: [Intent] = []
 
-    override init() {
-        super.init()
+    init(room: Room) {
+        self.room = room
 
-        self._intents.append(InventoryIntent())
+        super.init()
     }
 
     func add(toInventory item: Item) {
@@ -60,5 +55,9 @@ class Player: GameObject {
         }
 
         return nil
+    }
+
+    func isCarrying(item: Item) -> Bool {
+        return self.inventory.contains(item)
     }
 }

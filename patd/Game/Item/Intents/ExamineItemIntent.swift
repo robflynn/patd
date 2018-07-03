@@ -27,4 +27,10 @@ class ExamineItemIntent: Intent {
 
         self.item = item
     }
+
+    func execute() -> Bool {
+        Game.shared.display(self.item.description)
+
+        return true
+    }
 }

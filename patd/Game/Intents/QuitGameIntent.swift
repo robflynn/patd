@@ -14,4 +14,10 @@ class QuitGameIntent: Intent {
     var intentType: IntentType {
         return .QuitGame
     }
+
+    func execute() -> Bool {
+        Game.shared.State = .Exiting
+
+        return true
+    }
 }

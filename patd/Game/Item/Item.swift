@@ -107,7 +107,10 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
         self.description = description
     }
 
-    
+    func named() -> String {
+        return "the \(self.name)"
+    }
+
     // MARK: Renderable
     func render() {
         if let text = self.renderText {

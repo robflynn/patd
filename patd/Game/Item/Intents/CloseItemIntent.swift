@@ -27,4 +27,14 @@ class CloseItemIntent: Intent {
 
         self.item = item
     }
+
+    func execute() -> Bool {
+        if !item.isClosable {
+            Game.shared.display("You can't close that.")
+
+            return false
+        }
+
+        return item.close()
+    }
 }

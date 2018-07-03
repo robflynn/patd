@@ -32,4 +32,11 @@ class TakeExitIntent: Intent {
 
         self.exit = exit
     }
+
+    func execute() -> Bool {
+        Game.shared.player.room = self.exit.target
+        Game.shared.currentRoom.render()
+
+        return true
+    }
 }

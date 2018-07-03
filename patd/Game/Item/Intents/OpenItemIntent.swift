@@ -27,4 +27,14 @@ class OpenItemIntent: Intent {
 
         self.item = item
     }
+
+    func execute() -> Bool {
+        if !self.item.isOpenable {
+            Game.shared.display("You cannot open that.")
+
+            return false
+        }
+
+        return self.item.open()
+    }
 }

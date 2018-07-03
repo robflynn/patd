@@ -44,17 +44,18 @@ class Game: RoomDelegate {
         }
     }
 
+    var currentRoom: Room {
+        return self.player.room
+    }
+
     static let shared = Game()
 
     init() {
         Logger.debug("Game loading")
 
-        // Spawn the player
-        self.player = Player()
-
-        self.addIntent(QuitGameIntent())
-
-        let wohouse = self.createRoom(name: "West of House", description: "This is an open field west of a white house, with a boarded front door.", exits: [], items: [])
+        let wohouse = Room()
+        wohouse.name = "West of House"
+        wohouse.description = "This is an open field west of a white house, with a boarded front door."
 
         var mailbox = Mailbox()
         wohouse.add(item: mailbox)
@@ -64,20 +65,25 @@ class Game: RoomDelegate {
         wohouse.add(item: mat)
         wohouse.add(item: Item(name: "fish", properties: [.Openable, .Gettable]))
 
-        player.room = wohouse
-
-        let forest1 = self.createRoom(name: "Forest", description: "This is a forest, with trees in all directions around you", exits: [], items: [])
+        let forest1 = Room()
+        forest1.name = "Forest"
+        forest1.description = "This is a forest, with trees in all directions around you"
 
         let exit = Exit(direction: .West, target: forest1)
         wohouse.add(exit: exit, mutual: true)
 
+        // Spawn the player
+        self.player = Player(room: wohouse)
+
+        self.add(intent: QuitGameIntent())
 
         Logger.debug("Game instatiated")
     }
 
     func display(_ message: String) {
-        print(displayBuffer + message)
+        let combined = displayBuffer + message
 
+        print(combined)
         self.displayBuffer = ""
     }
 
@@ -110,13 +116,8 @@ class Game: RoomDelegate {
 
     func render() {
         // Render the current room
-        guard let room = self.player.room else {
-            print("WHY IS ROOM NIL!?!?!?!?!")
 
-            return
-        }
-
-        room.render()
+        self.currentRoom.render()
     }
 
     // MARK: Player Input
@@ -132,84 +133,12 @@ class Game: RoomDelegate {
             return
         }
 
-        switch(intent.intentType) {
-        case .QuitGame:
-            self.State = .Exiting
-        case .TakeExit:
-            if let exitIntent = intent as? TakeExitIntent {
-                self.player.room = exitIntent.exit.target
-            }
-        case .LookAtItem:
-            if let lookIntent = intent as? ExamineItemIntent {
-                Game.shared.display(lookIntent.item.description)
-            }
-        case .GetItem:
-            if let getIntent = intent as? GetItemIntent {
-
-                if getIntent.item.isGettable {
-                    Game.shared.display("You get \(getIntent.item.name)")
-
-                    self.player.room?.remove(item: getIntent.item)
-                    self.player.add(toInventory: getIntent.item)
-                } else {
-                    Game.shared.display("You cannot get the \(getIntent.item.name)")
-                }
-            }
-        case .DropItem:
-            if let dropIntent = intent as? DropItemIntent {
-                if let item = self.player.remove(fromInventory: dropIntent.item) {
-                    Game.shared.display("You drop \(dropIntent.item.name)")
-
-                    self.player.room?.add(item: item)
-                }
-            }
-        case .OpenItem:
-            if let openIntent = intent as? OpenItemIntent {
-                let item = openIntent.item
-                
-                item.open()
-            }
-        case .CloseItem:
-            if let closeIntent = intent as? CloseItemIntent {
-                let item = closeIntent.item
-                
-                item.close()
-            }
-        case .Inventory:
-            showInventory()
-        case .ExamineRoom:
-            self.player.room?.render()
-        case .UnlockItem:
-            if let unlockIntent = intent as? UnlockItemIntent {
-                let item = unlockIntent.item
-
-                item.unlock()
-            }
-        case .LookInsideItem:
-            if let lookInsideIntent = intent as? LookInsideItemIntent {
-                let item = lookInsideIntent.item
-                
-                // FIXME: For now we're just going to assume it's always a mailbox as I'm not sure how I want to structure this yet
-                guard let mailbox = item as? Mailbox else { return }
-                
-                if mailbox.isOpen == false {
-                    Game.shared.display("The \(item.name) is not open.")
-                    
-                    return
-                }
-                
-                Game.shared.display(mailbox.internalDescription)
-            }
-        default:
-            Logger.error("Unhandled Intent: ", intent.intentType)
-        }
-    }
-
-    private func showInventory() {
-        if self.player.inventory.isEmpty {
-            Game.shared.display("You are not carrying any items.")
+        if intent.execute() {
+            // command resulted in it's intended action
+            Logger.debug("Command achieved it's goal")
         } else {
-            Game.shared.display(self.player.inventory.map { $0.name }.joined(separator: ", "))
+            // command failed for some reason, benign or not
+            Logger.debug("Command exited early for some reason or another.")
         }
     }
 
@@ -247,11 +176,9 @@ class Game: RoomDelegate {
             }
         }
 
-        if let room = self.player.room {
-            for intent in room.intents {
-                if intent.triggers.contains(request.command) {
-                    return intent
-                }
+        for intent in Game.shared.currentRoom.intents {
+            if intent.triggers.contains(request.command) {
+                return intent
             }
         }
 
@@ -286,7 +213,7 @@ class Game: RoomDelegate {
         self.delegate?.game(playerDidExitRoom: room)
     }
 
-    private func addIntent(_ intent: Intent) {
-        intents.append(intent)
+    private func add(intent: Intent) {
+        self.intents.append(intent)
     }
 }

@@ -27,4 +27,14 @@ class UnlockItemIntent: Intent {
 
         self.item = item
     }
+
+    func execute() -> Bool {
+        if !item.isUnlockable {
+            Game.shared.display("You can't unlock that.")
+
+            return false
+        }
+
+        return item.unlock()
+    }
 }

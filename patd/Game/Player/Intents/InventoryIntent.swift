@@ -20,4 +20,14 @@ class InventoryIntent: Intent {
         triggers.append("inv")
         triggers.append("i")
     }
+
+    func execute() -> Bool {
+        if Game.shared.player.inventory.isEmpty {
+            Game.shared.display("You are not carrying any items.")
+        } else {
+            Game.shared.display(Game.shared.player.inventory.map { $0.name }.joined(separator: ", "))
+        }
+
+        return true
+    }
 }

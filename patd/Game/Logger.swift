@@ -8,7 +8,7 @@
 
 import Foundation
 
-let DEBUG = false
+let DEBUG = true
 
 class Logger {
     // FIXME: DRY this up
