@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FD104EED20EBC4AD0095044F /* MapParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD104EEC20EBC4AD0095044F /* MapParser.swift */; };
+		FD104EFE20EBE01A0095044F /* map.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD104EF820EBDEBA0095044F /* map.json */; };
 		FD5F558220E9CF1C00E6BD78 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5F558120E9CF1C00E6BD78 /* Item.swift */; };
 		FDA5679D20E9F33A001BF074 /* OpenItemIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA5679C20E9F33A001BF074 /* OpenItemIntent.swift */; };
 		FDA5679F20E9F34E001BF074 /* GetItemIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA5679E20E9F34E001BF074 /* GetItemIntent.swift */; };
@@ -41,19 +42,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		FDC870D020E9559B00A5311A /* CopyFiles */ = {
+		FD104EFD20EBE0120095044F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			dstPath = "";
+			dstSubfolderSpec = 7;
 			files = (
+				FD104EFE20EBE01A0095044F /* map.json in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		FD104EEC20EBC4AD0095044F /* MapParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapParser.swift; sourceTree = "<group>"; };
+		FD104EF820EBDEBA0095044F /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		FD5F558120E9CF1C00E6BD78 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		FDA5679C20E9F33A001BF074 /* OpenItemIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenItemIntent.swift; sourceTree = "<group>"; };
 		FDA5679E20E9F34E001BF074 /* GetItemIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetItemIntent.swift; sourceTree = "<group>"; };
@@ -98,6 +101,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FD104EF720EBDEBA0095044F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FD104EF820EBDEBA0095044F /* map.json */,
+			);
+			path = Resources;
+			sourceTree = SOURCE_ROOT;
+		};
 		FDA5679A20E9F31F001BF074 /* Item */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				FDC870D420E9559B00A5311A /* patd */,
+				FD104EF720EBDEBA0095044F /* Resources */,
 				FDC870D320E9559B00A5311A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -241,7 +253,7 @@
 			buildPhases = (
 				FDC870CE20E9559B00A5311A /* Sources */,
 				FDC870CF20E9559B00A5311A /* Frameworks */,
-				FDC870D020E9559B00A5311A /* CopyFiles */,
+				FD104EFD20EBE0120095044F /* CopyFiles */,
 			);
 			buildRules = (
 			);

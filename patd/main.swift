@@ -26,7 +26,9 @@ class Patd: GameProtocol {
     
     func loadGameData() -> Bool {
         do {
-            guard let  map = try? MapParser.parse() else { return false }
+            // FIXME: Couldn't find map file.  Handle This
+            guard let mapJSON: String = try String(contentsOfFile: "map.json") else { return false }
+            guard let  map = try? MapParser.parse(jsonString: mapJSON) else { return false }
             
             for roomData in map.rooms {
                 let room = Room()
