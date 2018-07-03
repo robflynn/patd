@@ -6,6 +6,7 @@
 //  Copyright © 2018 Thingerly. All rights reserved.
 //
 
+// FIXME: I think we need to allow for passthrough intents
 class LeafletIntent: GetItemIntent {
     var mailbox: Mailbox
 
@@ -24,6 +25,14 @@ class LeafletIntent: GetItemIntent {
         return true
     }
 }
+
+
+// This is a proof of concept for an item contain that pushes it's
+// content's intents up to the room scope when the container is open.
+//
+// I may extract this out as a generic item property, or perhaps it will
+// be a property of a container. it probably makes more sense to
+// exist in the container
 class Mailbox: Item {
     // This is poorly implemented, just testing, delete me FIXME: DELETE
     var containsLeaflet: Bool {
@@ -55,8 +64,7 @@ class Mailbox: Item {
         self.description = "a small, red, wooden mailbox"
         self.renderText = "There is a small mailbox here."
 
-        let leaflet = Item(name: "leaflet", properties: [.Gettable])
-
+        let leaflet = Leaflet()
         self.add(item: leaflet)
 
         // FIXME: Use property observer on properties to auto register and unregister these
@@ -66,10 +74,10 @@ class Mailbox: Item {
     }
 
     override func item(didOpen item: Item) {
-        Game.shared.display("You open the mailbox", noReturn: true)
-
         if containsLeaflet {
-            Game.shared.display(" revealing a small leaflet.")
+            Game.shared.display("Opening the small mailbox reveals a leaflet.")
+        } else {
+            super.item(didOpen: item)
         }
     }
 

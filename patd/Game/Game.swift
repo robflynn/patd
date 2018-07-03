@@ -61,17 +61,14 @@ class Game: RoomDelegate {
         var mailbox = Mailbox()
         wohouse.add(item: mailbox)
 
-        let mat = Item(name: "mat", description: "Welcome to Zork!", properties: [.Renderable])
-        mat.renderText = "A rubber mat saying 'Welcome to Zork!' lies by the door."
-        wohouse.add(item: mat)
-        wohouse.add(item: Item(name: "fish", properties: [.Openable, .Gettable]))
+        wohouse.add(item: Item(name: "house", description: "The house is a beautiful colonial house which is painted white. It is clear that the owners must have been extremely wealthy."))
+        wohouse.add(item: Item(name: "door", properties: [.Openable]))
+
 
         let forest1 = Room()
         forest1.name = "Forest"
         forest1.description = "This is a forest, with trees in all directions around you"
 
-        let fish = SlipperFish()
-        forest1.add(item: fish)
 
         let exit = Exit(direction: .West, target: forest1)
         wohouse.add(exit: exit, mutual: true)
