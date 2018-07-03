@@ -29,7 +29,7 @@ class Player: GameObject {
 
         for item in self._inventory {
             Logger.debug(" -> \(item.name)")
-            tmp.append(item.intents)
+            tmp.append(item._intents)
         }
 
         return tmp.flatMap{ $0 }

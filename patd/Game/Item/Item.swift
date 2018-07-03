@@ -53,7 +53,11 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
     
     private var _description: String?
 
-    var intents: [Intent] = []
+    var intents: [Intent] {
+        return _intents
+    }
+
+    internal var _intents: [Intent] = []
     internal(set) var properties: [Item.Property] = [] {
         didSet {
             print("==> Prop was set")
@@ -75,21 +79,21 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
 
         super.init()
         
-        self.intents.append(ExamineItemIntent(item: self))
-        self.intents.append(GetItemIntent(item: self))
-        self.intents.append(DropItemIntent(item: self))
+        self._intents.append(ExamineItemIntent(item: self))
+        self._intents.append(GetItemIntent(item: self))
+        self._intents.append(DropItemIntent(item: self))
 
         // Lockable
         self.lockableDelegate = self
-        self.intents.append(UnlockItemIntent(item: self))
+        self._intents.append(UnlockItemIntent(item: self))
         
         // Openable
         self.openableDelegate = self
-        self.intents.append(OpenItemIntent(item: self))
-        self.intents.append(CloseItemIntent(item: self))
+        self._intents.append(OpenItemIntent(item: self))
+        self._intents.append(CloseItemIntent(item: self))
 
         // Container
-        self.intents.append(LookInsideItemIntent(item: self))
+        self._intents.append(LookInsideItemIntent(item: self))
     }
 
     convenience init(name: String, properties: [Item.Property]) {
@@ -128,6 +132,10 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
         }
 
         return false
+    }
+
+    func add(intent: Intent) {
+        self._intents.append(intent)
     }
 
     // MARK: Renderable

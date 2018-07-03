@@ -26,8 +26,6 @@ enum IntentType {
 typealias IntentID = UUID
 
 protocol Intent {    
-    var intentType: IntentType { get }
-
     var triggers: [String] { get }
 
     func execute() -> Bool

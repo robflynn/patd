@@ -9,10 +9,6 @@
 import Foundation
 
 class ExamineItemIntent: Intent {
-    var intentType: IntentType {
-        return .LookAtItem
-    }
-
     var triggers: [String] = []
 
     var item: Item

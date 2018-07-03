@@ -9,10 +9,6 @@
 import Foundation
 
 class LookInsideItemIntent: Intent {
-    var intentType: IntentType {
-        return .LookInsideItem
-    }
-    
     var triggers: [String] = []
     
     var item: Item

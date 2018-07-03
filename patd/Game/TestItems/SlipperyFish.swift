@@ -31,6 +31,6 @@ class SlipperFish: Item {
         self.properties = [.Gettable, .Renderable]
         self.renderText = "There is a slippery fish on the ground."
 
-        self.intents.append(PushFishIntent())
+        self._intents.append(PushFishIntent())
     }
 }

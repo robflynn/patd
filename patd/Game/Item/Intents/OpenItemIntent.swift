@@ -9,10 +9,6 @@
 import Foundation
 
 class OpenItemIntent: Intent {
-    var intentType: IntentType {
-        return .OpenItem
-    }
-
     var triggers: [String] = []
 
     var item: Item

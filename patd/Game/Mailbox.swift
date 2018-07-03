@@ -25,6 +25,18 @@ class Mailbox: Item {
         return false
     }
 
+    var leafIntent: GetItemIntent?
+
+    override var intents: [Intent] {
+        if containsLeaflet {
+            if let intent = leafIntent {
+                return _intents + [intent]
+            }
+        }
+
+        return _intents
+    }
+
     init() {
         super.init(name: "mailbox")
 
@@ -36,7 +48,17 @@ class Mailbox: Item {
 
         self.add(item: leaflet)
 
-        self.intents = [LookInsideItemIntent(item: self), OpenItemIntent(item: self)]
+        // FIXME: Use property observer on properties to auto register and unregister these
+        self._intents = [LookInsideItemIntent(item: self), OpenItemIntent(item: self), CloseItemIntent(item: self)]
+
+        self.leafIntent = GetItemIntent(item: leaflet)
+        self.leafIntent?.hooble = {
+            () -> Bool in
+                self.remove(item: leaflet)
+                Game.shared.player.add(toInventory: leaflet)
+
+                return true
+        }
     }
 
     override func item(didOpen item: Item) {
@@ -45,5 +67,9 @@ class Mailbox: Item {
         if containsLeaflet {
             Game.shared.display(" revealing a small leaflet.")
         }
+    }
+
+    override func item(didClose item: Item) {
+        super.item(didClose: item)
     }
 }

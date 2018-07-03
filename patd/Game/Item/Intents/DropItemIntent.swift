@@ -9,10 +9,6 @@
 import Foundation
 
 class DropItemIntent: Intent {
-    var intentType: IntentType {
-        return .DropItem
-    }
-
     var triggers: [String] = []
 
     var item: Item

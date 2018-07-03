@@ -9,10 +9,6 @@
 import Foundation
 
 class UnlockItemIntent: Intent {
-    var intentType: IntentType {
-        return .UnlockItem
-    }
-
     var triggers: [String] = []
 
     var item: Item

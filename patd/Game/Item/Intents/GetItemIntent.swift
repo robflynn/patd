@@ -9,10 +9,6 @@
 import Foundation
 
 class GetItemIntent: Intent {
-    var intentType: IntentType {
-        return .GetItem
-    }
-
     var triggers: [String] = []
 
     var item: Item
@@ -29,6 +25,12 @@ class GetItemIntent: Intent {
     }
 
     func execute() -> Bool {
+
+        if let hoobs = hooble {
+            if hoobs() {
+                return true
+            }
+        }
 
         if !item.isGettable {
             Game.shared.display("You cannot get \(item.named()).")
@@ -53,4 +55,6 @@ class GetItemIntent: Intent {
 
         return false
     }
+
+    public var hooble: (() -> Bool)?
 }

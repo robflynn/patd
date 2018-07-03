@@ -9,10 +9,6 @@
 import Foundation
 
 class CloseItemIntent: Intent {
-    var intentType: IntentType {
-        return .CloseItem
-    }
-
     var triggers: [String] = []
 
     var item: Item
@@ -22,7 +18,7 @@ class CloseItemIntent: Intent {
 
         for action in actions {
             self.triggers.append("\(action) \(item.name.lowercased())")
-            self.triggers.append("\(action) the \(item.name.lowercased())")
+            self.triggers.append("\(action) \(item.named().lowercased())")
         }
 
         self.item = item
