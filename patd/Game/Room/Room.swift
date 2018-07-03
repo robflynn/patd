@@ -44,8 +44,8 @@ class Room: GameObject {
     }
 
     func render() {
-        display(name)
-        display(description)
+        Game.shared.display(name)
+        Game.shared.display(description)
 
         for item in items {
             if item.isRenderable {
@@ -58,26 +58,26 @@ class Room: GameObject {
     }
 
     private func renderItems() {
-        display("")
+        Game.shared.display("")
 
         let visibleItems = self.items.filter { $0.isGettable }
 
         if !visibleItems.isEmpty {
-            display("Items:  \(visibleItems.map { $0.name }.joined(separator: ", "))")
+            Game.shared.display("Items:  \(visibleItems.map { $0.name }.joined(separator: ", "))")
         }
     }
 
     private func renderExits() {
-        display("")
+        Game.shared.display("")
 
         if self.exits.isEmpty {
-            display("There are no obvious exits.")
+            Game.shared.display("There are no obvious exits.")
 
             return
         }
 
-        display("Obvious exits are: ", noReturn: true)
-        display(self.exits.map { $0.direction.Name }.joined(separator: ", "))
+        Game.shared.display("Obvious exits are: ", noReturn: true)
+        Game.shared.display(self.exits.map { $0.direction.Name }.joined(separator: ", "))
     }
 
     func add(item: Item) {

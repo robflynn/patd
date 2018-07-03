@@ -32,7 +32,7 @@ class Game: RoomDelegate {
     var delegate: GameProtocol?
     var player: Player
     var intents: [Intent] = []
-    
+
     private var rooms: [Room] = []
     private var moves: Int = 0
 
@@ -42,6 +42,8 @@ class Game: RoomDelegate {
             self.stateEntered(self.State)
         }
     }
+
+    static let shared = Game()
 
     init() {
         Logger.debug("Game loading")
@@ -53,7 +55,8 @@ class Game: RoomDelegate {
 
         let wohouse = self.createRoom(name: "West of House", description: "This is an open field west of a white house, with a boarded front door.", exits: [], items: [])
 
-        wohouse.add(item: Mailbox())
+        var mailbox = Mailbox()
+        wohouse.add(item: mailbox)
 
         let mat = Item(name: "mat", description: "Welcome to Zork!", properties: [.Renderable])
         mat.renderText = "A rubber mat saying 'Welcome to Zork!' lies by the door."
@@ -69,6 +72,22 @@ class Game: RoomDelegate {
 
 
         Logger.debug("Game instatiated")
+    }
+
+    func display(_ message: String) {
+        print(message)
+    }
+
+    func display(_ message: String, noReturn: Bool) {
+        if noReturn {
+            print(message, terminator: "")
+        } else {
+            Game.shared.display(message)
+        }
+    }
+
+    func registerIntent(_ intent: Intent) {
+        self.intents.append(intent)
     }
 
     func createRoom(name: String, description: String, exits: [Exit], items: [Item]) -> Room {
@@ -105,7 +124,7 @@ class Game: RoomDelegate {
 
 
         guard let intent = processRequest(request) else {
-            display("Invalid command")
+            Game.shared.display("Invalid command")
 
             return
         }
@@ -119,24 +138,24 @@ class Game: RoomDelegate {
             }
         case .LookAtItem:
             if let lookIntent = intent as? ExamineItemIntent {
-                display(lookIntent.item.description)
+                Game.shared.display(lookIntent.item.description)
             }
         case .GetItem:
             if let getIntent = intent as? GetItemIntent {
 
                 if getIntent.item.isGettable {
-                    display("You get \(getIntent.item.name)")
+                    Game.shared.display("You get \(getIntent.item.name)")
 
                     self.player.room?.remove(item: getIntent.item)
                     self.player.add(toInventory: getIntent.item)
                 } else {
-                    display("You cannot get the \(getIntent.item.name)")
+                    Game.shared.display("You cannot get the \(getIntent.item.name)")
                 }
             }
         case .DropItem:
             if let dropIntent = intent as? DropItemIntent {
                 if let item = self.player.remove(fromInventory: dropIntent.item) {
-                    display("You drop \(dropIntent.item.name)")
+                    Game.shared.display("You drop \(dropIntent.item.name)")
 
                     self.player.room?.add(item: item)
                 }
@@ -160,7 +179,7 @@ class Game: RoomDelegate {
         case .UnlockItem:
             if let unlockIntent = intent as? UnlockItemIntent {
                 let item = unlockIntent.item
-                
+
                 item.unlock()
             }
         case .LookInsideItem:
@@ -171,12 +190,12 @@ class Game: RoomDelegate {
                 guard let mailbox = item as? Mailbox else { return }
                 
                 if mailbox.isOpen == false {
-                    display("The \(item.name) is not open.")
+                    Game.shared.display("The \(item.name) is not open.")
                     
                     return
                 }
                 
-                display(mailbox.internalDescription)
+                Game.shared.display(mailbox.internalDescription)
             }
         default:
             Logger.error("Unhandled Intent: ", intent.intentType)
@@ -185,9 +204,9 @@ class Game: RoomDelegate {
 
     private func showInventory() {
         if self.player.inventory.isEmpty {
-            display("You are not carrying any items.")
+            Game.shared.display("You are not carrying any items.")
         } else {
-            display(self.player.inventory.map { $0.name }.joined(separator: ", "))
+            Game.shared.display(self.player.inventory.map { $0.name }.joined(separator: ", "))
         }
     }
 

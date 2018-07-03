@@ -18,12 +18,13 @@ protocol OpenableItemDelegate {
     func item(didClose item: Item)
 }
 
-class Item: GameObject, Openable, Lockable, OpenableItemDelegate, LockableItemDelegate {
+class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, LockableItemDelegate, ContainerDelegate {
     enum Property {
         case Openable
         case Gettable
         case Lockable
         case Renderable
+        case Container
     }
 
     var name: String
@@ -38,7 +39,7 @@ class Item: GameObject, Openable, Lockable, OpenableItemDelegate, LockableItemDe
             if let desc = self._description {
                 blurbs.append(desc)
             } else {
-                blurbs.append("I see nothing special about the \(self.name).")
+                blurbs.append("You see nothing special about the \(self.name).")
             }
             
             if self.isOpenable {
@@ -53,7 +54,12 @@ class Item: GameObject, Openable, Lockable, OpenableItemDelegate, LockableItemDe
     private var _description: String?
     
     var intents: [Intent] = []
-    internal(set) var properties: [Item.Property] = []
+    internal(set) var properties: [Item.Property] = [] {
+        didSet {
+            print("==> Prop was set")
+            print(properties)
+        }
+    }
     
     // MARK: Item Property Helpers
     var isGettable: Bool {
@@ -64,9 +70,8 @@ class Item: GameObject, Openable, Lockable, OpenableItemDelegate, LockableItemDe
         return self.properties.contains(.Renderable)
     }
 
-    init(name: String, properties: [Item.Property]) {
+    init(name: String) {
         self.name = name
-        self.properties = properties
 
         super.init()
         
@@ -83,36 +88,48 @@ class Item: GameObject, Openable, Lockable, OpenableItemDelegate, LockableItemDe
         self.intents.append(OpenItemIntent(item: self))
         self.intents.append(CloseItemIntent(item: self))
     }
-    
+
+    convenience init(name: String, properties: [Item.Property]) {
+        self.init(name: name)
+
+        self.properties = properties
+    }
+
     convenience init(name: String, description: String, properties: [Item.Property]) {
         self.init(name: name, properties: properties)
-        
+
         self._description = description
     }
+
+    convenience init(name: String, description: String) {
+        self.init(name: name)
+
+        self.description = description
+    }
+
     
     // MARK: Renderable
     func render() {
         if let text = self.renderText {
-            display(text)
+            Game.shared.display(text)
         }
     }
     
     // MARK: Openable
     var openState: OpenState = .Closed
     var openableDelegate: OpenableItemDelegate?
-    var isOpenable: Bool {
-        return self.properties.contains(.Openable)
-    }
+    var isOpenable: Bool { return self.properties.contains(.Openable) }
+    var isClosable: Bool { return self.properties.contains(.Openable) }
 
     func open() -> Bool {
         // By default, items cannot be opened
-        if !self.isOpenable { display("You cannot open the \(self.name)"); return false }
+        if !self.isOpenable { Game.shared.display("You cannot open the \(self.name)"); return false }
         
         // If it's open, you can't open it more
-        if self.isOpen { display("It is already open."); return false }
+        if self.isOpen { Game.shared.display("It is already open."); return false }
         
         // And you can't open things that are locked
-        if self.isLocked { display("It is locked."); return false  }
+        if self.isLocked { Game.shared.display("It is locked."); return false  }
 
         self.openState = .Open
         
@@ -123,9 +140,9 @@ class Item: GameObject, Openable, Lockable, OpenableItemDelegate, LockableItemDe
     
     func close() -> Bool {
         // FIXME: I feel like we should handle this differently
-        if !self.isClosable { display("You cannot close the \(self.name)"); return false }
+        if !self.isClosable { Game.shared.display("You cannot close the \(self.name)"); return false }
         
-        if self.isClosed { display("It is already closed."); return false}
+        if self.isClosed { Game.shared.display("It is already closed."); return false}
         
         self.openState = .Closed
         
@@ -135,23 +152,22 @@ class Item: GameObject, Openable, Lockable, OpenableItemDelegate, LockableItemDe
     }
     
     func item(didOpen item: Item) {
-        display("You open the \(item.name).")
+        Game.shared.display("You open the \(item.name).")
     }
     
     func item(didClose item: Item) {
-        display("You close the \(item.name).")
+        Game.shared.display("You close the \(item.name).")
     }
     
     // MARK: Lockable
-    var lockState: LockState = .Locked
+    var lockState: LockState = .Unlocked
     var lockableDelegate: LockableItemDelegate?
-    var isLockable: Bool {
-        return self.properties.contains(.Lockable)
-    }
+    var isLockable: Bool { return self.properties.contains(.Lockable) }
+    var isUnlockable: Bool { return self.properties.contains(.Lockable) }
 
     func lock() -> Bool {
-        if !self.isLockable { display("You cannot lock the \(self.name)"); return false }
-        if self.isLocked { display("It is already locked."); return false }
+        if !self.isLockable { Game.shared.display("The \(self.name) doesn't have a lock."); return false }
+        if self.isLocked { Game.shared.display("It is already locked."); return false }
 
         self.lockState = .Locked
 
@@ -161,9 +177,10 @@ class Item: GameObject, Openable, Lockable, OpenableItemDelegate, LockableItemDe
     }
 
     func unlock() -> Bool {
-        if !self.isUnlockable { display("You cannot unlock \(self.name)"); return false }
-        if !self.isLocked { display("It is already unlocked."); return false }
-        
+        if !self.isLockable { Game.shared.display("The \(self.name) doesn't have a lock."); return false }
+
+        if !self.isLocked { Game.shared.display("It is already unlocked."); return false }
+
         self.lockState = .Unlocked
 
         self.lockableDelegate?.item(didUnlock: self)
@@ -172,10 +189,50 @@ class Item: GameObject, Openable, Lockable, OpenableItemDelegate, LockableItemDe
     }
     
     func item(didUnlock item: Item) {
-        display("You unlock the \(item.name).")
+        Game.shared.display("You unlock the \(item.name).")
     }
 
     func item(didLock item: Item) {
-        display("You lock the \(item.name)")
+        Game.shared.display("You lock the \(item.name)")
+    }
+
+    // MARK: Container
+    var items: [Item] = []
+    var containerDelegate: ContainerDelegate?
+
+    var isContainer: Bool {
+        return self.properties.contains(.Container)
+    }
+
+    func add(item: Item) {
+        if isContainer {
+            self.items.append(item)
+
+            self.containerDelegate?.container(didAcceptItem: item)
+        } else {
+            Game.shared.display("You can't put that there")
+        }
+    }
+
+    func remove(item: Item) {
+        if let index = self.items.index(of: item) {
+            self.items.remove(at: index)
+
+            self.containerDelegate?.container(didRemoveItem: item)
+        } else {
+            // FIXME:
+            Game.shared.display("------> DOES THIS SHOW UP, REMEMBER ME")
+        }
+    }
+
+    func contains(item: Item) -> Bool {
+        return self.items.contains(item)
+    }
+
+    func container(didAcceptItem item: Item) {
+        Game.shared.display("You put the \(item.name) in the \(self.name).")
+    }
+
+    func container(didRemoveItem item: Item) {
     }
 }

@@ -8,20 +8,8 @@
 
 import Foundation
 
-func display(_ message: String) {
-    print(message)
-}
-
-func display(_ message: String, noReturn: Bool) {
-    if noReturn {
-        print(message, terminator: "")
-    } else {
-        display(message)
-    }
-}
-
 class Patd: GameProtocol {
-    let game = Game()
+    let game = Game.shared
 
     var gameState: GameState {
         return self.game.State
@@ -32,7 +20,7 @@ class Patd: GameProtocol {
     }
 
     func getUserInput() -> String? {
-        display("> ", noReturn: true)
+        Game.shared.display("> ", noReturn: true)
 
         let input = readLine()
 

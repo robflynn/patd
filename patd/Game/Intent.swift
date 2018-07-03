@@ -7,6 +7,8 @@
 //
 
 // This intent system is going to be very basic for now
+import Foundation
+
 enum IntentType {
     case TakeExit
     case QuitGame
@@ -21,7 +23,10 @@ enum IntentType {
     case LookInsideItem
 }
 
+typealias IntentID = UUID
+
 protocol Intent {    
     var intentType: IntentType { get }
+
     var triggers: [String] { get }
 }
