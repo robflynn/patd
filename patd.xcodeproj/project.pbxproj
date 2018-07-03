@@ -163,6 +163,7 @@
 		FDA567BF20EB071E001BF074 /* TestItems */ = {
 			isa = PBXGroup;
 			children = (
+				FDD87BE220EA99E300E7CAC8 /* Mailbox.swift */,
 				FDA567C020EB0733001BF074 /* SlipperyFish.swift */,
 			);
 			path = TestItems;
@@ -208,7 +209,6 @@
 				FDC870E520E98B9000A5311A /* GameObject.swift */,
 				FDC870E720E9967100A5311A /* Direction.swift */,
 				FDA567AE20E9F4C5001BF074 /* Intent.swift */,
-				FDD87BE220EA99E300E7CAC8 /* Mailbox.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";

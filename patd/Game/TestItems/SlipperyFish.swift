@@ -9,11 +9,6 @@
 import Foundation
 
 class PushFishIntent: Intent {
-    var intentType: IntentType {
-        // does this even matter anymore
-        return IntentType.DropItem
-    }
-
     var triggers: [String] = ["use fish as door"]
 
     func execute() -> Bool {

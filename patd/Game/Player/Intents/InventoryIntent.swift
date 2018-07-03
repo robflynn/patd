@@ -9,10 +9,6 @@
 import Foundation
 
 class InventoryIntent: Intent {
-    var intentType: IntentType  {
-        return .Inventory
-    }
-
     var triggers: [String] = []
 
     init() {

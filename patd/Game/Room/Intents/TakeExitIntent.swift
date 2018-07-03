@@ -9,10 +9,6 @@
 import Foundation
 
 class TakeExitIntent: Intent {
-    var intentType: IntentType {
-        return .TakeExit
-    }
-
     var triggers: [String] = []
     private(set) var exit: Exit
 

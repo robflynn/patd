@@ -6,8 +6,24 @@
 //  Copyright © 2018 Thingerly. All rights reserved.
 //
 
-import Foundation
+class LeafletIntent: GetItemIntent {
+    var mailbox: Mailbox
 
+    init(mailbox: Mailbox, leaflet: Item) {
+        self.mailbox = mailbox
+
+        super.init(item: leaflet)
+    }
+
+    override func execute() -> Bool {
+        mailbox.remove(item: item)
+        Game.shared.player.add(toInventory: item)
+
+        Game.shared.display("You get the leaflet.")
+
+        return true
+    }
+}
 class Mailbox: Item {
     // This is poorly implemented, just testing, delete me FIXME: DELETE
     var containsLeaflet: Bool {
@@ -20,10 +36,10 @@ class Mailbox: Item {
         return false
     }
 
-    var leafIntent: GetItemIntent?
+    var leafIntent: LeafletIntent?
 
     override var intents: [Intent] {
-        if containsLeaflet {
+        if containsLeaflet && isOpen {
             if let intent = leafIntent {
                 return _intents + [intent]
             }
@@ -46,19 +62,7 @@ class Mailbox: Item {
         // FIXME: Use property observer on properties to auto register and unregister these
         self._intents = [LookInsideItemIntent(item: self), OpenItemIntent(item: self), CloseItemIntent(item: self)]
 
-        self.leafIntent = GetItemIntent(item: leaflet)
-        self.leafIntent?.hooble = {
-            if self.containsLeaflet && self.isOpen {
-                self.remove(item: leaflet)
-                Game.shared.player.add(toInventory: leaflet)
-
-                Game.shared.display("You get the leaflet.")
-
-                return true
-            }
-
-            return false
-        }
+        self.leafIntent = LeafletIntent(mailbox: self, leaflet: leaflet)
     }
 
     override func item(didOpen item: Item) {

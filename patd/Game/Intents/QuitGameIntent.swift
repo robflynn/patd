@@ -11,10 +11,6 @@ import Foundation
 class QuitGameIntent: Intent {
     var triggers: [String] = ["quit"]
 
-    var intentType: IntentType {
-        return .QuitGame
-    }
-
     func execute() -> Bool {
         Game.shared.State = .Exiting
 

@@ -18,6 +18,4 @@ class IntentsIntent: Intent {
 
         return true
     }
-
-
 }

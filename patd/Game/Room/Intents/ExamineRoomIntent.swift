@@ -9,10 +9,6 @@
 import Foundation
 
 class ExamineRoomIntent: Intent {
-    var intentType: IntentType {
-        return .ExamineRoom
-    }
-
     var triggers: [String] = ["examine room", "look around", "look at surroundings", "look at my surroundings", "look around the room", "look at room"]
 
     func execute() -> Bool {
