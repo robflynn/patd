@@ -19,12 +19,12 @@ protocol OpenableItemDelegate {
 }
 
 class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, LockableItemDelegate, ContainerDelegate {
-    enum Property {
-        case Openable
-        case Gettable
-        case Lockable
-        case Renderable
-        case Container
+    enum Trait: String {
+        case Openable = "openable"
+        case Gettable = "gettable"
+        case Lockable = "lockable"
+        case Renderable = "renderable"
+        case Container = "container"
     }
 
     var name: String
@@ -49,7 +49,8 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
             return blurbs.joined(separator: " ")
         }
     }
-    var renderText: String?
+    
+    var environmentalText: String?
     
     private var _description: String?
 
@@ -58,21 +59,24 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
     }
 
     internal var _intents: [Intent] = []
-    internal(set) var properties: [Item.Property] = []
+    internal(set) var traits: [Item.Trait] = []
     
     // MARK: Item Property Helpers
     var isGettable: Bool {
-        return self.properties.contains(.Gettable)
+        return self.traits.contains(.Gettable)
     }
 
     var isRenderable: Bool {
-        return self.properties.contains(.Renderable)
+        return self.traits.contains(.Renderable)
     }
 
     init(name: String) {
         self.name = name
 
         super.init()
+        
+        // Set some default properties
+        self.environmentalText = "\(self.named(article: "a")) is here"
         
         self._intents.append(ExamineItemIntent(item: self))
         self._intents.append(GetItemIntent(item: self))
@@ -91,13 +95,13 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
         self._intents.append(LookInsideItemIntent(item: self))
     }
 
-    convenience init(name: String, properties: [Item.Property]) {
+    convenience init(name: String, properties: [Item.Trait]) {
         self.init(name: name)
 
-        self.properties = properties
+        self.traits = properties
     }
 
-    convenience init(name: String, description: String, properties: [Item.Property]) {
+    convenience init(name: String, description: String, properties: [Item.Trait]) {
         self.init(name: name, properties: properties)
 
         self._description = description
@@ -107,6 +111,10 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
         self.init(name: name)
 
         self.description = description
+    }
+    
+    func add(trait: Item.Trait) {
+        self.traits.append(trait)
     }
 
     func named(article: String = "the") -> String {
@@ -135,7 +143,7 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
 
     // MARK: Renderable
     func render() {
-        if let text = self.renderText {
+        if let text = self.environmentalText {
             Game.shared.display(text)
         }
     }
@@ -143,8 +151,8 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
     // MARK: Openable
     var openState: OpenState = .Closed
     var openableDelegate: OpenableItemDelegate?
-    var isOpenable: Bool { return self.properties.contains(.Openable) }
-    var isClosable: Bool { return self.properties.contains(.Openable) }
+    var isOpenable: Bool { return self.traits.contains(.Openable) }
+    var isClosable: Bool { return self.traits.contains(.Openable) }
 
     func open() -> Bool {
         // By default, items cannot be opened
@@ -187,8 +195,8 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
     // MARK: Lockable
     var lockState: LockState = .Unlocked
     var lockableDelegate: LockableItemDelegate?
-    var isLockable: Bool { return self.properties.contains(.Lockable) }
-    var isUnlockable: Bool { return self.properties.contains(.Lockable) }
+    var isLockable: Bool { return self.traits.contains(.Lockable) }
+    var isUnlockable: Bool { return self.traits.contains(.Lockable) }
 
     func lock() -> Bool {
         if !self.isLockable { Game.shared.display("The \(self.name) doesn't have a lock."); return false }
@@ -226,7 +234,7 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
     var containerDelegate: ContainerDelegate?
 
     var isContainer: Bool {
-        return self.properties.contains(.Container)
+        return self.traits.contains(.Container)
     }
 
     var interiorDescription: String {

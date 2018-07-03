@@ -48,6 +48,26 @@ class Patd: GameProtocol {
                     }
                 }
                 
+                if let items = roomData.items {
+                    for itemData in items {
+                        let item = Item(name: itemData.name)
+                        item.description = itemData.description
+                        
+                        item.environmentalText = itemData.environmentalText
+                        
+                        if let traits = itemData.traits {
+                            for traitData in traits {
+                                // FIXME: Don't allow bad traits, throw probably
+                                guard let trait = Item.Trait(rawValue: traitData) else { continue }
+                                
+                                item.add(trait: trait)
+                            }
+                        }
+                        
+                        room.add(item: item)                        
+                    }
+                }
+                
                 Game.shared.add(room: room)
             }
             

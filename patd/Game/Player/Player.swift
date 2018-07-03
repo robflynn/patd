@@ -40,6 +40,8 @@ class Player: GameObject {
     init(room: Room) {
         self.room = room
 
+        self._intents.append(InventoryIntent())
+        
         super.init()
     }
 

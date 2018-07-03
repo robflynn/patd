@@ -1,26 +1,54 @@
 {
     "rooms": [
-              {
-              "id": "wohouse",
-              "name": "West of House",
-              "description": "This is an open field west of a white house, with a boarded front door.",
-              "exits": [
-                        {
-                        "direction": "west",
-                        "target": "forest1"
-                        }
-                        ]
-              },
-              {
-              "id": "forest1",
-              "name": "Forest",
-              "description": "This is a forest, with trees in all directions around you. You can see sunlight to the east.",
-              "exits": [
-                        {
-                        "direction": "east",
-                        "target": "wohouse"
-                        }
-                        ]
-              }
-              ]
+        {
+            "id": "wohouse",
+            "name": "West of House",
+            "description": "This is an open field west of a white house, with a boarded front door.",
+            "exits": [ { "direction": "west", "target": "forest1" } ],
+            "items": [
+                {
+                    "name": "mailbox",
+                    "description": "A small, red, wooden mailbox.",
+                    "traits": ["renderable", "openable"],
+                    "environmentalText": "There is a small mailbox here."
+                }
+            ]
+        },
+        {
+            "id": "forest1",
+            "name": "Forest",
+            "description": "This is a forest, with trees in all directions around you. You can see sunlight to the east.",
+            "exits": [
+                {
+                    "direction": "east",
+                    "target": "wohouse"
+                },
+                {
+                    "direction": "west",
+                    "target": "forest2"
+                }
+            ]
+        },
+        {
+            "id": "forest2",
+            "name": "Forest",
+            "description": "This is a forest, with trees in all directions around you.",
+            "exits": [
+                {
+                    "direction": "east",
+                    "target": "forest1"
+                },
+                {
+                    "direction": "west",
+                    "target": "forest3"
+                }
+            ]
+        },
+        {
+            "id": "forest3",
+            "name": "Forest",
+            "description": "This is a forest, with trees in all directions around you.",
+            "exits": [ { "direction": "east", "target": "forest2" } ]
+        }
+    ]
 }

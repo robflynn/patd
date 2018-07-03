@@ -19,11 +19,19 @@ final class MapParser {
         var target: GameObjectID
     }
     
+    struct ItemData: Decodable {
+        var name: String
+        var description: String
+        var traits: [String]?
+        var environmentalText: String?
+    }
+    
     struct RoomData: Decodable {
         var id: GameObjectID?
         var name: String
         var description: String
         var exits: [ExitData]?
+        var items: [ItemData]?
     }
     
     struct Map: Decodable {

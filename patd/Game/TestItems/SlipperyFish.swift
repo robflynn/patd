@@ -23,8 +23,8 @@ class SlipperFish: Item {
         super.init(name: "slippery fish")
 
         self.description = "it is slippery and fishy because it is a slippery fish."
-        self.properties = [.Gettable, .Renderable]
-        self.renderText = "There is a slippery fish on the ground."
+        self.traits = [.Gettable, .Renderable]
+        self.environmentalText = "There is a slippery fish on the ground."
 
         self._intents.append(PushFishIntent())
     }

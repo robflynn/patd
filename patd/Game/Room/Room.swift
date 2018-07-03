@@ -108,9 +108,8 @@ class Room: GameObject, Container, ContainerDelegate {
         let intent = TakeExitIntent(with: exit)
         self.addIntent(intent)
     }
-
+    
     // MARK: Container
-
     var interiorDescription: String {
         return description
     }

@@ -60,9 +60,9 @@ class Mailbox: Item {
     init() {
         super.init(name: "mailbox")
 
-        self.properties = [.Openable, .Renderable, .Container]
+        self.traits = [.Openable, .Renderable, .Container]
         self.description = "a small, red, wooden mailbox"
-        self.renderText = "There is a small mailbox here."
+        self.environmentalText = "There is a small mailbox here."
 
         let leaflet = Leaflet()
         self.add(item: leaflet)
