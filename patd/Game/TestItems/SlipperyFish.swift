@@ -18,10 +18,10 @@ class PushFishIntent: Intent {
     }
 }
 
-class SlipperFish: Item {
+class SlipperyFish: Item {
     init() {
         super.init(name: "slippery fish")
-
+        
         self.description = "it is slippery and fishy because it is a slippery fish."
         self.traits = [.Gettable, .Renderable]
         self.environmentalText = "There is a slippery fish on the ground."

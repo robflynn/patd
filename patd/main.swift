@@ -24,11 +24,34 @@ class Patd: GameProtocol {
         }
     }
     
-    func createItem(fromData itemData: MapParser.ItemData) -> Item {
-        let item = Item(name: itemData.name)
-        item.description = itemData.description
+    func stringClassFromString(_ className: String) -> AnyClass! {
         
-        item.environmentalText = itemData.environmentalText
+        /// get namespace
+        let namespace = Bundle.main.infoDictionary!["CFBundleExecutable"] as! String;
+        
+        /// get 'anyClass' with classname and namespace
+        let cls: AnyClass = NSClassFromString("\(namespace).\(className)")!;
+        
+        // return AnyClass!
+        return cls;
+    }
+    
+    func createItem(fromData itemData: MapParser.ItemData) -> Item {
+        var item: Item
+        
+        // FIXME: Do some proper reflection here or decide how you want to handle custom objects.
+        switch(itemData.object) {
+        case "Mailbox":
+            item = Mailbox()
+        case "SlipperyFish":
+            item = SlipperyFish()
+        default:
+            // FIXME: We don't know how to return this object type
+            item = Item(name: itemData.name)
+        }    
+        
+        if let description = itemData.description { item.description = description }
+        if let envText = itemData.environmentalText { item.environmentalText = envText }
         
         if let traits = itemData.traits {
             for traitData in traits {
@@ -43,7 +66,6 @@ class Patd: GameProtocol {
             for childItemData in childItems {
                 let childItem = self.createItem(fromData: childItemData)
                 
-            
                 item.add(item: childItem)
             }
         }

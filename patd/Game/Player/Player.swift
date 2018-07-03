@@ -24,14 +24,14 @@ class Player: GameObject {
 
     var intents: [Intent] {
         var tmp: [[Intent]] = []
-
+        
         tmp.append(self._intents)
 
         for item in self._inventory {
             Logger.debug(" -> \(item.name)")
             tmp.append(item._intents)
         }
-
+       
         return tmp.flatMap{ $0 }
     }
 

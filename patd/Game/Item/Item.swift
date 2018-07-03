@@ -72,8 +72,10 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
 
     init(name: String) {
         self.name = name
-
+   
         super.init()
+    
+        self.description = "There's nothing special about it."
         
         // Set some default properties
         self.environmentalText = "\(self.named(article: "a")) is here"
@@ -94,7 +96,7 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
         // Container
         self._intents.append(LookInsideItemIntent(item: self))
     }
-
+    
     convenience init(name: String, properties: [Item.Trait]) {
         self.init(name: name)
 

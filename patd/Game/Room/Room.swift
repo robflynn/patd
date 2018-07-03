@@ -43,9 +43,7 @@ class Room: GameObject, Container, ContainerDelegate {
         self._intents.append(ExamineRoomIntent())
     }
 
-    func render() {
-        
-        Game.shared.display("ID: \(Id)")
+    func render() {    
         Game.shared.display(name)
         Game.shared.display(description)
 

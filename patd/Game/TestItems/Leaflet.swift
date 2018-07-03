@@ -9,6 +9,7 @@
 class Leaflet: Item {
     init() {
         super.init(name: "leaflet")
+        
         self.description = """
 "WELCOME TO ZORK!
 
@@ -17,6 +18,6 @@ ZORK is a game of adventure, danger, and low cunning. In it you will explore som
 
         self.traits = [.Gettable]
 
-        self._intents = [GetItemIntent(item: self), ReadItemIntent(item: self)]
+        self._intents = [GetItemIntent(item: self), ReadItemIntent(item: self), ExamineItemIntent(item: self)]
     }
 }
