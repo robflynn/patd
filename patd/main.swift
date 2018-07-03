@@ -37,18 +37,12 @@ class Patd: GameProtocol {
                 
                 if let exits = roomData.exits {
                     for exitData in exits {
-                        
-                        // Let's just ignore bad exits for now, later we'll probably want to throw an error
-                        // We'll want to be able to reference exits to rooms that may not yet be loaded
-                        // so ....
-                        guard let targetRoom = Game.shared.room(withID: exitData.target) else { continue }
-                        
-                        // Don't allow invalid directions
+                        // FIXME: Don't allow invalid directions, we'll want to throw some kind of error here
                         guard let direction = Direction(rawValue: exitData.direction) else { continue }
                         
-                        let exit = Exit(direction: direction, target: targetRoom)
+                        let exit = Exit(direction: direction, target: exitData.target)
                         
-                        room.add(exit: exit, mutual: exitData.mutual)
+                        room.add(exit: exit)
                     }
                 }
                 
@@ -62,6 +56,7 @@ class Patd: GameProtocol {
             
             return true
         } catch {
+            print(error)
             return false
         }
     }

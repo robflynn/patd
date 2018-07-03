@@ -30,7 +30,15 @@ class TakeExitIntent: Intent {
     }
 
     func execute() -> Bool {
-        Game.shared.player.room = self.exit.target
+        guard let targetRoom = Game.shared.room(withID: exit.target) else {
+            // FIXME: The room doesn't exist, we need to know about. Do we want to store exits separately or just do a validation pass at the end of parsing?
+            
+            Logger.error("Could not find room: \(exit.target)")
+            
+            return false
+        }
+        
+        Game.shared.player.room = targetRoom
         Game.shared.currentRoom.render()
 
         return true

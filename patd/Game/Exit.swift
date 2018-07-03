@@ -10,5 +10,9 @@ import Foundation
 
 struct Exit {
     var direction: Direction
-    var target: Room
+    var target: GameObjectID
+    
+    var targetRoom: Room? {
+        return Game.shared.room(withID: target)
+    }
 }

@@ -19,16 +19,22 @@ final class MapParser {
         {
             "id": "wohouse",
             "name": "West of House",
-            "description": "This is an open field west of a white house, with a boarded front door."
+            "description": "This is an open field west of a white house, with a boarded front door.",
+            "exits": [
+                {
+                    "direction": "west",
+                    "target": "forest1"
+                }
+            ]
         },
         {
+            "id": "forest1",
             "name": "Forest",
             "description": "This is a forest, with trees in all directions around you. You can see sunlight to the east.",
             "exits": [
                 {
                     "direction": "east",
                     "target": "wohouse",
-                    "mutual": true
                 }
             ]
         }
@@ -40,7 +46,6 @@ final class MapParser {
         var id: GameObjectID?
         var direction: String
         var target: GameObjectID
-        var mutual: Bool = false
     }
     
     struct RoomData: Decodable {
@@ -60,7 +65,7 @@ final class MapParser {
         
         guard let map = try? JSONDecoder().decode(Map.self, from: data) else {
             print("There was some kind of error parsing the map.")
-            
+
             throw MapParsingError.unknownError
         }
 

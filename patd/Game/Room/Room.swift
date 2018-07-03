@@ -109,16 +109,6 @@ class Room: GameObject, Container, ContainerDelegate {
         self.addIntent(intent)
     }
 
-    func add(exit: Exit, mutual: Bool) {
-        self.add(exit: exit)
-
-        if (mutual) {
-            let returnExit = Exit(direction: exit.direction.Opposite, target: self)
-            
-            exit.target.add(exit: returnExit)
-        }
-    }
-
     // MARK: Container
 
     var interiorDescription: String {
