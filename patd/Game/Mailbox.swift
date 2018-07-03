@@ -53,11 +53,10 @@ class Mailbox: Item {
 
         self.leafIntent = GetItemIntent(item: leaflet)
         self.leafIntent?.hooble = {
-            () -> Bool in
-                self.remove(item: leaflet)
-                Game.shared.player.add(toInventory: leaflet)
+            self.remove(item: leaflet)
+            Game.shared.player.add(toInventory: leaflet)
 
-                return true
+            return true
         }
     }
 
