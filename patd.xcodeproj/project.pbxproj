@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD104EED20EBC4AD0095044F /* MapParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD104EEC20EBC4AD0095044F /* MapParser.swift */; };
 		FD5F558220E9CF1C00E6BD78 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5F558120E9CF1C00E6BD78 /* Item.swift */; };
 		FDA5679D20E9F33A001BF074 /* OpenItemIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA5679C20E9F33A001BF074 /* OpenItemIntent.swift */; };
 		FDA5679F20E9F34E001BF074 /* GetItemIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA5679E20E9F34E001BF074 /* GetItemIntent.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FD104EEC20EBC4AD0095044F /* MapParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapParser.swift; sourceTree = "<group>"; };
 		FD5F558120E9CF1C00E6BD78 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		FDA5679C20E9F33A001BF074 /* OpenItemIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenItemIntent.swift; sourceTree = "<group>"; };
 		FDA5679E20E9F34E001BF074 /* GetItemIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetItemIntent.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			children = (
 				FDC870EB20E99A5B00A5311A /* Game */,
 				FDC870D520E9559B00A5311A /* main.swift */,
+				FD104EEC20EBC4AD0095044F /* MapParser.swift */,
 			);
 			path = patd;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				FDC870E120E95A3F00A5311A /* Player.swift in Sources */,
 				FDA567B720E9FC3B001BF074 /* UnlockItemIntent.swift in Sources */,
 				FDC870D620E9559B00A5311A /* main.swift in Sources */,
+				FD104EED20EBC4AD0095044F /* MapParser.swift in Sources */,
 				FDC870DF20E956B900A5311A /* Logger.swift in Sources */,
 				FDA5679F20E9F34E001BF074 /* GetItemIntent.swift in Sources */,
 				FDA567AF20E9F4C5001BF074 /* Intent.swift in Sources */,

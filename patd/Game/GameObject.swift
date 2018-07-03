@@ -8,10 +8,10 @@
 
 import Foundation
 
-typealias ObjectID = UUID
+typealias GameObjectID = String
 
 class GameObject: Equatable {
-    var Id: ObjectID = ObjectID()
+    var Id: GameObjectID
 
     let instantiatedAt: Date = Date()
     var instanceAge: TimeInterval {
@@ -19,6 +19,10 @@ class GameObject: Equatable {
     }
 
     static func == (lhs: GameObject, rhs: GameObject) -> Bool {
-        return lhs.Id.uuidString == rhs.Id.uuidString
+        return lhs.Id == rhs.Id
+    }
+    
+    init() {
+        self.Id = UUID().uuidString
     }
 }

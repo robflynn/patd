@@ -44,6 +44,8 @@ class Room: GameObject, Container, ContainerDelegate {
     }
 
     func render() {
+        
+        Game.shared.display("ID: \(Id)")
         Game.shared.display(name)
         Game.shared.display(description)
 

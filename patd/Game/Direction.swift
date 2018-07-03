@@ -7,14 +7,14 @@
 //
 
 enum Direction: String {
-    case North
-    case NorthEast
-    case East
-    case SouthEast
-    case South
-    case SouthWest
-    case West
-    case NorthWest
+    case North = "north"
+    case NorthEast = "northeast"
+    case East = "east"
+    case SouthEast = "southeast"
+    case South = "south"
+    case SouthWest = "southwest"
+    case West = "west"
+    case NorthWest = "northwest"
 
     var Name: String {
         return self.rawValue.lowercased()

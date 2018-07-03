@@ -58,12 +58,7 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
     }
 
     internal var _intents: [Intent] = []
-    internal(set) var properties: [Item.Property] = [] {
-        didSet {
-            print("==> Prop was set")
-            print(properties)
-        }
-    }
+    internal(set) var properties: [Item.Property] = []
     
     // MARK: Item Property Helpers
     var isGettable: Bool {

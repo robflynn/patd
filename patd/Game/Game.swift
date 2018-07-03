@@ -34,7 +34,7 @@ class Game: RoomDelegate {
     var player: Player
     var intents: [Intent] = []
 
-    private var rooms: [Room] = []
+    private(set) var rooms: [Room] = []
     private var moves: Int = 0
     private var displayBuffer: String = ""
 
@@ -53,42 +53,26 @@ class Game: RoomDelegate {
 
     init() {
         Logger.debug("Game loading")
-
-        let wohouse = Room()
-        wohouse.name = "West of House"
-        wohouse.description = "This is an open field west of a white house, with a boarded front door."
-
-        var mailbox = Mailbox()
-        wohouse.add(item: mailbox)
-
-        wohouse.add(item: Item(name: "house", description: "The house is a beautiful colonial house which is painted white. It is clear that the owners must have been extremely wealthy."))
-        wohouse.add(item: Item(name: "door", properties: [.Openable]))
-
-
-        let forest1 = Room()
-        forest1.name = "Forest"
-        forest1.description = "This is a forest, with trees in all directions around you. You can see sunlight to the east."
-
-        let exit = Exit(direction: .West, target: forest1)
-        wohouse.add(exit: exit, mutual: true)
-
-        let forest2 = Room()
-        forest2.name = "Forest"
-        forest2.description = "This is a forest, with trees in all directions around you"
-
-        let exit2 = Exit(direction: .West, target: forest2)
-        forest1.add(exit: exit2, mutual: true)
-
-
-        // Spawn the player
-        self.player = Player(room: wohouse)
+        
+        // FIXME: Fix this silly requirement
+        let tmpRoom = Room()
+        self.player = Player(room: tmpRoom)
 
         self.add(intent: QuitGameIntent())
         self.add(intent: HelpIntent())
-
         self.add(intent: IntentsIntent())
 
         Logger.debug("Game instatiated")
+    }
+    
+    func room(withID id: GameObjectID) -> Room? {
+        for room in rooms {
+            if room.Id == id {
+                return room
+            }
+        }
+        
+        return nil
     }
 
     func display(_ message: String) {
@@ -214,6 +198,10 @@ class Game: RoomDelegate {
     }
 
     // MARK: Room
+    func add(room: Room) {
+        self.rooms.append(room)
+    }
+    
     func room(entered room: Room) {
         Logger.debug("Entered room: ", room.name)
         
