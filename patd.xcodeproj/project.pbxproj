@@ -21,6 +21,7 @@
 		FDA567B720E9FC3B001BF074 /* UnlockItemIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA567B620E9FC3B001BF074 /* UnlockItemIntent.swift */; };
 		FDA567B920EAD929001BF074 /* Lockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA567B820EAD929001BF074 /* Lockable.swift */; };
 		FDA567BE20EAE90D001BF074 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA567BD20EAE90D001BF074 /* Container.swift */; };
+		FDA567C120EB0733001BF074 /* SlipperyFish.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA567C020EB0733001BF074 /* SlipperyFish.swift */; };
 		FDC870D620E9559B00A5311A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870D520E9559B00A5311A /* main.swift */; };
 		FDC870DD20E956A600A5311A /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870DC20E956A600A5311A /* Game.swift */; };
 		FDC870DF20E956B900A5311A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC870DE20E956B900A5311A /* Logger.swift */; };
@@ -61,6 +62,7 @@
 		FDA567B620E9FC3B001BF074 /* UnlockItemIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockItemIntent.swift; sourceTree = "<group>"; };
 		FDA567B820EAD929001BF074 /* Lockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lockable.swift; sourceTree = "<group>"; };
 		FDA567BD20EAE90D001BF074 /* Container.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
+		FDA567C020EB0733001BF074 /* SlipperyFish.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipperyFish.swift; sourceTree = "<group>"; };
 		FDC870D220E9559B00A5311A /* patd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = patd; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDC870D520E9559B00A5311A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		FDC870DC20E956A600A5311A /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -152,6 +154,14 @@
 			path = Intents;
 			sourceTree = "<group>";
 		};
+		FDA567BF20EB071E001BF074 /* TestItems */ = {
+			isa = PBXGroup;
+			children = (
+				FDA567C020EB0733001BF074 /* SlipperyFish.swift */,
+			);
+			path = TestItems;
+			sourceTree = "<group>";
+		};
 		FDC870C920E9559B00A5311A = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +194,7 @@
 				FDA567B020E9F4EF001BF074 /* Player */,
 				FDA567A820E9F418001BF074 /* Intents */,
 				FDA567A420E9F3DA001BF074 /* Room */,
+				FDA567BF20EB071E001BF074 /* TestItems */,
 				FDA5679A20E9F31F001BF074 /* Item */,
 				FDC870DC20E956A600A5311A /* Game.swift */,
 				FDC870E920E99A4500A5311A /* Exit.swift */,
@@ -280,6 +291,7 @@
 				FDA567A320E9F38A001BF074 /* DropItemIntent.swift in Sources */,
 				FDC870E320E95B3000A5311A /* Room.swift in Sources */,
 				FDA567AA20E9F422001BF074 /* QuitGameIntent.swift in Sources */,
+				FDA567C120EB0733001BF074 /* SlipperyFish.swift in Sources */,
 				FDD87BE320EA99E300E7CAC8 /* Mailbox.swift in Sources */,
 				FDA5679D20E9F33A001BF074 /* OpenItemIntent.swift in Sources */,
 				FDA567A720E9F3EE001BF074 /* ExamineRoomIntent.swift in Sources */,

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Cocoa
 
 enum GameState {
     case NotRunning
@@ -68,6 +69,9 @@ class Game: RoomDelegate {
         let forest1 = Room()
         forest1.name = "Forest"
         forest1.description = "This is a forest, with trees in all directions around you"
+
+        let fish = SlipperFish()
+        forest1.add(item: fish)
 
         let exit = Exit(direction: .West, target: forest1)
         wohouse.add(exit: exit, mutual: true)
