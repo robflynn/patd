@@ -23,99 +23,16 @@ class Patd: GameProtocol {
             print("There was an error reading the map data. Thing's are not going to work correctly.")
         }
     }
-    
-    func stringClassFromString(_ className: String) -> AnyClass! {
         
-        /// get namespace
-        let namespace = Bundle.main.infoDictionary!["CFBundleExecutable"] as! String;
-        
-        /// get 'anyClass' with classname and namespace
-        let cls: AnyClass = NSClassFromString("\(namespace).\(className)")!;
-        
-        // return AnyClass!
-        return cls;
-    }
-    
-    func createItem(fromData itemData: MapParser.ItemData) -> Item {
-        var item: Item
-        
-        // FIXME: Do some proper reflection here or decide how you want to handle custom objects.
-        switch(itemData.object) {
-        case "Mailbox":
-            item = Mailbox()
-        case "SlipperyFish":
-            item = SlipperyFish()
-        default:
-            // FIXME: We don't know how to return this object type
-            item = Item(name: itemData.name)
-        }    
-        
-        if let description = itemData.description { item.description = description }
-        if let envText = itemData.environmentalText { item.environmentalText = envText }
-        
-        if let traits = itemData.traits {
-            for traitData in traits {
-                // FIXME: Don't allow bad traits, throw probably
-                guard let trait = Item.Trait(rawValue: traitData) else { continue }
-                
-                item.add(trait: trait)
-            }
-        }
-
-        if let childItems = itemData.items {
-            for childItemData in childItems {
-                let childItem = self.createItem(fromData: childItemData)
-                
-                item.add(item: childItem)
-            }
-        }
-        
-        return item
-    }
-    
-    func createRoom(fromData roomData: MapParser.RoomData) -> Room {
-        let room = Room()
-        room.name = roomData.name
-        room.description = roomData.description
-        
-        if let id = roomData.id { room.Id = id }
-        
-        if let exits = roomData.exits {
-            for exitData in exits {
-                // FIXME: Don't allow invalid directions, we'll want to throw some kind of error here
-                guard let direction = Direction(rawValue: exitData.direction) else { continue }
-                
-                let exit = Exit(direction: direction, target: exitData.target)
-                
-                room.add(exit: exit)
-            }
-        }
-        
-        if let items = roomData.items {
-            for itemData in items {
-                
-                let item = self.createItem(fromData: itemData)
-                
-                room.add(item: item)
-            }
-        }
-        
-        return room
-    }
-    
-    
     func loadGameData() -> Bool {
         do {
             // FIXME: Couldn't find map file.  Handle This
             guard let mapJSON: String = try String(contentsOfFile: "map.json") else { return false }
-            guard let  map = try? MapParser.parse(jsonString: mapJSON) else { return false }
-            
-            
-            for roomData in map.rooms {
-                let room = self.createRoom(fromData: roomData)
-                Game.shared.add(room: room)
-            }
-            
+
+            let loader = GameLoader()
+
+            try loader.parse(jsonString: mapJSON)
+
             // Let's just drop the player in the first room if one exists
             if let firstRoom = Game.shared.rooms.first {
                 Game.shared.player.room = firstRoom
@@ -138,8 +55,8 @@ class Patd: GameProtocol {
 
     func run() {
         game.run()
-
         game.render()
+
         while gameState == .Running {
             // Exit if we can't get input from the user, handle with proper exceptions later
             guard let input = self.getUserInput() else { return }
@@ -148,6 +65,9 @@ class Patd: GameProtocol {
         }
     }
 
+    func render(message: String) {
+        print(message)
+    }
 
     // MARK: GameProtocol
     func game(exitedState state: GameState) {
@@ -163,6 +83,9 @@ class Patd: GameProtocol {
     func game(playerDidExitRoom room: Room) {
     }
 
+    func game(gameDidUpdate message: String) {
+        render(message: message)
+    }
 }
 
 Patd().run()

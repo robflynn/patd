@@ -31,41 +31,56 @@ class Room: GameObject, Container, ContainerDelegate {
         self.add(intent: ExamineRoomIntent())
     }
 
-    func examine() {    
-        Game.shared.display(name)
-        Game.shared.display(description)
+    func examine() -> Bool {
+        if let output = self.render() {
+            Game.shared.display(output)
+
+            return true
+        }
+
+        return false
+    }
+
+    func render() -> String? {
+        self.buffer(name)
+        self.buffer(description)
 
         for item in items {
             if item.isRenderable {
+                // FIXME: We need to
                 item.render()
             }
         }
 
+        // FIXME: Render Items
         renderItems()
+
+        // FIXME: Handle Exits
         renderExits()
+
+        return self.flushBuffer()
     }
 
     private func renderItems() {
-        Game.shared.display("")
-
+        // FIXME: Just because something is gettable doesn't mean it should be sitting on the ground, make some other indicator for this
+        // FIXME: Maybe a "Dropped" state for an item, and if is dropped then it shows up in the item description. Yeah. I like that.
+        // FIXME: Thanks for talking with me today, self.
         let visibleItems = self.items.filter { $0.isGettable }
 
-        if !visibleItems.isEmpty {
-            Game.shared.display("Items:  \(visibleItems.map { $0.name }.joined(separator: ", "))")
-        }
+        if visibleItems.isEmpty { return }
+
+        self.buffer("")
+
+        self.buffer("On the ground you see \(visibleItems.listified()).")
     }
 
     private func renderExits() {
-        Game.shared.display("")
+        if self.exits.isEmpty { return }
 
-        if self.exits.isEmpty {
-            Game.shared.display("There are no obvious exits.")
+        buffer("")
 
-            return
-        }
-
-        Game.shared.display("Obvious exits are: ", noReturn: true)
-        Game.shared.display(self.exits.map { $0.direction.Name }.joined(separator: ", "))
+        buffer("Obvious exits are: ", noReturn: true)
+        buffer(self.exits.map { $0.direction.Name }.joined(separator: ", "))
     }
 
     func add(player: Player) {

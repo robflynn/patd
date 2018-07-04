@@ -43,6 +43,16 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
         return self.traits.contains(.Renderable)
     }
 
+    var nameWithQuantity: String {
+        var article: String = "a"
+
+        if ["a", "e", "i", "o", "u"].contains(self.name.lowercased().characters.first) {
+            article = "an"
+        }
+
+        return self.nameWithArticle(article: article)
+    }
+
     init(name: String) {
         self.name = name
 

@@ -20,6 +20,8 @@ protocol GameProtocol {
 
     func game(playerDidEnterRoom room: Room)
     func game(playerDidExitRoom room: Room)
+
+    func game(gameDidUpdate message: String)
 }
 
 struct UserRequest {
@@ -35,7 +37,6 @@ class Game: RoomDelegate {
 
     private(set) var rooms: [Room] = []
     private var moves: Int = 0
-    private var displayBuffer: String = ""
 
     var State: GameState = .NotRunning {
         didSet {
@@ -75,18 +76,7 @@ class Game: RoomDelegate {
     }
 
     func display(_ message: String) {
-        let combined = displayBuffer + message
-
-        print(combined)
-        self.displayBuffer = ""
-    }
-
-    func display(_ message: String, noReturn: Bool) {
-        if noReturn {
-            self.displayBuffer.append(message)
-        } else {
-            Game.shared.display(message)
-        }
+        self.delegate?.game(gameDidUpdate: message)
     }
 
     func registerIntent(_ intent: Intent) {
