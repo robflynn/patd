@@ -9,9 +9,11 @@
 import Foundation
 
 class QuitGameIntent: Intent {
-    var triggers: [String] = ["quit"]
+    override func triggers() -> [String] {
+        return ["quit"]
+    }
 
-    func execute() -> Bool {
+    override func execute() -> Bool {
         Game.shared.State = .Exiting
 
         return true

@@ -9,9 +9,11 @@
 import Foundation
 
 class PushFishIntent: Intent {
-    var triggers: [String] = ["use fish as door"]
+    override func triggers() -> [String] {
+        return ["use fish as door", "push fish", "push slippery fish"]
+    }
 
-    func execute() -> Bool {
+    override func execute() -> Bool {
         Game.shared.display("you push the fish. it is hard to push because it bends and makes your hands slide. you failed at using the slippery fish as a door.")
 
         return false
@@ -26,6 +28,6 @@ class SlipperyFish: Item {
         self.traits = [.Gettable, .Renderable]
         self.environmentalText = "There is a slippery fish on the ground."
 
-        self._intents.append(PushFishIntent())
+        self.add(intent: PushFishIntent())
     }
 }

@@ -9,22 +9,25 @@
 import Foundation
 
 class DropItemIntent: Intent {
-    var triggers: [String] = []
-
     var item: Item
 
     init(item: Item) {
-        let actions = ["drop"]
-
-        for action in actions {
-            self.triggers.append("\(action) \(item.name.lowercased())")
-            self.triggers.append("\(action) the \(item.name.lowercased())")
-        }
-
         self.item = item
     }
 
-    func execute() -> Bool {
+    override func triggers() -> [String] {
+        var triggers: [String] = []
+        let actions = ["drop"]
+
+        for action in actions {
+            triggers.append("\(action) \(item.name.lowercased())")
+            triggers.append("\(action) \(item.nameWithArticle().lowercased())")
+        }
+
+        return triggers
+    }
+
+    override func execute() -> Bool {
         if !Game.shared.player.isCarrying(item: item) {
             Game.shared.display("You are not carrying that.")
             return false

@@ -9,22 +9,25 @@
 import Foundation
 
 class CloseItemIntent: Intent {
-    var triggers: [String] = []
-
     var item: Item
 
     init(item: Item) {
-        let actions = ["close", "shut"]
-
-        for action in actions {
-            self.triggers.append("\(action) \(item.name.lowercased())")
-            self.triggers.append("\(action) \(item.named().lowercased())")
-        }
-
         self.item = item
     }
 
-    func execute() -> Bool {
+    override func triggers() -> [String] {
+        var triggers: [String] = []
+        let actions = ["close", "shut"]
+
+        for action in actions {
+            triggers.append("\(action) \(item.name.lowercased())")
+            triggers.append("\(action) \(item.nameWithArticle().lowercased())")
+        }
+
+        return triggers
+    }
+
+    override func execute() -> Bool {
         if !item.isClosable {
             Game.shared.display("You can't close that.")
 

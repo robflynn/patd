@@ -22,25 +22,12 @@ class Player: GameObject {
         return self._inventory
     }
 
-    var intents: [Intent] {
-        var tmp: [[Intent]] = []
-        
-        tmp.append(self._intents)
-
-        for item in self._inventory {
-            Logger.debug(" -> \(item.name)")
-            tmp.append(item._intents)
-        }
-       
-        return tmp.flatMap{ $0 }
-    }
-
-    private var _intents: [Intent] = []
+    private var intents: [Intent] = []
 
     init(room: Room) {
         self.room = room
 
-        self._intents.append(InventoryIntent())
+        self.intents.append(InventoryIntent())
         
         super.init()
     }
@@ -61,5 +48,19 @@ class Player: GameObject {
 
     func isCarrying(item: Item) -> Bool {
         return self.inventory.contains(item)
+    }
+
+    func registeredIntents() -> [Intent] {
+        var tmp: [[Intent]] = []
+
+        tmp.append(self.intents)
+
+        for item in self._inventory {
+            Logger.debug(" -> \(item.name)")
+
+            tmp.append(item.intents)
+        }
+
+        return tmp.flatMap{ $0 }
     }
 }

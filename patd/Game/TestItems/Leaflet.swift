@@ -15,9 +15,18 @@ class Leaflet: Item {
 
 ZORK is a game of adventure, danger, and low cunning. In it you will explore some of the most amazing territory ever seen by mortals. No computer should be without one!"
 """
+        self.traits = [.Gettable, .Readable]
 
-        self.traits = [.Gettable]
+        self.add(intent: ReadItemIntent(item: self))
+    }
 
-        self._intents = [GetItemIntent(item: self), ReadItemIntent(item: self), ExamineItemIntent(item: self)]
+    override func read() -> Bool {
+        if let text = description {
+            Game.shared.display(text)
+
+            return true
+        }
+
+        return false
     }
 }

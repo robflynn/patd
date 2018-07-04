@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Cocoa
 
 protocol LockableItemDelegate {
     func item(didUnlock item: Item)
@@ -18,49 +19,22 @@ protocol OpenableItemDelegate {
     func item(didClose item: Item)
 }
 
-class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, LockableItemDelegate, ContainerDelegate {
+class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDelegate, LockableItemDelegate, ContainerDelegate {
     enum Trait: String {
         case Openable = "openable"
         case Gettable = "gettable"
         case Lockable = "lockable"
         case Renderable = "renderable"
         case Container = "container"
+        case Readable = "readable"
     }
 
     var name: String
-    var description: String {
-        set {
-            self._description = newValue
-        }
-        
-        get {
-            var blurbs: [String] = []
-            
-            if let desc = self._description {
-                blurbs.append(desc)
-            } else {
-                blurbs.append("You see nothing special about the \(self.name).")
-            }
-            
-            if self.isOpenable {
-                blurbs.append("It is \(self.isOpen ? "open" : "closed").")
-            }
-            
-            return blurbs.joined(separator: " ")
-        }
-    }
-    
+    var description: String?
     var environmentalText: String?
-    
-    private var _description: String?
 
-    var intents: [Intent] {
-        return _intents
-    }
+    internal var traits: [Item.Trait] = [] 
 
-    internal var _intents: [Intent] = []
-    internal(set) var traits: [Item.Trait] = []
-    
     // MARK: Item Property Helpers
     var isGettable: Bool {
         return self.traits.contains(.Gettable)
@@ -72,29 +46,35 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
 
     init(name: String) {
         self.name = name
-   
+
         super.init()
-    
+
         self.description = "There's nothing special about it."
         
         // Set some default properties
-        self.environmentalText = "\(self.named(article: "a")) is here"
-        
-        self._intents.append(ExamineItemIntent(item: self))
-        self._intents.append(GetItemIntent(item: self))
-        self._intents.append(DropItemIntent(item: self))
+
+        // Environment-influencing objects have to say something, otherwise what's the point in setting the
+        // trait. Seeing this where it doesn't belong should be enough reminder.
+        self.environmentalText = "\(self.nameWithArticle(article: "A")) is here"
+
+        // Everything can be looked at
+        self.add(intent: ExamineItemIntent(item: self))
+
+        // Gettable
+        self.add(intent: GetItemIntent(item: self))
+        self.add(intent: DropItemIntent(item: self))
 
         // Lockable
         self.lockableDelegate = self
-        self._intents.append(UnlockItemIntent(item: self))
+        self.add(intent: UnlockItemIntent(item: self))
         
         // Openable
         self.openableDelegate = self
-        self._intents.append(OpenItemIntent(item: self))
-        self._intents.append(CloseItemIntent(item: self))
+        self.add(intent: OpenItemIntent(item: self))
+        self.add(intent: CloseItemIntent(item: self))
 
         // Container
-        self._intents.append(LookInsideItemIntent(item: self))
+        self.add(intent: LookInsideItemIntent(item: self))
     }
     
     convenience init(name: String, properties: [Item.Trait]) {
@@ -104,9 +84,10 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
     }
 
     convenience init(name: String, description: String, properties: [Item.Trait]) {
-        self.init(name: name, properties: properties)
+        self.init(name: name)
 
-        self._description = description
+        self.traits = properties
+        self.description = description
     }
 
     convenience init(name: String, description: String) {
@@ -119,28 +100,33 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
         self.traits.append(trait)
     }
 
-    func named(article: String = "the") -> String {
+    func nameWithArticle(article: String = "the") -> String {
         return "\(article) \(self.name)"
     }
 
     func isInteriorVisible() -> Bool {
-        if isContainer {
-            if isOpenable {
-                if isOpen {
-                    return true
-                }
-
-                return false
-            }
-
-            return true
-        }
+        if isContainer && isOpenable && isOpen { return true }
+        if isContainer && isOpen && isClosed { return false }
+        if isContainer { return true }
 
         return false
     }
 
+    // MARK: Intents
+    internal var intents: [Intent] = []
+
+    func registeredIntents() -> [Intent] {
+        return self.intents
+    }
+
     func add(intent: Intent) {
-        self._intents.append(intent)
+        self.intents.append(intent)
+    }
+
+    func remove(intent: Intent) {
+        if let index = self.intents.index(of: intent) {
+            self.intents.remove(at: index)
+        }
     }
 
     // MARK: Renderable
@@ -148,6 +134,56 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
         if let text = self.environmentalText {
             Game.shared.display(text)
         }
+    }
+
+    // MARK: Readable
+    var isReadable: Bool {
+        return self.traits.contains(.Readable)
+    }
+
+    var readableText: String?
+
+    func read() -> Bool {
+        if !isReadable {
+            Game.shared.display("You can't read \(self.nameWithArticle())")
+
+            return false
+        }
+
+        guard let text = self.readableText else {
+            Logger.error("Readable item with no readable text and no override!")
+            
+            return false
+        }
+
+        Game.shared.display(text)
+
+        return true
+    }
+
+    // MARK: Examine
+    func examine() -> Bool {
+        var lines: [String] = []
+
+        // An item will first show it's description if it has one
+        if let descriptionText = self.description {
+            lines.append(descriptionText)
+        }
+
+        // Let the user know if an item is openable
+        if isOpenable {
+            lines.append("It is \(self.isOpen ? "open" : "closed").")
+        }
+
+        // If we don't have anything to say, just say something generic
+        if lines.isEmpty {
+            lines.append("You see nothing special about \(self.nameWithArticle()).")
+        }
+
+        let message = lines.joined(separator: " ")
+        Game.shared.display(message)
+
+        return true
     }
     
     // MARK: Openable
@@ -245,7 +281,7 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
                 return "It's empty."
             }
 
-            return "You see " + self.items.map { $0.named(article: "a") }.joined(separator: ", ")
+            return "You see " + self.items.map { $0.nameWithArticle(article: "a") }.joined(separator: ", ")
         }
 
         return "You can't see inside it."
@@ -267,7 +303,7 @@ class Item: GameObject, Openable, Lockable, Container, OpenableItemDelegate, Loc
 
             self.containerDelegate?.container(didRemoveItem: item)
         } else {
-            // FIXME:
+            // FIXME: We don't want to assume that removing will always succeed
             Game.shared.display("------> DOES THIS SHOW UP, REMEMBER ME")
         }
     }

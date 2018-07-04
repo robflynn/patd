@@ -9,24 +9,26 @@
 import Foundation
 
 class ExamineItemIntent: Intent {
-    var triggers: [String] = []
-
     var item: Item
 
     init(item: Item) {
-        let actions = ["look", "look at", "observe", "examine", "inspect"]
-
-        for action in actions {
-            self.triggers.append("\(action) \(item.name.lowercased())")
-            self.triggers.append("\(action) the \(item.name.lowercased())")
-        }
-
         self.item = item
     }
 
-    func execute() -> Bool {
-        Game.shared.display(self.item.description)
+    override func triggers() -> [String] {
+        let actions = ["look", "look at", "observe", "examine", "inspect"]
 
-        return true
+        var triggers: [String] = []
+
+        for action in actions {
+            triggers.append("\(action) \(item.name.lowercased())")
+            triggers.append("\(action) the \(item.name.lowercased())")
+        }
+
+        return triggers
+    }
+
+    override func execute() -> Bool {
+        return self.item.examine()
     }
 }

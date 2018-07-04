@@ -7,8 +7,13 @@
 //
 
 // This intent system is going to be very basic for now
-protocol Intent {    
-    var triggers: [String] { get }
 
-    func execute() -> Bool
+class Intent: GameObject {
+    func triggers() -> [String] {
+        preconditionFailure("Must implement triggers() -> [String]")
+    }
+
+    func execute() -> Bool {
+        preconditionFailure("Must implement execute() -> Bool")
+    }
 }

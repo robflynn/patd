@@ -9,22 +9,26 @@
 import Foundation
 
 class UnlockItemIntent: Intent {
-    var triggers: [String] = []
-
     var item: Item
 
     init(item: Item) {
-        let actions = ["unlock"]
-
-        for action in actions {
-            self.triggers.append("\(action) \(item.name.lowercased())")
-            self.triggers.append("\(action) the \(item.name.lowercased())")
-        }
-
         self.item = item
     }
 
-    func execute() -> Bool {
+    override func triggers() -> [String] {
+        var triggers: [String] = []
+
+        let actions = ["unlock"]
+
+        for action in actions {
+            triggers.append("\(action) \(item.name.lowercased())")
+            triggers.append("\(action) \(item.nameWithArticle())")
+        }
+
+        return triggers
+    }
+
+    override func execute() -> Bool {
         if !item.isUnlockable {
             Game.shared.display("You can't unlock that.")
 

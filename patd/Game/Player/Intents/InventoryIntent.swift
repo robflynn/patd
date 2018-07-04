@@ -9,15 +9,11 @@
 import Foundation
 
 class InventoryIntent: Intent {
-    var triggers: [String] = []
-
-    init() {
-        triggers.append("inventory")
-        triggers.append("inv")
-        triggers.append("i")
+    override func triggers() -> [String] {
+        return ["inventory", "inv", "i"]
     }
 
-    func execute() -> Bool {
+    override func execute() -> Bool {
         if Game.shared.player.inventory.isEmpty {
             Game.shared.display("You are not carrying any items.")
         } else {

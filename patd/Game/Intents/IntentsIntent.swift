@@ -7,11 +7,13 @@
 //
 
 class IntentsIntent: Intent {
-    var triggers: [String] = ["intents", "ints"]
+    override func triggers() -> [String] {
+        return ["intents", "ints"]
+    }
 
-    func execute() -> Bool {
-        for intent in Game.shared.allIntentsAndPurposes() {
-            for trigger in intent.triggers {
+    override func execute() -> Bool {
+        for intent in Game.shared.registeredIntents() {
+            for trigger in intent.triggers() {
                 print(trigger)
             }
         }

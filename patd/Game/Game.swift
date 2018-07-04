@@ -112,7 +112,7 @@ class Game: RoomDelegate {
     func render() {
         // Render the current room
 
-        self.currentRoom.render()
+        self.currentRoom.examine()
     }
 
     // MARK: Player Input
@@ -122,7 +122,7 @@ class Game: RoomDelegate {
         guard let request = tokenizeInput(input) else { return }
 
 
-        guard let intent = processRequest(request) else {
+        guard let intent = determineUserIntent(request) else {
             Game.shared.display("Invalid command")
 
             return
@@ -151,32 +151,14 @@ class Game: RoomDelegate {
         return request
     }
 
-    func allIntentsAndPurposes() -> [Intent] {
-        return [self.intents, self.player.intents, self.currentRoom.intents].flatMap { $0 }
+    func registeredIntents() -> [Intent] {
+        return [self.intents, self.player.registeredIntents(), self.currentRoom.registeredIntents()].flatMap { $0 }
     }
 
-    private func processRequest(_ request: UserRequest) -> Intent? {
-
+    private func determineUserIntent(_ request: UserRequest) -> Intent? {
         // Check our game's intents
-        for intent in self.intents {
-            if intent.triggers.contains(request.command) {
-                return intent
-            }
-        }
-
-        // Check the current room's intents
-        // FIXME: we're going to need to rewrite this and allow objects to register their
-        //        intents directly with the game itself via some kind of intent registration
-        //        system.  This is because we'll eventually want items to be able to
-        //        register intents and this func could get ridiculous
-        for intent in self.player.intents {
-            if intent.triggers.contains(request.command) {
-                return intent
-            }
-        }
-
-        for intent in Game.shared.currentRoom.intents {
-            if intent.triggers.contains(request.command) {
+        for intent in self.registeredIntents() {
+            if intent.triggers().contains(request.command) {
                 return intent
             }
         }

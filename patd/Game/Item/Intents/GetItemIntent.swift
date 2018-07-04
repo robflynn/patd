@@ -9,22 +9,26 @@
 import Foundation
 
 class GetItemIntent: Intent {
-    var triggers: [String] = []
-
     var item: Item
 
     init(item: Item) {
-        let actions = ["get", "pick up", "loot", "grab", "fetch"]
-
-        for action in actions {
-            self.triggers.append("\(action) \(item.name.lowercased())")
-            self.triggers.append("\(action) the \(item.name.lowercased())")
-        }
-
         self.item = item
     }
 
-    func execute() -> Bool {
+    override func triggers() -> [String] {
+        var triggers: [String] = []
+
+        let actions = ["get", "pick up", "loot", "grab", "fetch"]
+
+        for action in actions {
+            triggers.append("\(action) \(item.name.lowercased())")
+            triggers.append("\(action) \(item.nameWithArticle().lowercased())")
+        }
+
+        return triggers
+    }
+
+    override func execute() -> Bool {
 
         if let hoobs = hooble {
             if hoobs() {
@@ -33,7 +37,7 @@ class GetItemIntent: Intent {
         }
 
         if !item.isGettable {
-            Game.shared.display("You cannot get \(item.named()).")
+            Game.shared.display("You cannot get \(item.nameWithArticle()).")
             return false
         }
 
@@ -43,7 +47,7 @@ class GetItemIntent: Intent {
             Game.shared.currentRoom.remove(item: item)
             Game.shared.player.add(toInventory: item)
 
-            Game.shared.display("You get \(item.named())")
+            Game.shared.display("You get \(item.nameWithArticle())")
 
             return true
         }

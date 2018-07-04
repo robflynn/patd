@@ -7,24 +7,25 @@
 //
 
 class ReadItemIntent: Intent {
-    var triggers: [String] = []
-
     var item: Item
 
     init(item: Item) {
-        let actions = ["read"]
-
-        for action in actions {
-            self.triggers.append("\(action) \(item.name.lowercased())")
-            self.triggers.append("\(action) \(item.named()) \(item.name.lowercased())")
-        }
-
         self.item = item
     }
 
-    func execute() -> Bool {
-        Game.shared.display(self.item.description)
+    override func triggers() -> [String] {
+        var commands: [String] = []
+        let actions = ["read"]
 
-        return true
+        for action in actions {
+            commands.append("\(action) \(item.name.lowercased())")
+            commands.append("\(action) \(item.nameWithArticle().lowercased())")
+        }
+
+        return commands
+    }
+
+    override func execute() -> Bool {
+        return self.item.read()
     }
 }

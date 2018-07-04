@@ -47,16 +47,6 @@ class Mailbox: Item {
 
     var leafIntent: LeafletIntent?
 
-    override var intents: [Intent] {
-        if containsLeaflet && isOpen {
-            if let intent = leafIntent {
-                return _intents + [intent]
-            }
-        }
-
-        return _intents
-    }
-
     init() {
         super.init(name: "mailbox")
         
@@ -68,10 +58,21 @@ class Mailbox: Item {
         let leaflet = Leaflet()
         self.add(item: leaflet)
 
-        // FIXME: Use property observer on properties to auto register and unregister these
-        self._intents = [LookInsideItemIntent(item: self), OpenItemIntent(item: self), CloseItemIntent(item: self)]
+        self.add(intent: LookInsideItemIntent(item: self))
+        self.add(intent: OpenItemIntent(item: self))
+        self.add(intent: CloseItemIntent(item: self))
 
         self.leafIntent = LeafletIntent(mailbox: self, leaflet: leaflet)
+    }
+
+    override func registeredIntents() -> [Intent] {
+        if containsLeaflet && isOpen {
+            if let intent = leafIntent {
+                return intents + [intent]
+            }
+        }
+
+        return intents
     }
 
     override func item(didOpen item: Item) {

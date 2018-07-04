@@ -21,29 +21,17 @@ class Room: GameObject, Container, ContainerDelegate {
     var delegate: RoomDelegate?
     var items: [Item] = []
 
-    private var _intents: [Intent] = []
-
-    var intents: [Intent] {
-        var tmp: [[Intent]] = []
-
-        tmp.append(self._intents)
-
-        for item in self.items {
-            tmp.append(item.intents)
-        }
-
-        return tmp.flatMap{ $0 }
-    }
+    private var intents: [Intent] = []
 
     private(set) var exits: [Exit] = []
 
     override init() {
         super.init()
 
-        self._intents.append(ExamineRoomIntent())
+        self.add(intent: ExamineRoomIntent())
     }
 
-    func render() {    
+    func examine() {    
         Game.shared.display(name)
         Game.shared.display(description)
 
@@ -103,8 +91,19 @@ class Room: GameObject, Container, ContainerDelegate {
     func add(exit: Exit) {
         self.exits.append(exit)
 
-        let intent = TakeExitIntent(with: exit)
-        self.addIntent(intent)
+        self.add(intent: TakeExitIntent(with: exit))
+    }
+
+    func registeredIntents() -> [Intent] {
+        var tmp: [[Intent]] = []
+
+        tmp.append(self.intents)
+
+        for item in self.items {
+            tmp.append(item.registeredIntents())
+        }
+
+        return tmp.flatMap{ $0 }
     }
     
     // MARK: Container
@@ -126,8 +125,8 @@ class Room: GameObject, Container, ContainerDelegate {
         return self.items.contains(item)
     }
 
-    private func addIntent(_ intent: Intent) {
-        _intents.append(intent)
+    private func add(intent: Intent) {
+        self.intents.append(intent)
     }
 
     func container(didAcceptItem item: Item) {

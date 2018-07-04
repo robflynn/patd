@@ -9,10 +9,15 @@
 import Foundation
 
 class TakeExitIntent: Intent {
-    var triggers: [String] = []
     private(set) var exit: Exit
 
     init(with exit: Exit) {
+        self.exit = exit
+    }
+
+    override func triggers() -> [String] {
+        var triggers: [String] = []
+
         // Add the direction as a trigger
         triggers.append(exit.direction.Name)
 
@@ -26,10 +31,10 @@ class TakeExitIntent: Intent {
         triggers.append("take \(exit.direction.Name.lowercased()) exit")
         triggers.append("take the \(exit.direction.Name.lowercased()) exit")
 
-        self.exit = exit
+        return triggers
     }
 
-    func execute() -> Bool {
+    override func execute() -> Bool {
         guard let targetRoom = Game.shared.room(withID: exit.target) else {
             // FIXME: The room doesn't exist, we need to know about. Do we want to store exits separately or just do a validation pass at the end of parsing?
             
@@ -39,7 +44,7 @@ class TakeExitIntent: Intent {
         }
         
         Game.shared.player.room = targetRoom
-        Game.shared.currentRoom.render()
+        Game.shared.currentRoom.examine()
 
         return true
     }

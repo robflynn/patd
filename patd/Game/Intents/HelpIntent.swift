@@ -7,9 +7,12 @@
 //
 
 class HelpIntent: Intent {
-    var triggers: [String] = ["help"]
 
-    func execute() -> Bool {
+    override func triggers() -> [String] {
+        return ["help", "?"]
+    }
+
+    override func execute() -> Bool {
         Game.shared.display("We will eventually have a help screen that displays here.")
 
         return true
