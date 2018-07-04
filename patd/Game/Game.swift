@@ -23,11 +23,7 @@ protocol GameProtocol {
     func game(gameDidUpdate message: String)
 }
 
-struct UserRequest {
-    var action: String
-    var arguments: [String]
-    var command: String
-}
+typealias UserRequest = String
 
 class Game: RoomDelegate {
     var delegate: GameProtocol?
@@ -107,10 +103,10 @@ class Game: RoomDelegate {
     func handlePlayerInput(_ input: String) {
         Logger.debug("Processing player input - > ", input)
 
-        guard let request = tokenizeInput(input) else { return }
+        let request = UserRequest(input)
 
+        guard let intent = determineUserIntent(forRequest: request) else {
 
-        guard let intent = determineUserIntent(request) else {
             Game.shared.display("Invalid command")
 
             return
@@ -125,28 +121,15 @@ class Game: RoomDelegate {
         }
     }
 
-    private func tokenizeInput(_ input: String) -> UserRequest? {
-        var tokens = input.lowercased().split(separator: " ")
-
-        // We can't allow empty commands
-        if tokens.isEmpty {
-            return nil
-        }
-
-        let action = tokens.removeFirst()
-        let request = UserRequest(action: String(action), arguments: tokens.map { String($0) }, command: input.lowercased())
-
-        return request
-    }
-
     func registeredIntents() -> [Intent] {
         return [self.intents, self.player.registeredIntents(), self.currentRoom.registeredIntents()].flatMap { $0 }
     }
 
-    private func determineUserIntent(_ request: UserRequest) -> Intent? {
+    private func determineUserIntent(forRequest request: UserRequest) -> Intent? {
         // Check our game's intents
         for intent in self.registeredIntents() {
-            if intent.triggers().contains(request.command) {
+            // FIXME: Let triggers be their own thing so i can change this later
+            if intent.triggers().contains(request) {
                 return intent
             }
         }
