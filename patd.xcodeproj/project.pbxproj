@@ -131,16 +131,26 @@
 			path = Objects;
 			sourceTree = "<group>";
 		};
-		FDA5679A20E9F31F001BF074 /* Item */ = {
+		FD44F01F20ED7CB50052C52A /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				FDA5679B20E9F32D001BF074 /* Intents */,
-				FD5F558120E9CF1C00E6BD78 /* Item.swift */,
+				FDA567A920E9F422001BF074 /* QuitGameIntent.swift */,
+				FDA567C220EB207A001BF074 /* HelpIntent.swift */,
+				FDA567C420EB20E4001BF074 /* IntentsIntent.swift */,
 			);
-			path = Item;
+			path = Game;
 			sourceTree = "<group>";
 		};
-		FDA5679B20E9F32D001BF074 /* Intents */ = {
+		FD44F02020ED7CC10052C52A /* Room */ = {
+			isa = PBXGroup;
+			children = (
+				FDA567A620E9F3EE001BF074 /* ExamineRoomIntent.swift */,
+				FDA567AB20E9F452001BF074 /* TakeExitIntent.swift */,
+			);
+			path = Room;
+			sourceTree = "<group>";
+		};
+		FD44F02120ED7CD70052C52A /* Item */ = {
 			isa = PBXGroup;
 			children = (
 				FDA5679C20E9F33A001BF074 /* OpenItemIntent.swift */,
@@ -152,50 +162,24 @@
 				FDD87BE420EAA59C00E7CAC8 /* LookInsideItemIntent.swift */,
 				FDA567C820EB31D7001BF074 /* ReadItemIntent.swift */,
 			);
-			path = Intents;
+			path = Item;
 			sourceTree = "<group>";
 		};
-		FDA567A420E9F3DA001BF074 /* Room */ = {
+		FD44F02220ED7CEE0052C52A /* Player */ = {
 			isa = PBXGroup;
 			children = (
-				FDA567A520E9F3E4001BF074 /* Intents */,
-				FDC870E220E95B3000A5311A /* Room.swift */,
+				FDA567B220E9F501001BF074 /* InventoryIntent.swift */,
 			);
-			path = Room;
-			sourceTree = "<group>";
-		};
-		FDA567A520E9F3E4001BF074 /* Intents */ = {
-			isa = PBXGroup;
-			children = (
-				FDA567A620E9F3EE001BF074 /* ExamineRoomIntent.swift */,
-				FDA567AB20E9F452001BF074 /* TakeExitIntent.swift */,
-			);
-			path = Intents;
+			path = Player;
 			sourceTree = "<group>";
 		};
 		FDA567A820E9F418001BF074 /* Intents */ = {
 			isa = PBXGroup;
 			children = (
-				FDA567A920E9F422001BF074 /* QuitGameIntent.swift */,
-				FDA567C220EB207A001BF074 /* HelpIntent.swift */,
-				FDA567C420EB20E4001BF074 /* IntentsIntent.swift */,
-			);
-			path = Intents;
-			sourceTree = "<group>";
-		};
-		FDA567B020E9F4EF001BF074 /* Player */ = {
-			isa = PBXGroup;
-			children = (
-				FDA567B120E9F4F7001BF074 /* Intents */,
-				FDC870E020E95A3F00A5311A /* Player.swift */,
-			);
-			path = Player;
-			sourceTree = "<group>";
-		};
-		FDA567B120E9F4F7001BF074 /* Intents */ = {
-			isa = PBXGroup;
-			children = (
-				FDA567B220E9F501001BF074 /* InventoryIntent.swift */,
+				FD44F02220ED7CEE0052C52A /* Player */,
+				FD44F02120ED7CD70052C52A /* Item */,
+				FD44F02020ED7CC10052C52A /* Room */,
+				FD44F01F20ED7CB50052C52A /* Game */,
 			);
 			path = Intents;
 			sourceTree = "<group>";
@@ -232,12 +216,12 @@
 			children = (
 				FD3DAAF120EC3BD200C7158E /* Extensions */,
 				FDD87BE920EACE0800E7CAC8 /* Traits */,
-				FDA567B020E9F4EF001BF074 /* Player */,
 				FDA567A820E9F418001BF074 /* Intents */,
-				FDA567A420E9F3DA001BF074 /* Room */,
-				FDA5679A20E9F31F001BF074 /* Item */,
 				FDC870DC20E956A600A5311A /* Game.swift */,
+				FDC870E020E95A3F00A5311A /* Player.swift */,
 				FD104EEC20EBC4AD0095044F /* GameLoader.swift */,
+				FDC870E220E95B3000A5311A /* Room.swift */,
+				FD5F558120E9CF1C00E6BD78 /* Item.swift */,
 				FDC870E920E99A4500A5311A /* Exit.swift */,
 				FDC870DE20E956B900A5311A /* Logger.swift */,
 				FDC870E520E98B9000A5311A /* GameObject.swift */,
