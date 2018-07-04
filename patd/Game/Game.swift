@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Cocoa
 
 enum GameState {
     case NotRunning

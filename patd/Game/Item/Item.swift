@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Cocoa
 
 protocol LockableItemDelegate {
     func item(didUnlock item: Item)
