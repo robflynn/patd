@@ -24,7 +24,7 @@ class LookInsideItemIntent: Intent {
         for action in actions {
             for preposition in prepositions {
                 commands.append("\(action) \(preposition) \(item.name)")
-                commands.append("\(action) \(preposition) the \(item.name)")
+                commands.append("\(action) \(preposition) \(item.nameWithArticle())")
             }
         }
 
@@ -45,8 +45,6 @@ class LookInsideItemIntent: Intent {
             return false
         }
 
-        Game.shared.display(item.interiorDescription)
-
-        return true
+        return item.lookInside()
     }
 }

@@ -127,7 +127,7 @@ class Room: GameObject, Container, ContainerDelegate {
     }
     
     // MARK: Container
-    var interiorDescription: String {
+    var interiorText: String {
         return description
     }
 

@@ -9,8 +9,6 @@
 import Foundation
 
 protocol ContainerDelegate {
-    var interiorDescription: String { get }
-    
     func container(didAcceptItem item: Item)
     func container(didRemoveItem item: Item)
 }

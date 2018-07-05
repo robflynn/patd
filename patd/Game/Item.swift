@@ -22,7 +22,6 @@ struct IntentObserver {
     var intent: String
     var action: String
     var message: String?
-
     var triggered: Bool
 }
 
@@ -293,18 +292,64 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
         return self.traits.contains(.Container)
     }
 
-    var interiorDescription: String {
-        if (isContainer && isInteriorVisible()) {
-            if self.items.isEmpty {
+    func lookInside() -> Bool {
+
+        if let output = renderInside() {
+            Game.shared.display(output)
+
+            return true
+        }
+
+        return false
+    }
+
+    var interiorText: String?
+
+    func renderInside() -> String? {
+        self.buffer.clear()
+
+        var sawItem = false
+
+        // If we have interior text, render that
+        if let text = self.interiorText {
+            self.buffer.send(text)
+        }
+
+        // If this is a container and it has environmentally affecting items, render those
+        if isContainer {
+            for item in self.items {
+                if let itemText = item.environmentalText {
+                    self.buffer.send(itemText)
+
+                    sawItem = true
+                }
+            }
+
+            // Get all items that have been placed inside the container as dropped items
+            let droppedItems = self.items.filter { $0.isDropped }
+
+            // If there are any, render those too.
+            if droppedItems.count > 0 {
+                if (sawItem) {
+                    self.buffer.send("You also see ", noReturn: true)
+                } else {
+                    self.buffer.send("You see ", noReturn: true)
+                }
+
+                buffer.send(droppedItems.listified())
+            }
+
+            // If we get to this point, we didn't have anything interesting to share
+            if self.buffer.isEmpty {
                 return "It's empty."
             }
 
-            return "You see " + self.items.map { $0.nameWithArticle(article: "a") }.joined(separator: ", ")
+            return self.buffer.flush()
         }
 
-        return "You can't see inside it."
+        return nil
     }
-
+        
     func add(item: Item) {
         if isContainer {
             self.items.append(item)
