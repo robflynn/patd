@@ -49,11 +49,20 @@ class Room: GameObject, Container, ContainerDelegate {
         self.buffer.send(name)
         self.buffer.send(description)
 
-        for item in items {
-            if item.isDropped { continue }
-
+        let environmentalItems = items.filter { $0.isDropped == false }
+        for item in environmentalItems {
             if let itemText = item.environmentalText {
                 self.buffer.send(itemText)
+
+                // If this item is deferring, we should also show environmental text of it's children
+                if item.isDeferring && item.isContainer {
+
+                    for internalItem in item.items {
+                        if let itemText = internalItem.environmentalText {
+                            self.buffer.send(itemText)
+                        }
+                    }
+                }
             }
         }
 

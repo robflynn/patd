@@ -64,7 +64,7 @@
             "items": [
                 {
                     "name": "nest",
-                    "traits": ["gettable", "container"],
+                    "traits": ["gettable", "container", "defers"],
                     "environmentalText": "On the branch is a small birds nest.",
                     "items": [
                         {

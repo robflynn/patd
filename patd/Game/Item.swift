@@ -25,6 +25,11 @@ struct IntentObserver {
     var triggered: Bool
 }
 
+// FIXME: May as well merge most of these traits back into the code if every item is going to have all of them.
+//
+// The initial plan was that a generic item would basically be just barely more fleshed out than a game object.... it'd just be
+// something you could interact with, and each object would be a class. I decided that was silly and just haven't cleaned this up
+// yet. I'm mostly typing this out so I'll remember why I wanted to merge it back in.
 class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDelegate, LockableItemDelegate, ContainerDelegate {
     enum Trait: String {
         case Openable = "openable"
@@ -32,6 +37,7 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
         case Lockable = "lockable"
         case Container = "container"
         case Readable = "readable"
+        case Defers = "defers"
     }
 
     var name: String
@@ -51,6 +57,7 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
     var nameWithQuantity: String {
         var article: String = "a"
 
+        // FIXME: Deprecation
         if ["a", "e", "i", "o", "u"].contains(self.name.lowercased().characters.first) {
             article = "an"
         }
@@ -85,6 +92,9 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
 
         // Container
         self.add(intent: LookInsideItemIntent(item: self))
+
+        // FIXME: REMOVE ME LATER
+        self.add(intent: TraitsIntent(item: self))
     }
     
     convenience init(name: String, properties: [Item.Trait]) {
@@ -126,7 +136,16 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
     internal var intents: [Intent] = []
 
     func registeredIntents() -> [Intent] {
-        return self.intents
+        var result = [self.intents]
+
+        // If the item is deferring and is a container, also register the item's intents
+        if isDeferring && isContainer {
+            for item in self.items {
+                result.append(item.registeredIntents())
+            }
+        }
+
+        return result.flatMap { $0 }
     }
 
     func add(intent: Intent) {
@@ -137,6 +156,11 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
         if let index = self.intents.index(of: intent) {
             self.intents.remove(at: index)
         }
+    }
+
+    // MARK: Defers
+    var isDeferring: Bool {
+        return self.traits.contains(.Defers)
     }
 
     // MARK: Readable

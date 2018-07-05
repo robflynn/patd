@@ -10,12 +10,10 @@ import Foundation
 
 class ExamineRoomIntent: Intent {
     override func triggers() -> [String] {
-        return ["examine room", "look around", "look at surroundings", "look at my surroundings", "look around the room", "look at room"]
+        return ["examine room", "look around", "look at surroundings", "look at my surroundings", "look around the room", "look at room", "look"]
     }
 
     override func execute() -> Bool {
-        Game.shared.currentRoom.examine()
-
-        return true
+        return Game.shared.currentRoom.examine()
     }
 }

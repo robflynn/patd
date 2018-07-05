@@ -12,6 +12,7 @@
 		FD2C123520ED92470009B93A /* MessageBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2C123420ED92470009B93A /* MessageBuffer.swift */; };
 		FD2C123920ED9F570009B93A /* EscapeRoomIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2C123820ED9F570009B93A /* EscapeRoomIntent.swift */; };
 		FD3DAAF020EC372C00C7158E /* Readable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3DAAEF20EC372C00C7158E /* Readable.swift */; };
+		FD3DDAEA20EDB64A00C4C157 /* TraitsIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3DDAE920EDB64A00C4C157 /* TraitsIntent.swift */; };
 		FD44F01D20ED72D60052C52A /* Array+Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD44F01C20ED72D60052C52A /* Array+Item.swift */; };
 		FD5F558220E9CF1C00E6BD78 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5F558120E9CF1C00E6BD78 /* Item.swift */; };
 		FDA5679D20E9F33A001BF074 /* OpenItemIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA5679C20E9F33A001BF074 /* OpenItemIntent.swift */; };
@@ -64,6 +65,7 @@
 		FD2C123420ED92470009B93A /* MessageBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBuffer.swift; sourceTree = "<group>"; };
 		FD2C123820ED9F570009B93A /* EscapeRoomIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EscapeRoomIntent.swift; sourceTree = "<group>"; };
 		FD3DAAEF20EC372C00C7158E /* Readable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Readable.swift; sourceTree = "<group>"; };
+		FD3DDAE920EDB64A00C4C157 /* TraitsIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitsIntent.swift; sourceTree = "<group>"; };
 		FD44F01C20ED72D60052C52A /* Array+Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Item.swift"; sourceTree = "<group>"; };
 		FD5F558120E9CF1C00E6BD78 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		FDA5679C20E9F33A001BF074 /* OpenItemIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenItemIntent.swift; sourceTree = "<group>"; };
@@ -125,6 +127,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		FD3DDAEB20EDB6E700C4C157 /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				FDA567C420EB20E4001BF074 /* IntentsIntent.swift */,
+				FD3DDAE920EDB64A00C4C157 /* TraitsIntent.swift */,
+			);
+			path = Admin;
+			sourceTree = "<group>";
+		};
 		FD44F01B20ED6DCC0052C52A /* Objects */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,9 +149,9 @@
 		FD44F01F20ED7CB50052C52A /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				FD3DDAEB20EDB6E700C4C157 /* Admin */,
 				FDA567A920E9F422001BF074 /* QuitGameIntent.swift */,
 				FDA567C220EB207A001BF074 /* HelpIntent.swift */,
-				FDA567C420EB20E4001BF074 /* IntentsIntent.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -335,6 +346,7 @@
 				FDA567A720E9F3EE001BF074 /* ExamineRoomIntent.swift in Sources */,
 				FD3DAAF020EC372C00C7158E /* Readable.swift in Sources */,
 				FDA567B520E9F690001BF074 /* CloseItemIntent.swift in Sources */,
+				FD3DDAEA20EDB64A00C4C157 /* TraitsIntent.swift in Sources */,
 				FDD87BEB20EACE2700E7CAC8 /* Openable.swift in Sources */,
 				FDA567C720EB30C8001BF074 /* Leaflet.swift in Sources */,
 				FDA567BE20EAE90D001BF074 /* Container.swift in Sources */,
