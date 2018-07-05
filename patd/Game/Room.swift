@@ -140,8 +140,20 @@ class Room: GameObject, Container, ContainerDelegate {
         return description
     }
 
+    func get(item: Item) -> Item? {
+        if self.contains(item: item) {
+            self.remove(item: item)
+
+            return item
+        }
+
+        return nil
+    }
+
     func add(item: Item) {
         self.items.append(item)
+
+        item.container = self
     }
 
     func remove(item: Item) {

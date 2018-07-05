@@ -6,8 +6,6 @@
 //  Copyright © 2018 Thingerly. All rights reserved.
 //
 
-import Foundation
-
 class GetItemIntent: Intent {
     var item: Item
 
@@ -29,36 +27,16 @@ class GetItemIntent: Intent {
     }
 
     override func execute() -> Bool {
-
-        if let hoobs = hooble {
-            if hoobs() {
-                return true
-            }
-        }
-
-        if !item.isGettable {
-            Game.shared.display("You cannot get \(item.nameWithArticle()).")
+        // Try to get the item
+        guard self.item.get() != nil else {
             return false
         }
 
-        // Is the item in the current room?
-        if Game.shared.currentRoom.contains(item: item) {
-            // Get the item
-            Game.shared.currentRoom.remove(item: item)
-            Game.shared.player.add(toInventory: item)
+        // If we got the item, give it to the player
+        Game.shared.player.add(toInventory: item)
 
-            Game.shared.display("You get \(item.nameWithArticle()).")
+        Game.shared.display("You get \(item.nameWithArticle()).")
 
-            return true
-        }
-
-        // If we see this message that means there's a gettable in
-        // the intent scope and it shouldn't be
-        Game.shared.display("What \(item.name)?")
-        Logger.error("WOAAAH BUDDY WHAT HAPPENED?")
-
-        return false
+        return true
     }
-
-    public var hooble: (() -> Bool)?
 }

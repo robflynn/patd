@@ -20,5 +20,6 @@ protocol Container where Self:ContainerDelegate {
     func add(item: Item)
     func remove(item: Item)
     func contains(item: Item) -> Bool
+    func get(item: Item) -> Item?
 }
 

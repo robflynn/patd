@@ -50,10 +50,6 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
     // MARK: Item Property Helpers
     var isDropped: Bool = false
 
-    var isGettable: Bool {
-        return self.traits.contains(.Gettable)
-    }
-
     var nameWithQuantity: String {
         var article: String = "a"
 
@@ -161,6 +157,38 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
     // MARK: Defers
     var isDeferring: Bool {
         return self.traits.contains(.Defers)
+    }
+
+    // MARK: Gettable
+    var isGettable: Bool {
+        return self.traits.contains(.Gettable)
+    }
+
+    func get() -> Item? {
+        // Preposterous! You can't get the ungettable!
+        if !isGettable {
+            Game.shared.display("You can't get \(self.nameWithArticle()).")
+
+            return nil
+        }
+
+        guard let itemContainer = self.container else { return nil }
+
+        return itemContainer.get(item: self)
+    }
+
+    // Get item from this item
+    func get(item: Item) -> Item? {
+        // Fail if not a container
+        if !isContainer { return nil }
+
+        // Fail if the item isn't in here
+        if !self.contains(item: item) { return nil }
+
+        // Remove the item and return it
+        self.remove(item: item)
+
+        return item
     }
 
     // MARK: Readable
@@ -310,6 +338,7 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
 
     // MARK: Container
     var items: [Item] = []
+    var container: Container?
     var containerDelegate: ContainerDelegate?
 
     var isContainer: Bool {
@@ -377,10 +406,11 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
     func add(item: Item) {
         if isContainer {
             self.items.append(item)
+            item.container = self
 
             self.containerDelegate?.container(didAcceptItem: item)
         } else {
-            Game.shared.display("You can't put that there")
+            Game.shared.display("You can't put that there.")
         }
     }
 
