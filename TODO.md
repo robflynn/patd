@@ -5,3 +5,5 @@
 * Implement a generic intent that allows for quickly registering simple commands
 
 * Allow items with environmentalText to influence the description of their containing object, whether it be a Room or an Item with container properties, such as a box. 
+
+* Implement doors. Doors are just portals/escapes/exits/teleports that can be opened/closed. 
