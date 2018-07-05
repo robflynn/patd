@@ -21,6 +21,8 @@ class Room: GameObject, Container, ContainerDelegate {
     var delegate: RoomDelegate?
     var items: [Item] = []
 
+    var escapes: [GameLoader.EscapeData] = []
+
     private var intents: [Intent] = []
 
     private(set) var exits: [Exit] = []
@@ -42,45 +44,48 @@ class Room: GameObject, Container, ContainerDelegate {
     }
 
     func render() -> String? {
-        self.buffer(name)
-        self.buffer(description)
+        self.buffer.clear()
+
+        self.buffer.send(name)
+        self.buffer.send(description)
 
         for item in items {
-            if item.isRenderable {
-                // FIXME: We need to
-                item.render()
+            if item.isDropped { continue }
+
+            if let itemText = item.environmentalText {
+                self.buffer.send(itemText)
             }
         }
 
-        // FIXME: Render Items
         renderItems()
-
-        // FIXME: Handle Exits
         renderExits()
 
-        return self.flushBuffer()
+        return self.buffer.flush()
     }
 
     private func renderItems() {
-        // FIXME: Just because something is gettable doesn't mean it should be sitting on the ground, make some other indicator for this
-        // FIXME: Maybe a "Dropped" state for an item, and if is dropped then it shows up in the item description. Yeah. I like that.
-        // FIXME: Thanks for talking with me today, self.
-        let visibleItems = self.items.filter { $0.isGettable }
+        let visibleItems = self.items.filter { $0.isGettable }.filter { $0.isDropped }
 
         if visibleItems.isEmpty { return }
 
-        self.buffer("")
+        self.buffer.newLine()
 
-        self.buffer("On the ground you see \(visibleItems.listified()).")
+        self.buffer.send("Items: \(visibleItems.listified()).")
     }
 
     private func renderExits() {
         if self.exits.isEmpty { return }
 
-        buffer("")
+        buffer.newLine()
 
-        buffer("Obvious exits are: ", noReturn: true)
-        buffer(self.exits.map { $0.direction.Name }.joined(separator: ", "))
+        buffer.send("Obvious exits are: ", noReturn: true)
+        buffer.send(self.exits.map { $0.direction.Name }.joined(separator: ", "))
+    }
+
+    func addEscape(_ escape: GameLoader.EscapeData) {
+        self.escapes.append(escape)
+
+        self.add(intent: EscapeRoomIntent(escape: escape))
     }
 
     func add(player: Player) {

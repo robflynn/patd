@@ -13,6 +13,11 @@ enum GameLoaderError: Error {
 }
 
 final class GameLoader {
+    struct EscapeData: Decodable {
+        var commands: [String]
+        var target: String
+    }
+
     struct ExitData: Decodable {
         var id: GameObjectID?
         var direction: String
@@ -34,6 +39,7 @@ final class GameLoader {
         var description: String
         var exits: [ExitData]?
         var items: [ItemData]?
+        var escapes: [EscapeData]?
     }
     
     struct Map: Decodable {
@@ -131,6 +137,14 @@ final class GameLoader {
                 room.add(item: item)
             }
         }
+
+        // FIXME: POC
+        if let escapes = roomData.escapes {
+            for escape in escapes {
+                room.addEscape(escape)
+            }
+        }
+
 
         return room
     }

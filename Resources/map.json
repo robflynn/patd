@@ -4,54 +4,74 @@
             "id": "wohouse",
             "name": "West of House",
             "description": "This is an open field west of a white house, with a boarded front door.",
-            "exits": [ { "direction": "west", "target": "forest1" } ],
             "items": [
                 {
                 	"name": "mailbox",
                     "object": "Mailbox"
                 }
-            ]
-        },
-        {
-            "id": "forest1",
-            "name": "Forest",
-            "description": "This is a forest, with trees in all directions around you. You can see sunlight to the east.",
+            ],
             "exits": [
-                {
-                    "direction": "east",
-                    "target": "wohouse"
-                },
-                {
-                    "direction": "west",
-                    "target": "forest2"
-                }
+                { "direction": "north", "target": "nohouse" }
             ]
         },
         {
-            "id": "forest2",
-            "name": "Forest",
-            "description": "This is a forest, with trees in all directions around you.",
-            "exits": [
-                {
-                    "direction": "east",
-                    "target": "forest1"
-                },
-                {
-                    "direction": "west",
-                    "target": "forest3"
-                }
-            ]
-        },
-        {
-            "id": "forest3",
-            "name": "Forest",
-            "description": "This is a forest, with trees in all directions around you.",
-            "exits": [ { "direction": "east", "target": "forest2" } ],
+            "id": "nohouse",
+            "name": "North of House",
+            "description": "You are facing the north side of a white house.  There is no door here, and all the windows are barred.",
             "items": [
                 {
-                	"name": "fish",
-                	"description": "It is stinky.",
-                	"traits": ["gettable"]
+                    "name": "house",
+                    "description": "The house is a beautiful colonial house which is painted white.  It is clear that the owners must have been extremely wealthy."
+                }
+            ],
+            "exits": [
+                { "direction": "west", "target": "wohouse" },
+                { "direction": "north", "target": "nforest1" }                
+            ]
+
+        },
+        {
+            "id": "nforest1",
+            "name": "Forest",
+            "description": "This is a dimly lit forest, with large trees all around.  One particularly large tree with some low branches stands here.",
+            "exits": [
+                { "direction": "sorth", "target": "nohouse" },
+            ],
+            "escapes": [
+                {
+                    "commands": ["climb the tree", "climb the large tree", "shimmy up the tree", "climb tree"],
+                    "target": "upatree1"
+                }
+            ],
+            "items": [
+                {
+                    "name": "large tree",
+                    "observers": [
+                        {
+                            "intent": "examine",
+                            "action": "message",
+                            "message": "You hear in the distance the chirping of a song bird."
+                        }
+                    ]
+                }
+            ]
+
+        },
+        {
+            "id": "upatree1",
+            "name": "Up a Tree",
+            "description": "You are about 10 feet above the ground nestled among some large branches.  The nearest branch above you is above your reach.",
+            "items": [
+                {
+                    "name": "nest",
+                    "traits": ["gettable"],
+                    "environmentalText": "On the branch is a small birds nest.\nIn the bird's nest is a large egg encrusted with precious jewels, apparently scavenged somewhere by a childless songbird.  The egg is covered with fine gold inlay, and ornamented in lapis lazuli and mother-of-pearl.  Unlike most eggs, this one is hinged and has a delicate looking clasp holding it closed.  The egg appears extremely fragile."
+                }
+            ],
+            "exits": [
+                {
+                    "direction": "down",
+                    "target": "nforest1"
                 }
             ]
         }

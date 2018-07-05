@@ -15,6 +15,8 @@ enum Direction: String {
     case SouthWest = "southwest"
     case West = "west"
     case NorthWest = "northwest"
+    case Down = "down"
+    case Up = "up"
 
     var Name: String {
         return self.rawValue.lowercased()
@@ -38,6 +40,10 @@ enum Direction: String {
             return ["w"]
         case .NorthWest:
             return ["nw", "north west"]
+        case .Down:
+            return ["d"]
+        case .Up:
+            return ["u"]
         }
     }
 
@@ -59,6 +65,10 @@ enum Direction: String {
             return .East
         case .NorthWest:
             return .SouthEast
+        case .Up:
+            return .Down
+        case .Down:
+            return .Up            
         }
     }
 }

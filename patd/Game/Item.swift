@@ -18,12 +18,19 @@ protocol OpenableItemDelegate {
     func item(didClose item: Item)
 }
 
+struct IntentObserver {
+    var intent: String
+    var action: String
+    var message: String?
+
+    var triggered: Bool
+}
+
 class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDelegate, LockableItemDelegate, ContainerDelegate {
     enum Trait: String {
         case Openable = "openable"
         case Gettable = "gettable"
         case Lockable = "lockable"
-        case Renderable = "renderable"
         case Container = "container"
         case Readable = "readable"
     }
@@ -31,16 +38,15 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
     var name: String
     var description: String?
     var environmentalText: String?
+    var observers: [IntentObserver] = []
 
     internal var traits: [Item.Trait] = [] 
 
     // MARK: Item Property Helpers
+    var isDropped: Bool = false
+
     var isGettable: Bool {
         return self.traits.contains(.Gettable)
-    }
-
-    var isRenderable: Bool {
-        return self.traits.contains(.Renderable)
     }
 
     var nameWithQuantity: String {
@@ -61,10 +67,6 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
         self.description = "There's nothing special about it."
         
         // Set some default properties
-
-        // Environment-influencing objects have to say something, otherwise what's the point in setting the
-        // trait. Seeing this where it doesn't belong should be enough reminder.
-        self.environmentalText = "\(self.nameWithArticle(article: "A")) is here"
 
         // Everything can be looked at
         self.add(intent: ExamineItemIntent(item: self))
@@ -138,13 +140,6 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
         }
     }
 
-    // MARK: Renderable
-    func render() {
-        if let text = self.environmentalText {
-            Game.shared.display(text)
-        }
-    }
-
     // MARK: Readable
     var isReadable: Bool {
         return self.traits.contains(.Readable)
@@ -170,27 +165,41 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
         return true
     }
 
+    var observerTriggered: Bool = false
+
     // MARK: Examine
     func examine() -> Bool {
-        var lines: [String] = []
+        self.buffer.clear()
 
         // An item will first show it's description if it has one
         if let descriptionText = self.description {
-            lines.append(descriptionText)
+            self.buffer.send(descriptionText)
         }
 
         // Let the user know if an item is openable
         if isOpenable {
-            lines.append("It is \(self.isOpen ? "open" : "closed").")
+            self.buffer.send("It is \(self.isOpen ? "open" : "closed").")
         }
 
         // If we don't have anything to say, just say something generic
-        if lines.isEmpty {
-            lines.append("You see nothing special about \(self.nameWithArticle()).")
+        if self.buffer.isEmpty {
+            self.buffer.send("You see nothing special about \(self.nameWithArticle()).")
         }
 
-        let message = lines.joined(separator: " ")
-        Game.shared.display(message)
+        // FIXME: This is purely POC, rewrite it
+        for observer in observers {
+            if observer.intent == "examine" && !observerTriggered {
+                if observer.action == "message" {
+                    if let message = observer.message {
+                        
+
+                        self.buffer.send(message)
+                    }
+                }
+            }
+        }
+
+        Game.shared.display(self.buffer.flush())
 
         return true
     }

@@ -12,7 +12,7 @@ typealias GameObjectID = String
 
 class GameObject: Equatable {
     var Id: GameObjectID
-    var _buffer: String = ""
+    internal let buffer = MessageBuffer()
 
     let instantiatedAt: Date = Date()
     var instanceAge: TimeInterval {
@@ -26,21 +26,4 @@ class GameObject: Equatable {
     init() {
         self.Id = UUID().uuidString
     }
-
-    internal func buffer(_ message: String, noReturn: Bool = false) {
-        if noReturn {
-            self._buffer += message
-        } else {
-            self._buffer += message + "\n"
-        }
-    }
-
-    internal func flushBuffer() -> String {
-        defer {
-            self._buffer = ""
-        }
-
-        return self._buffer
-    }
-
 }

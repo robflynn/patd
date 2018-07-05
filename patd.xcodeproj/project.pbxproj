@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		FD104EED20EBC4AD0095044F /* GameLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD104EEC20EBC4AD0095044F /* GameLoader.swift */; };
 		FD104EFE20EBE01A0095044F /* map.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD104EF820EBDEBA0095044F /* map.json */; };
+		FD2C123520ED92470009B93A /* MessageBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2C123420ED92470009B93A /* MessageBuffer.swift */; };
+		FD2C123920ED9F570009B93A /* EscapeRoomIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2C123820ED9F570009B93A /* EscapeRoomIntent.swift */; };
 		FD3DAAF020EC372C00C7158E /* Readable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3DAAEF20EC372C00C7158E /* Readable.swift */; };
 		FD44F01D20ED72D60052C52A /* Array+Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD44F01C20ED72D60052C52A /* Array+Item.swift */; };
 		FD5F558220E9CF1C00E6BD78 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5F558120E9CF1C00E6BD78 /* Item.swift */; };
@@ -59,6 +61,8 @@
 /* Begin PBXFileReference section */
 		FD104EEC20EBC4AD0095044F /* GameLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLoader.swift; sourceTree = "<group>"; };
 		FD104EF820EBDEBA0095044F /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
+		FD2C123420ED92470009B93A /* MessageBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBuffer.swift; sourceTree = "<group>"; };
+		FD2C123820ED9F570009B93A /* EscapeRoomIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EscapeRoomIntent.swift; sourceTree = "<group>"; };
 		FD3DAAEF20EC372C00C7158E /* Readable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Readable.swift; sourceTree = "<group>"; };
 		FD44F01C20ED72D60052C52A /* Array+Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Item.swift"; sourceTree = "<group>"; };
 		FD5F558120E9CF1C00E6BD78 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -146,6 +150,7 @@
 			children = (
 				FDA567A620E9F3EE001BF074 /* ExamineRoomIntent.swift */,
 				FDA567AB20E9F452001BF074 /* TakeExitIntent.swift */,
+				FD2C123820ED9F570009B93A /* EscapeRoomIntent.swift */,
 			);
 			path = Room;
 			sourceTree = "<group>";
@@ -227,6 +232,7 @@
 				FDC870E520E98B9000A5311A /* GameObject.swift */,
 				FDC870E720E9967100A5311A /* Direction.swift */,
 				FDA567AE20E9F4C5001BF074 /* Intent.swift */,
+				FD2C123420ED92470009B93A /* MessageBuffer.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -304,6 +310,7 @@
 				FDC870E820E9967100A5311A /* Direction.swift in Sources */,
 				FD5F558220E9CF1C00E6BD78 /* Item.swift in Sources */,
 				FDA567C320EB207A001BF074 /* HelpIntent.swift in Sources */,
+				FD2C123920ED9F570009B93A /* EscapeRoomIntent.swift in Sources */,
 				FDA567A120E9F37B001BF074 /* ExamineItemIntent.swift in Sources */,
 				FDA567B320E9F501001BF074 /* InventoryIntent.swift in Sources */,
 				FDD87BE520EAA59C00E7CAC8 /* LookInsideItemIntent.swift in Sources */,
@@ -320,6 +327,7 @@
 				FDC870E320E95B3000A5311A /* Room.swift in Sources */,
 				FDA567AA20E9F422001BF074 /* QuitGameIntent.swift in Sources */,
 				FD44F01D20ED72D60052C52A /* Array+Item.swift in Sources */,
+				FD2C123520ED92470009B93A /* MessageBuffer.swift in Sources */,
 				FDA567C120EB0733001BF074 /* SlipperyFish.swift in Sources */,
 				FDD87BE320EA99E300E7CAC8 /* Mailbox.swift in Sources */,
 				FDA5679D20E9F33A001BF074 /* OpenItemIntent.swift in Sources */,

@@ -53,7 +53,7 @@ class Mailbox: Item {
         self.description = "a small, red, wooden mailbox"
         self.environmentalText = "There is a small mailbox here."
         
-        self.traits = [.Openable, .Renderable, .Container]
+        self.traits = [.Openable, .Container]
 
         let leaflet = Leaflet()
         self.add(item: leaflet)
@@ -77,7 +77,7 @@ class Mailbox: Item {
 
     override func item(didOpen item: Item) {
         if containsLeaflet {
-            Game.shared.display("Opening the small mailbox reveals a leaflet.")
+            Game.shared.display("You open the mailbox, revealing a small leaflet.")
         } else {
             super.item(didOpen: item)
         }

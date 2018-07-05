@@ -47,7 +47,7 @@ class GetItemIntent: Intent {
             Game.shared.currentRoom.remove(item: item)
             Game.shared.player.add(toInventory: item)
 
-            Game.shared.display("You get \(item.nameWithArticle())")
+            Game.shared.display("You get \(item.nameWithArticle()).")
 
             return true
         }

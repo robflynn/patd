@@ -34,7 +34,10 @@ class DropItemIntent: Intent {
         }
 
         Game.shared.player.remove(fromInventory: item)
+        item.isDropped = true
         Game.shared.currentRoom.add(item: item)
+
+        Game.shared.display("You drop \(item.nameWithArticle()).")
 
         return true
     }
