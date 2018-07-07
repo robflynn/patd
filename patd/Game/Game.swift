@@ -29,6 +29,7 @@ class Game: RoomDelegate {
     var delegate: GameProtocol?
     var player: Player
     var intents: [Intent] = []
+    let theVoid: Room = Room()
 
     private(set) var rooms: [Room] = []
     private var moves: Int = 0
@@ -41,17 +42,18 @@ class Game: RoomDelegate {
     }
 
     var currentRoom: Room {
-        return self.player.room
+        return self.player.room ?? self.theVoid
     }
 
     static let shared = Game()
 
     init() {
         Logger.debug("Game loading")
-        
-        // FIXME: Fix this silly requirement
-        let tmpRoom = Room()
-        self.player = Player(room: tmpRoom)
+
+        self.theVoid.name = "The Void"
+        self.theVoid.description = "THere is nothing."
+
+        self.player = Player()
 
         self.add(intent: QuitGameIntent())
         self.add(intent: HelpIntent())

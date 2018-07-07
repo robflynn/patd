@@ -8,46 +8,13 @@
 
 import Foundation
 
-class Player: GameObject {
-    var room: Room {
-        didSet {
-            oldValue.remove(player: self)
-            room.add(player: self)
-        }
-    }
-
-    private var _inventory: [Item] = []
-    
-    var inventory: [Item] {
-        return self._inventory
-    }
-
+class Player: Character {
     private var intents: [Intent] = []
 
-    init(room: Room) {
-        self.room = room
+    init() {
+        super.init(name: "Player")
 
         self.intents.append(InventoryIntent())
-        
-        super.init()
-    }
-
-    func add(toInventory item: Item) {
-        self._inventory.append(item)
-    }
-
-    func remove(fromInventory item: Item) -> Item? {
-        if let index = self._inventory.index(of: item) {
-            self._inventory.remove(at: index)
-
-            return item
-        }
-
-        return nil
-    }
-
-    func isCarrying(item: Item) -> Bool {
-        return self.inventory.contains(item)
     }
 
     func registeredIntents() -> [Intent] {

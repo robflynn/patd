@@ -24,7 +24,8 @@ class EscapeRoomIntent: Intent {
             Game.shared.player.room = targetRoom
 
             // FIXME: We shouldn't be doing this, instead we should be firing off an event that the user changed rooms
-            Game.shared.currentRoom.examine()
+            return Game.shared.currentRoom.examine()
+
             return true
         }
 

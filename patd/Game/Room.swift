@@ -17,7 +17,8 @@ class Room: GameObject, Container, ContainerDelegate {
     var name: String = "A Room"
     var description: String = "A nondescript room."
 
-    var players: [Player] = []
+    var characters: [Character] = []
+
     var delegate: RoomDelegate?
     var items: [Item] = []
 
@@ -97,21 +98,21 @@ class Room: GameObject, Container, ContainerDelegate {
         self.add(intent: EscapeRoomIntent(escape: escape))
     }
 
-    func add(player: Player) {
+    func add(character: Character) {
         // Player is already in the room, they can't be in it twice
-        if self.players.contains(player) {
+        if self.characters.contains(character) {
             return
         }
 
-        self.players.append(player)
+        self.characters.append(character)
 
         self.delegate?.room(entered: self)
     }
 
-    func remove(player: Player) {
-        if let index = self.players.index(of: player) {
+    func remove(character: Character) {
+        if let index = self.characters.index(of: character) {
 
-            self.players.remove(at: index)
+            self.characters.remove(at: index)
 
             self.delegate?.room(exited: self)
         }

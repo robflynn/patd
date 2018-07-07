@@ -15,6 +15,7 @@
 		FD3DDAEA20EDB64A00C4C157 /* TraitsIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3DDAE920EDB64A00C4C157 /* TraitsIntent.swift */; };
 		FD44F01D20ED72D60052C52A /* Array+Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD44F01C20ED72D60052C52A /* Array+Item.swift */; };
 		FD5F558220E9CF1C00E6BD78 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5F558120E9CF1C00E6BD78 /* Item.swift */; };
+		FD6C592D20F0552D00AB3E8A /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6C592C20F0552D00AB3E8A /* Character.swift */; };
 		FDA5679D20E9F33A001BF074 /* OpenItemIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA5679C20E9F33A001BF074 /* OpenItemIntent.swift */; };
 		FDA5679F20E9F34E001BF074 /* GetItemIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA5679E20E9F34E001BF074 /* GetItemIntent.swift */; };
 		FDA567A120E9F37B001BF074 /* ExamineItemIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA567A020E9F37B001BF074 /* ExamineItemIntent.swift */; };
@@ -68,6 +69,7 @@
 		FD3DDAE920EDB64A00C4C157 /* TraitsIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitsIntent.swift; sourceTree = "<group>"; };
 		FD44F01C20ED72D60052C52A /* Array+Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Item.swift"; sourceTree = "<group>"; };
 		FD5F558120E9CF1C00E6BD78 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		FD6C592C20F0552D00AB3E8A /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		FDA5679C20E9F33A001BF074 /* OpenItemIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenItemIntent.swift; sourceTree = "<group>"; };
 		FDA5679E20E9F34E001BF074 /* GetItemIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetItemIntent.swift; sourceTree = "<group>"; };
 		FDA567A020E9F37B001BF074 /* ExamineItemIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamineItemIntent.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				FDC870E720E9967100A5311A /* Direction.swift */,
 				FDA567AE20E9F4C5001BF074 /* Intent.swift */,
 				FD2C123420ED92470009B93A /* MessageBuffer.swift */,
+				FD6C592C20F0552D00AB3E8A /* Character.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				FD3DDAEA20EDB64A00C4C157 /* TraitsIntent.swift in Sources */,
 				FDD87BEB20EACE2700E7CAC8 /* Openable.swift in Sources */,
 				FDA567C720EB30C8001BF074 /* Leaflet.swift in Sources */,
+				FD6C592D20F0552D00AB3E8A /* Character.swift in Sources */,
 				FDA567BE20EAE90D001BF074 /* Container.swift in Sources */,
 				FDA567B920EAD929001BF074 /* Lockable.swift in Sources */,
 				FDC870EA20E99A4500A5311A /* Exit.swift in Sources */,
