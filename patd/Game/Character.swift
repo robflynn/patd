@@ -14,6 +14,7 @@ class Character: GameObject {
         return self._inventory
     }
 
+    private var intents: [Intent] = []
     internal var _inventory: [Item] = []
     internal(set) var room: Room?
 
@@ -51,5 +52,24 @@ class Character: GameObject {
 
     func isCarrying(item: Item) -> Bool {
         return self.inventory.contains(item)
+    }
+
+    // MARK: Intents
+    func registeredIntents() -> [Intent] {
+        var tmp: [[Intent]] = []
+
+        tmp.append(self.intents)
+
+        for item in self._inventory {
+            Logger.debug(" -> \(item.name)")
+
+            tmp.append(item.intents)
+        }
+
+        return tmp.flatMap{ $0 }
+    }
+
+    func add(intent: Intent) {
+        self.intents.append(intent)
     }
 }

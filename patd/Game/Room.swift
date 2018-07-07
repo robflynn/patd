@@ -17,6 +17,14 @@ class Room: GameObject, Container, ContainerDelegate {
     var name: String = "A Room"
     var description: String = "A nondescript room."
 
+    var players: [Player] {
+        return characters.filter { $0 is Player } as! [Player]
+    }
+
+    var monsters: [Monster] {
+        return characters.filter { $0 is Monster } as! [Monster]
+    }
+
     var characters: [Character] = []
 
     var delegate: RoomDelegate?
@@ -65,6 +73,11 @@ class Room: GameObject, Container, ContainerDelegate {
                     }
                 }
             }
+        }
+
+        if self.monsters.count > 0 {
+            self.buffer.send("Monsters: ", noReturn: true)
+            self.buffer.send(self.monsters.listified())
         }
 
         renderItems()
@@ -131,6 +144,10 @@ class Room: GameObject, Container, ContainerDelegate {
 
         for item in self.items {
             tmp.append(item.registeredIntents())
+        }
+
+        for monster in self.monsters {
+            tmp.append(monster.registeredIntents())
         }
 
         return tmp.flatMap{ $0 }

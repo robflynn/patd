@@ -13,6 +13,13 @@
             "exits": [
                 { "direction": "north", "target": "nohouse" },
                 { "direction": "south", "target": "sohouse" }
+            ],
+            "monsters": [
+                {
+                    "id": "billy",
+                    "name": "Billy",
+                    "description": "He doesn't look much like a kid."
+                }
             ]
         },
         {

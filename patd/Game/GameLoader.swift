@@ -13,6 +13,12 @@ enum GameLoaderError: Error {
 }
 
 final class GameLoader {
+    struct MonsterData: Decodable {
+        var id: GameObjectID?
+        var name: String
+        var description: String?
+    }
+
     struct EscapeData: Decodable {
         var commands: [String]
         var target: String
@@ -25,6 +31,7 @@ final class GameLoader {
     }
     
     struct ItemData: Decodable {
+        var id: GameObjectID?
         var name: String
         var object: String?
         var description: String?
@@ -40,6 +47,7 @@ final class GameLoader {
         var exits: [ExitData]?
         var items: [ItemData]?
         var escapes: [EscapeData]?
+        var monsters: [MonsterData]?
     }
     
     struct Map: Decodable {
@@ -74,6 +82,18 @@ final class GameLoader {
         return cls;
     }
 
+    func createMonster(fromData monsterData: GameLoader.MonsterData) -> Monster {
+        let monster = Monster(name: monsterData.name)
+
+        if let id = monsterData.id { monster.Id = id }
+
+        if let description = monsterData.description {
+            monster.description = description
+        }
+
+        return monster
+    }
+
     func createItem(fromData itemData: GameLoader.ItemData) -> Item {
         var item: Item
 
@@ -87,6 +107,8 @@ final class GameLoader {
             // FIXME: We don't know how to return this object type
             item = Item(name: itemData.name)
         }
+
+        if let id = itemData.id { item.Id = id }
 
         if let description = itemData.description { item.description = description }
         if let envText = itemData.environmentalText { item.environmentalText = envText }
@@ -137,6 +159,15 @@ final class GameLoader {
                 room.add(item: item)
             }
         }
+
+        if let monsters = roomData.monsters {
+            for monsterData in monsters {
+                let monster = self.createMonster(fromData: monsterData)
+
+                room.add(character: monster)
+            }
+        }
+
 
         // FIXME: POC
         if let escapes = roomData.escapes {

@@ -27,3 +27,25 @@ extension Array where Element: Item {
         return chunks.joined(separator: ", ") + ", and \(last)"
     }
 }
+
+extension Array where Element: Monster {
+    func listified() -> String {
+        var chunks: [String] = []
+
+        for monster in self {
+            chunks.append(monster.name)
+        }
+
+        if chunks.count < 2 {
+            return chunks.joined()
+        }
+
+        if chunks.count == 2 {
+            return chunks.joined(separator: " and ")
+        }
+
+        let last = chunks.popLast()!
+
+        return chunks.joined(separator: ", ") + ", and \(last)"
+    }
+}
