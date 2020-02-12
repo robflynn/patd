@@ -7,8 +7,8 @@
 //
 
 enum LockState {
-    case Unlocked
-    case Locked
+    case unlocked
+    case locked
 }
 
 protocol Lockable {
@@ -23,12 +23,12 @@ extension Lockable  {
     var isUnlockable: Bool { return true }
     var isLockable: Bool { return true }
 
-    var isLocked: Bool { return self.lockState == .Locked }
-    var isUnlocked: Bool { return self.lockState == .Unlocked }
+    var isLocked: Bool { return self.lockState == .locked }
+    var isUnlocked: Bool { return self.lockState == .unlocked }
 
     mutating func unlock() -> Bool {
         if isUnlockable {
-            self.lockState = .Unlocked
+            self.lockState = .unlocked
 
             return true
         }
@@ -38,7 +38,7 @@ extension Lockable  {
 
     mutating func lock() -> Bool {
         if isLockable {
-            self.lockState = .Locked
+            self.lockState = .locked
 
             return true
         }

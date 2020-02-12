@@ -7,8 +7,8 @@
 //
 
 enum OpenState {
-    case Open
-    case Closed
+    case open
+    case closed
 }
 
 protocol Openable {
@@ -23,12 +23,12 @@ extension Openable  {
     var isOpenable: Bool { return true }
     var isClosable: Bool { return true }
 
-    var isOpen: Bool { return self.openState == .Open }
-    var isClosed: Bool { return self.openState == .Closed }
+    var isOpen: Bool { return self.openState == .open }
+    var isClosed: Bool { return self.openState == .closed }
     
     mutating func open() -> Bool {
         if isOpenable {
-            self.openState = .Open
+            self.openState = .open
 
             return true
         }
@@ -38,7 +38,7 @@ extension Openable  {
     
     mutating func close() -> Bool {
         if isClosable {
-            self.openState = .Closed
+            self.openState = .closed
 
             return true
         }

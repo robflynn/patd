@@ -41,7 +41,7 @@ class Character: GameObject {
     }
 
     func remove(fromInventory item: Item) -> Item? {
-        if let index = self._inventory.index(of: item) {
+        if let index = self._inventory.firstIndex(of: item) {
             self._inventory.remove(at: index)
 
             return item

@@ -54,7 +54,7 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
         var article: String = "a"
 
         // FIXME: Deprecation
-        if ["a", "e", "i", "o", "u"].contains(self.name.lowercased().characters.first) {
+        if ["a", "e", "i", "o", "u"].contains(self.name.lowercased().prefix(1)) {
             article = "an"
         }
 
@@ -149,7 +149,7 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
     }
 
     func remove(intent: Intent) {
-        if let index = self.intents.index(of: intent) {
+        if let index = self.intents.firstIndex(of: intent) {
             self.intents.remove(at: index)
         }
     }
@@ -256,7 +256,7 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
     }
     
     // MARK: Openable
-    var openState: OpenState = .Closed
+    var openState: OpenState = .closed
     var openableDelegate: OpenableItemDelegate?
     var isOpenable: Bool { return self.traits.contains(.Openable) }
     var isClosable: Bool { return self.traits.contains(.Openable) }
@@ -271,7 +271,7 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
         // And you can't open things that are locked
         if self.isLocked { Game.shared.display("It is locked."); return false  }
 
-        self.openState = .Open
+        self.openState = .open
         
         self.openableDelegate?.item(didOpen: self)
         
@@ -284,7 +284,7 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
         
         if self.isClosed { Game.shared.display("It is already closed."); return false}
         
-        self.openState = .Closed
+        self.openState = .closed
         
         self.openableDelegate?.item(didClose: self)
         
@@ -300,7 +300,7 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
     }
     
     // MARK: Lockable
-    var lockState: LockState = .Unlocked
+    var lockState: LockState = .unlocked
     var lockableDelegate: LockableItemDelegate?
     var isLockable: Bool { return self.traits.contains(.Lockable) }
     var isUnlockable: Bool { return self.traits.contains(.Lockable) }
@@ -309,7 +309,7 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
         if !self.isLockable { Game.shared.display("The \(self.name) doesn't have a lock."); return false }
         if self.isLocked { Game.shared.display("It is already locked."); return false }
 
-        self.lockState = .Locked
+        self.lockState = .locked
 
         self.lockableDelegate?.item(didLock: self)
 
@@ -321,7 +321,7 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
 
         if !self.isLocked { Game.shared.display("It is already unlocked."); return false }
 
-        self.lockState = .Unlocked
+        self.lockState = .unlocked
 
         self.lockableDelegate?.item(didUnlock: self)
         
@@ -415,7 +415,7 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
     }
 
     func remove(item: Item) {
-        if let index = self.items.index(of: item) {
+        if let index = self.items.firstIndex(of: item) {
             self.items.remove(at: index)
 
             self.containerDelegate?.container(didRemoveItem: item)

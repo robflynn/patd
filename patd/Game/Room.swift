@@ -123,7 +123,7 @@ class Room: GameObject, Container, ContainerDelegate {
     }
 
     func remove(character: Character) {
-        if let index = self.characters.index(of: character) {
+        if let index = self.characters.firstIndex(of: character) {
 
             self.characters.remove(at: index)
 
@@ -175,7 +175,7 @@ class Room: GameObject, Container, ContainerDelegate {
     }
 
     func remove(item: Item) {
-        if let index = self.items.index(of: item) {
+        if let index = self.items.firstIndex(of: item) {
             self.items.remove(at: index)
         }
     }
