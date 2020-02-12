@@ -10,13 +10,11 @@ import Foundation
 
 class Character: GameObject {
     var name: String
-    var inventory: [Item] {
-        return self._inventory
-    }
+    var inventory: Inventory = Inventory()
 
     private var intents: [Intent] = []
-    internal var _inventory: [Item] = []
-    internal(set) var room: Room?
+    
+    internal var room: Room?
 
     init(name: String) {
         self.name = name
@@ -32,22 +30,16 @@ class Character: GameObject {
             currentRoom.remove(character: self)
         }
 
-        return self.moveTo(room: room)
+        return false
     }
 
     // MARK: Inventory
     func add(toInventory item: Item) {
-        self._inventory.append(item)
+        inventory.add(item)
     }
 
     func remove(fromInventory item: Item) -> Item? {
-        if let index = self._inventory.firstIndex(of: item) {
-            self._inventory.remove(at: index)
-
-            return item
-        }
-
-        return nil
+        return inventory.remove(item)
     }
 
     func isCarrying(item: Item) -> Bool {
@@ -60,7 +52,7 @@ class Character: GameObject {
 
         tmp.append(self.intents)
 
-        for item in self._inventory {
+        for item in self.inventory.items {
             Logger.debug(" -> \(item.name)")
 
             tmp.append(item.intents)

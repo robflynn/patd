@@ -15,12 +15,12 @@ class InventoryIntent: Intent {
 
     override func execute() -> Bool {
         buffer.clear()
-
+        
         if Game.shared.player.inventory.isEmpty {
             buffer.send("You are not carrying any items.")
         } else {
             buffer.send("You are carrying ", noReturn: true)
-            buffer.send(Game.shared.player.inventory.listified())
+            buffer.send(Game.shared.player.inventory.items.listified())
         }
 
         Game.shared.display(buffer.flush())

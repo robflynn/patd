@@ -7,8 +7,7 @@
 //
 
 enum OpenState {
-    case open
-    case closed
+    case open, closed
 }
 
 protocol Openable {

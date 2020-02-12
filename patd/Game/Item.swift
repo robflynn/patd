@@ -436,3 +436,9 @@ class Item: GameObject, Openable, Lockable, Container, Readable, OpenableItemDel
     func container(didRemoveItem item: Item) {
     }
 }
+
+extension Item: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+    }
+}
